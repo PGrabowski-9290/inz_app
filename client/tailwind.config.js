@@ -2,12 +2,9 @@
 module.exports = {
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
-  ],
-  mode: "jit",
-  purge: [
-    // ...
     "./node_modules/@vechaiui/**/*.{js,ts,jsx,tsx}", // path to vechaiui
   ],
+  mode: "jit",
   darkMode: "class", // or 'media' or 'class'
   theme: {
     extend: {},
@@ -19,4 +16,5 @@ module.exports = {
     require("@tailwindcss/forms"),
     require("@vechaiui/core"),
   ],
+  important: true,
 };
