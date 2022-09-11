@@ -9,10 +9,12 @@ const App = () => {
     <>
       <BrowserRouter>
         <NavBar />
-        <Routes>
-          <Route path="/" exact element={<Home />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <section className="flex flex-row mx-auto w-5/6">
+          <Routes>
+            <Route path="/" exact element={<Home />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </section>
       </BrowserRouter>
     </>
   )

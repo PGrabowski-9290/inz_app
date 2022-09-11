@@ -9,5 +9,6 @@
 body, #root {
   background: #f6f5f7;
   min-height: 100vh;
+  min-width: 100vw;
   margin: 0 !important;
 }
