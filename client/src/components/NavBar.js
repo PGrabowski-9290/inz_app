@@ -3,21 +3,15 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ReactComponent as Logo } from "../assets/logo_no_background.svg";
 
-const menuItem = "text-gray-300 hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium";
-const currentMenuItem = "bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium";
-
-const classNames = (...names) => {
-  return names.filter(Boolean).join(' ');
-}
 
 const NavBar = () => {
   const [open, setOpen] = useState(false)
 
   return (
     <nav className='bg-gray-800'>
-      <div className='mx-auto px-2 sm:px-6 lg:px-8'>
+      <div className='mx-auto max-w-7xl px-2 sm:px-6 lg:px-8'>
         <div className='relative flex h-16 items-center justify-between'>
-          <div className='flex flex-1 items-center justify-center sm:items-stretch sm:justify-between'>
+          <div className='flex flex-1 items-center justify-center sm:items-center sm:justify-between'>
             <div className='flex flex-shrink-0 items-center'>
               <Logo className='block h-10 w-10 text-white' />
             </div>
