@@ -1,5 +1,10 @@
 module.exports = {
   PORT: process.env.PORT,
-  SECRET: process.env.SECRET,
-  MONGOURI: process.env.MONGO_URI,
+  secret: process.env.SECRET,
+  refreshSecret: process.env.REFRESH_SECRET,
+  mongoUri: process.env.MONGO_URI,
+  roles: {
+    Admin: "admin",
+    User: "user"
+  }
 };
