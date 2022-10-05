@@ -7,13 +7,14 @@ const User = require('../models/user')
 module.exports = {
   async register(req, res) {
     try {
-      const { email, password, role, name } = req.body;
-      if (!email || !password || !role || !name) return res.status(400).json({ message: 'Wypełnij wszystkie pola' });
+      const { email, password, role, name, isSuperAdmin } = req.body;
+      if (!email || !password || !role || !name ) return res.status(400).json({ message: 'Wypełnij wszystkie pola' });
 
       const newUser = new User({
         email: email.toLowerCase(),
         name: name,
-        role: role.toLowerCase()
+        role: role.toLowerCase(),
+        isSuperAdmin: isSuperAdmin || false
       });
 
       const user = await User.findOne({ email: email.toLowerCase() });
@@ -27,7 +28,7 @@ module.exports = {
           newUser.password = hash;
           const user = await newUser.save();
           if (!user) res.status(403).json({ message: "Nie powiodło się stworrzenie nowego użytkownika"});
-          res.status(200).json({ message: "Stworzono użytkownika"});
+          return res.status(200).json({ message: "Stworzono użytkownika"});
         });
       });
     } catch (err) {

@@ -6,5 +6,9 @@ module.exports = {
   roles: {
     Admin: "admin",
     User: "user"
+  },
+  adminUser:{
+    email: process.env.EMAIL,
+    password: process.env.PASSWD
   }
 };
