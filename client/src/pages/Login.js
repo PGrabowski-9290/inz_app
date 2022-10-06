@@ -1,8 +1,55 @@
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
+import axios from "../utils/API";
 
 const Login = () => {
+  const { setAuth } = useAuth()
   const [showPass, setShowPass] = useState(false);
+  const [info, setInfo] = useState(null);
+  const [email, setEmail] = useState(null);
+  const [passwd, setPasswd] = useState(null);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const fromLocation = location?.state?.srcLocation?.pathname || "/";
+
+  useEffect(()=> {
+    setInfo(null)
+  }, [email, passwd])
+
+  const handleLogin = async (e) => {
+    try{
+      if ( !email || !passwd ) return setInfo({error: "Uzupełnij dane"});
+      const response = await axios.post('/auth/login',
+        {
+          email: email,
+          password: passwd
+        },
+        {
+          headers: { 'Content-Type': 'application/json'},
+          withCredentials: true
+        }
+      );
+
+      const success = response?.status === 200;
+
+      if (success) {
+        const {message, accessToken, role} = response?.data
+        setInfo({ success: message});
+        setAuth({accessToken: accessToken, role: role})
+        setTimeout(() => {
+          console.log("przekierowanie na główną");
+          navigate("/", {replace: true})
+        }, 1000)
+      }
+
+    } catch (err) {
+      console.error(err)
+
+      setInfo({error: err?.response?.data?.message});
+    }
+  }
 
   return (
     <>
@@ -28,7 +75,8 @@ const Login = () => {
                 aria-labelledby="email"
                 type="email"
                 className="bg-gray-100 border rounded text-xs font-medium leading-none placeholder-gray-800 text-gray-800 py-3 w-full pl-3 mt-2"
-                placeholder=""
+                placeholder="Email"
+                onChange={(e) => {setEmail(e.target.value)}}
               />
             </div>
             <div className="mt-6 w-full">
@@ -44,6 +92,8 @@ const Login = () => {
                   id="myInput"
                   type={showPass ? "text" : "password"}
                   className="bg-gray-100 border rounded text-xs font-medium leading-none text-gray-800 py-3 w-full pl-3 mt-2"
+                  placeholder="Hasło"
+                  onChange={(e) => {setPasswd(e.target.value)}}
                 />
                 <div
                   onClick={() => setShowPass(!showPass)}
@@ -57,9 +107,17 @@ const Login = () => {
                   </div>
                 </div>
               </div>
+              { info?.error && <div className="mt-2 ml-2 w-full"> 
+                  <span className="text-red-600 text-sm">{info?.error}</span>
+                </div>
+              }
+              { info?.success && <div className="mt-2 ml-2 w-full"> 
+                  <span className="text-green-700 text-sm">{info?.success}</span>
+                </div>
+              }
             </div>
             <div className="mt-8">
-              <button className="text-base font-semibold leading-none text-gray-300 focus:outline-none bg-gray-600 border rounded-md hover:bg-gray-700 hover:text-white py-4 w-full">
+              <button onClick={() => handleLogin()} className="text-base font-semibold leading-none text-gray-300 focus:outline-none bg-gray-600 border rounded-md hover:bg-gray-700 hover:text-white py-4 w-full">
                 Zaloguj
               </button>
             </div>
