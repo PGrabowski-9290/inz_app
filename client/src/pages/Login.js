@@ -40,7 +40,7 @@ const Login = () => {
         setAuth({accessToken: accessToken, role: role})
         setTimeout(() => {
           console.log("przekierowanie na główną");
-          navigate("/", {replace: true})
+          navigate(fromLocation, {replace: true})
         }, 1000)
       }
 

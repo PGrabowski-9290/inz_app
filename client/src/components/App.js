@@ -7,8 +7,15 @@ import Login from "../pages/Login";
 import Logout from "../pages/Logout";
 import LogoutConfirm from "../pages/LogoutConfirm";
 import NotFound from "../pages/NotFound";
+import Offers from "../pages/Offers";
+import UsersManage from "../pages/UsersManage";
+import ProtectedRoleRoute from "./ProtectedRoleRoute";
+import ProtectedRoute from "./ProtectedRoute";
 
 const App = () => {
+  
+
+
   return (
     <>
       <BrowserRouter>
@@ -19,6 +26,12 @@ const App = () => {
               <Route path="/Login" exact element={<Login />} />
               <Route path="/LogoutConfirm" exact element={<LogoutConfirm />} />
               <Route path="/Logout" exact element={<Logout />} />
+              <Route path="/Offers" exact element={<Offers />} />
+              <Route element={<ProtectedRoute />} >                
+                <Route element={<ProtectedRoleRoute allowed={["admin"]} />} >
+                  <Route path="/Users" element={<UsersManage />} />
+                </Route>
+              </Route>
               <Route path="*" element={<NotFound />} />
             </Route>
           </Routes>
