@@ -1,8 +1,10 @@
 import { Button } from "@vechaiui/react"
-import React from 'react'
+import React, { useState } from 'react'
 import UsersTable from "../components/UsersManage/UsersTable"
 
 const UsersManage = () => {
+  const [editWindow, setEditWindow] = useState(null)
+
   const users = [
     {
       id: 1,
@@ -20,6 +22,7 @@ const UsersManage = () => {
     }
   ]
 
+  if(editWindow) console.log(editWindow)
 
   return (
     <>
@@ -29,9 +32,10 @@ const UsersManage = () => {
           <Button>Dodaj</Button>
         </header>
         <div className="overflow-x-auto p-3">
-          <UsersTable users={users}/>
+          <UsersTable users={users} edit={setEditWindow}/>
         </div>
       </div>
+
     </>
   )
 }
