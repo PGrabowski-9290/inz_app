@@ -64,7 +64,7 @@ module.exports = {
 
         foundUser.refreshToken = refreshToken;
         const result = await foundUser.save();
-
+        console.log(result)
         res.cookie('jwt', refreshToken, {httpOnly: true, secure: true, sameSite: 'None', maxAge: 12 * 60 * 60 * 1000 });
 
         res.json({ message: "Zalogowano", accessToken: accessToken, role: foundUser.role})
@@ -77,17 +77,16 @@ module.exports = {
   },
   async refreshToken (req,res) {
     const cookies = req.cookies;
-    console.log(cookies)
     if (!cookies?.jwt) return res.sendStatus(401);
     const refreshToken = cookies.jwt;
-
+    
     const foundUser = await User.findOne({ refreshToken }).exec();
-    if (!foundUser) return res.sendStatus(403);
+    if (!foundUser?._id) return res.sendStatus(403);
     jwt.verify(
       refreshToken,
       config.refreshSecret,
       (err, decoded) => {
-        if (err || foundUser.email !== decode.email) return res.sendStatus(403);
+        if (err || foundUser.email !== decoded.email) return res.sendStatus(403);
         const accessToken = jwt.sign(
           {
             "User": {
@@ -99,8 +98,10 @@ module.exports = {
           { expiresIn: 60*60*12 }
         );
         
-        res.json({ role, accessToken })
+        res.json({ role: foundUser.role, accessToken })
       }
     )
+
+    
   }
 };
