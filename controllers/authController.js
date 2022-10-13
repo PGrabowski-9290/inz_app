@@ -27,7 +27,7 @@ module.exports = {
           if (err) throw err;
           newUser.password = hash;
           const user = await newUser.save();
-          if (!user) res.status(403).json({ message: "Nie powiodło się stworrzenie nowego użytkownika"});
+          if (!user) return res.status(403).json({ message: "Nie powiodło się stworrzenie nowego użytkownika"});
           return res.status(200).json({ message: "Stworzono użytkownika"});
         });
       });

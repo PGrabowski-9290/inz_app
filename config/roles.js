@@ -1,1 +1,1 @@
-const ROLES_LIST
+const ROLES_LIST = ["user", "admin"]

@@ -9,7 +9,6 @@ module.exports = {
 
     jwt.verify(token, config.secret, (err, decoded) => {
       if (err) return res.sendStatus(403);
-      console.log(req)
       req.email = decoded.User.email;
       req.role = decoded.User.role;
       next();
@@ -17,10 +16,7 @@ module.exports = {
   },
   verifyRole (...allowedRoles) {
     return (req,res,next) => {
-      const roles = [...allowedRoles];
-      console.log("AUTH MIDDLEWARE: ")
-      console.log(roles)
-      
+      const roles = [...allowedRoles];    
       if (!req?.role) return res.status(401).json({ message: "Brak dostępu"});
       if( !(roles.includes(req.role)) ) return res.status(401).json({ message: "Brak dostępu"});
       next();
