@@ -1,27 +1,18 @@
 import { createContext, useEffect, useState } from 'react';
-import axios from '../utils/API';
+import { useNavigate } from 'react-router-dom';
 import authService from '../utils/auth.sevice';
 
 const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
   const [auth, setAuth] = useState({});
-
-  const handleAuth = async () => {
-    try{  
-      const response = await axios.get("/auth/refresh")
-      console.log("res",response)
-    }catch (err) {
-      console.log(err)
-      authService.set(true)
-    }
-  }
+  const navigate = useNavigate()
 
   useEffect(()=> {
-    if (authService.check() === true) {
-      handleAuth()
+    if (authService.checkIsAuth() === true && !auth?.accessToken) {
+      navigate('/Login')
     }
-  },[])
+  })
 
   return (
     <AuthContext.Provider value={{auth, setAuth}}>

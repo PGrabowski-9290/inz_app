@@ -2,7 +2,8 @@ import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
-import axios from "../utils/API";
+import axios from "../utils/api";
+import authService from "../utils/auth.sevice";
 
 const Login = () => {
   const { setAuth } = useAuth()
@@ -38,6 +39,7 @@ const Login = () => {
         const {message, accessToken, role} = response?.data
         setInfo({ success: message});
         setAuth({accessToken: accessToken, role: role})
+        authService.setIsAuth(true)
         setTimeout(() => {
           console.log("przekierowanie na główną");
           navigate(fromLocation, {replace: true})

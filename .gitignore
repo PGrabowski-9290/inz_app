@@ -133,3 +133,4 @@ dist
 # Other IDE config folders
 .idea/
 
+*.code-workspace

@@ -81,12 +81,12 @@ module.exports = {
     const refreshToken = cookies.jwt;
     
     const foundUser = await User.findOne({ refreshToken }).exec();
-    if (!foundUser?._id) return res.sendStatus(403);
+    if (!foundUser?._id) return res.sendStatus(401);
     jwt.verify(
       refreshToken,
       config.refreshSecret,
       (err, decoded) => {
-        if (err || foundUser.email !== decoded.email) return res.sendStatus(403);
+        if (err || foundUser.email !== decoded.email) return res.sendStatus(401);
         const accessToken = jwt.sign(
           {
             "User": {

@@ -8,9 +8,11 @@ import Logout from "../pages/Logout";
 import LogoutConfirm from "../pages/LogoutConfirm";
 import NotFound from "../pages/NotFound";
 import Offers from "../pages/Offers";
+import RefreshToken from "../pages/RefreshToken";
 import UsersManage from "../pages/UsersManage";
 import ProtectedRoleRoute from "./ProtectedRoleRoute";
 import ProtectedRoute from "./ProtectedRoute";
+
 
 const App = () => {
   
@@ -32,6 +34,7 @@ const App = () => {
                   <Route path="/Users" element={<UsersManage />} />
                 </Route>
               </Route>
+              <Route path="/refreshtoken" exact element={<RefreshToken/>}/>
               <Route path="*" element={<NotFound />} />
             </Route>
           </Routes>

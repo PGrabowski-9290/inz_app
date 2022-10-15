@@ -1,11 +1,8 @@
 const authService = {
-    set(val) {
+    setIsAuth(val) {
     localStorage.setItem("isAuthenticated", val)
   },
-  remove() {
-    localStorage.removeItem("isAuthenticated")
-  },
-  check() {
+  checkIsAuth() {
     const isAuth = localStorage.getItem("isAuthenticated")
     return JSON.parse(isAuth)
   }

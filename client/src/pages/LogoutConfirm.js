@@ -1,6 +1,7 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
+import authService from '../utils/auth.sevice';
 
 const LogoutConfirm = () => {
   const location = useLocation();
@@ -15,6 +16,7 @@ const LogoutConfirm = () => {
 
   const handleLogout = () => {
     setAuth({});
+    authService.setIsAuth(false)
     navigate('/Logout', {state: { logoutSucces: true }});
   };
 
