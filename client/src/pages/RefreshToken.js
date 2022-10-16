@@ -1,24 +1,25 @@
 import React, { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import useAuth from '../hooks/useAuth'
 import axios from '../utils/api'
 import authService from '../utils/auth.sevice'
 
 
 const RefreshToken = () => {
-  const [setAuth] = useAuth()
+  const { setAuth } = useAuth()
   const navigate = useNavigate()
+  const location = useLocation()
   const handleAuth = async () => {
     try{  
-      const response = await axios.get("/auth/refresh")
-      
+      const response = await axios.get("/auth/refresh",{withCredentials: true})
+      console.log(response)
       if (response?.status === 200){
         const {role, accessToken} = response?.data
         authService.setIsAuth(true);
         setAuth({accessToken: accessToken, role: role})
-        navigate(-1,{replace: true})
+        navigate(location.state?.redirectTo,{replace: true})
       }
-  
+      console.log("co jest doktorku")
     }catch (err) {
       console.log(err)
       navigate('/Login')
@@ -28,7 +29,7 @@ const RefreshToken = () => {
 
   useEffect(()=>{
     handleAuth()
-  })
+  },[])
   
   return (
     <div className='text-center'>Refreshing Token</div>

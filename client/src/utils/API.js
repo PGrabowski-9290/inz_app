@@ -7,7 +7,6 @@ axios.interceptors.request.use(
     config.headers = {
       'Content-Type': 'application/json'
     }
-    config.withCredentials = true
     return config
   },
   (error) => {

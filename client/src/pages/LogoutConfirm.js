@@ -7,8 +7,6 @@ const LogoutConfirm = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { setAuth } = useAuth();
-
-  console.log(location);
   
   const handleBack = () => {
     navigate(location.state?.locationTo, {replace: true});

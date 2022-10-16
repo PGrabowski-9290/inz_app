@@ -53,19 +53,19 @@ module.exports = {
             }
           },
           config.secret,
-          { expiresIn: 60*30 }
+          { expiresIn: config.expires.token }
         );
 
         const refreshToken = jwt.sign(
           { "email": foundUser.email },
           config.refreshSecret,
-          { expiresIn: 60*60*12 }
+          { expiresIn: config.expires.refToken }
         );
 
         foundUser.refreshToken = refreshToken;
         const result = await foundUser.save();
         console.log(result)
-        res.cookie('jwt', refreshToken, {httpOnly: true, secure: true, sameSite: 'None', maxAge: 12 * 60 * 60 * 1000 });
+        res.cookie('jwt', refreshToken, {httpOnly: true, secure: true, sameSite: 'None', maxAge: config.expires.refToken });
 
         res.json({ message: "Zalogowano", accessToken: accessToken, role: foundUser.role})
       } else { 
@@ -77,16 +77,19 @@ module.exports = {
   },
   async refreshToken (req,res) {
     const cookies = req.cookies;
-    if (!cookies?.jwt) return res.sendStatus(401);
+    console.log(req)
+    if (!cookies?.jwt) return res.status(401).json({message: "NoCookie JWT"});
     const refreshToken = cookies.jwt;
-    
+   
     const foundUser = await User.findOne({ refreshToken }).exec();
-    if (!foundUser?._id) return res.sendStatus(401);
+    console.log(foundUser)
+    if (!foundUser?._id) return res.status(401).json({message: "User Error"});
+    console.log("typeof reftoken: ",typeof(config.expires.refToken))
     jwt.verify(
       refreshToken,
       config.refreshSecret,
       (err, decoded) => {
-        if (err || foundUser.email !== decoded.email) return res.sendStatus(401);
+        if (err || foundUser.email !== decoded.email) return res.status(401).json({message: "JWT error"});
         const accessToken = jwt.sign(
           {
             "User": {
@@ -95,7 +98,7 @@ module.exports = {
             }
           },
           config.secret,
-          { expiresIn: 60*60*12 }
+          { expiresIn: config.expires.refToken }
         );
         
         res.json({ role: foundUser.role, accessToken })

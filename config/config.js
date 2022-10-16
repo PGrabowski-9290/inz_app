@@ -10,5 +10,9 @@ module.exports = {
   adminUser:{
     email: process.env.EMAIL,
     password: process.env.PASSWD
+  },
+  expires:{
+    refToken: process.env.EXPIRE_REF_TOKEN || 7200,
+    token: process.env.EXPIRE_TOKEN || 900
   }
 };
