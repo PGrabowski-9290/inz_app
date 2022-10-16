@@ -11,7 +11,7 @@ const RefreshToken = () => {
   const location = useLocation()
   const handleAuth = async () => {
     try{  
-      const response = await axios.get("/auth/refresh",{withCredentials: true})
+      const response = await axios.get("/auth/refresh",{headers: { 'Content-Type': 'application/json', withCredentials: true},withCredentials: true})
       console.log(response)
       if (response?.status === 200){
         const {role, accessToken} = response?.data

@@ -4,6 +4,15 @@ const jwt = require('jsonwebtoken');
 const config = require('../config/config');
 const User = require('../models/user')
 
+const toEpochDate = (maxAge) => {
+  let now = new Date().getTime();
+  return now + (maxAge * 1000)
+}
+
+const dateString = (maxAge) => {
+  return new Date(toEpochDate(maxAge)).toGMTString();
+}
+
 module.exports = {
   async register(req, res) {
     try {
@@ -46,26 +55,38 @@ module.exports = {
       const match = await bcrpyt.compare(password, foundUser.password);
       if (match) {
         const accessToken = jwt.sign(
-          { "User": {
+          { 
+            exp: Math.floor(toEpochDate(config.expires.token) / 1000),
+            data: { "User": {
               "email": foundUser.email,
               "name": foundUser.name,
               "role": foundUser.role
+              }
             }
           },
-          config.secret,
-          { expiresIn: config.expires.token }
+          config.secret
         );
 
         const refreshToken = jwt.sign(
-          { "email": foundUser.email },
-          config.refreshSecret,
-          { expiresIn: config.expires.refToken }
+          {
+            exp: Math.floor(toEpochDate(config.expires.refToken) / 1000), 
+            data: { "email": foundUser.email }
+          },
+          config.refreshSecret
         );
+        console.log("ref",refreshToken)
+        console.log("acc",accessToken)
+
+        jwt.verify(accessToken, config.secret, (err, decoded) => {
+          console.log("errVerify: ", err)
+          console.log("decoded: ", decoded)
+        });
+
 
         foundUser.refreshToken = refreshToken;
         const result = await foundUser.save();
         console.log(result)
-        res.cookie('jwt', refreshToken, {httpOnly: true, secure: true, sameSite: 'None', maxAge: config.expires.refToken });
+        res.cookie('jwt', refreshToken, {httpOnly: true, secure: true, sameSite: 'None', maxAge: 43200000 });
 
         res.json({ message: "Zalogowano", accessToken: accessToken, role: foundUser.role})
       } else { 
@@ -77,7 +98,7 @@ module.exports = {
   },
   async refreshToken (req,res) {
     const cookies = req.cookies;
-    console.log(req)
+    console.log("COOKIES: ",cookies)
     if (!cookies?.jwt) return res.status(401).json({message: "NoCookie JWT"});
     const refreshToken = cookies.jwt;
    
@@ -89,6 +110,7 @@ module.exports = {
       refreshToken,
       config.refreshSecret,
       (err, decoded) => {
+        console.log("JWT ERR: ",err)
         if (err || foundUser.email !== decoded.email) return res.status(401).json({message: "JWT error"});
         const accessToken = jwt.sign(
           {
@@ -98,7 +120,7 @@ module.exports = {
             }
           },
           config.secret,
-          { expiresIn: config.expires.refToken }
+          { expiresIn: config.expires.refToken + 7200}
         );
         
         res.json({ role: foundUser.role, accessToken })

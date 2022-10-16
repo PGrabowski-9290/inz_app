@@ -8,6 +8,11 @@ const corsOptions = require("./config/corsOptions");
 const credentials = require("./middleware/credentials");
 const cookieParser = require("cookie-parser");
 const app = express();
+const logit = (req, res, next) => {
+  console.log('\x1b[36m%s\x1b[0m', '\n\nLOG FROM LOGIT TO ME\n')
+  console.log(req);
+  next();
+}
 
 mongoose.connect(config.mongoUri, {
   useNewUrlParser: true,
@@ -20,8 +25,9 @@ app.use(credentials);
 
 app.use(cors(corsOptions));
 
-app.use(express.json());
 app.use(express.urlencoded({extended: false}));
+app.use(express.json());
+
 app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, "./uploads")));
