@@ -9,8 +9,8 @@ module.exports = {
 
     jwt.verify(token, config.secret, (err, decoded) => {
       if (err) return res.sendStatus(403);
-      req.email = decoded.User.email;
-      req.role = decoded.User.role;
+      req.email = decoded.data.User.email;
+      req.role = decoded.data.User.role;
       next();
     });
   },

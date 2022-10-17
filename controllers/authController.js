@@ -103,24 +103,26 @@ module.exports = {
     const refreshToken = cookies.jwt;
    
     const foundUser = await User.findOne({ refreshToken }).exec();
-    console.log(foundUser)
     if (!foundUser?._id) return res.status(401).json({message: "User Error"});
     console.log("typeof reftoken: ",typeof(config.expires.refToken))
     jwt.verify(
       refreshToken,
       config.refreshSecret,
-      (err, decoded) => {
-        console.log("JWT ERR: ",err)
-        if (err || foundUser.email !== decoded.email) return res.status(401).json({message: "JWT error"});
+      (err, decoded) => { 
+        if (err || foundUser.email !== decoded.data.email) {
+          return res.status(401).json({message: "JWT error"})
+        };
         const accessToken = jwt.sign(
-          {
-            "User": {
-              "email": decoded.email,
+          { 
+            exp: Math.floor(toEpochDate(config.expires.token) / 1000),
+            data: { "User": {
+              "email": foundUser.email,
+              "name": foundUser.name,
               "role": foundUser.role
+              }
             }
           },
-          config.secret,
-          { expiresIn: config.expires.refToken + 7200}
+          config.secret
         );
         
         res.json({ role: foundUser.role, accessToken })
