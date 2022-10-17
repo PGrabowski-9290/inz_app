@@ -2,7 +2,7 @@ import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
-import axios from "../utils/api";
+import axiosPublic from "../utils/api";
 import authService from "../utils/auth.sevice";
 
 const Login = () => {
@@ -22,7 +22,7 @@ const Login = () => {
   const handleLogin = async (e) => {
     try{
       if ( !email || !passwd ) return setInfo({error: "Uzupełnij dane"});
-      const response = await axios.post('/auth/login',
+      const response = await axiosPublic.post('/auth/login',
         {
           email: email,
           password: passwd
