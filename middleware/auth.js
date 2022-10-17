@@ -8,7 +8,7 @@ module.exports = {
     const token = authHeader.split('Bearer ')[1];
 
     jwt.verify(token, config.secret, (err, decoded) => {
-      if (err) return res.sendStatus(403);
+      if (err) return res.sendStatus(401);
       req.email = decoded.data.User.email;
       req.role = decoded.data.User.role;
       next();
@@ -17,8 +17,8 @@ module.exports = {
   verifyRole (...allowedRoles) {
     return (req,res,next) => {
       const roles = [...allowedRoles];    
-      if (!req?.role) return res.status(401).json({ message: "Brak dostępu"});
-      if( !(roles.includes(req.role)) ) return res.status(401).json({ message: "Brak dostępu"});
+      if (!req?.role) return res.status(403).json({ message: "Brak dostępu"});
+      if( !(roles.includes(req.role)) ) return res.status(403).json({ message: "Brak dostępu"});
       next();
     }
   }

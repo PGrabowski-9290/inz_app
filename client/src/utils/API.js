@@ -1,17 +1,11 @@
 import axios from 'axios';
 
-axios.defaults.baseURL = 'http://localhost:5050';
-
-axios.interceptors.request.use(
-  (config) => {
-    config.headers = {
-      'Content-Type': 'application/json'
-    }
-    return config
+const axiosPublic = axios.create({
+  baseURL: 'http://localhost:5050',
+  headers: {
+    'Content-Type': 'application/json',
   },
-  (error) => {
-    return Promise.reject(error)
-  }
-)
+  withCredentials: true
+});
 
-export default axios;
+export default axiosPublic;
