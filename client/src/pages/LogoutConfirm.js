@@ -1,21 +1,25 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
+import axiosPrivate from "../utils/apiPrivate";
 import authService from '../utils/auth.sevice';
 
 const LogoutConfirm = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { setAuth } = useAuth();
+  const { auth, setAuth } = useAuth();
   
   const handleBack = () => {
     navigate(location.state?.locationTo, {replace: true});
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    console.log("LogOut")
+    const response = await axiosPrivate(auth.accessToken).get('/auth/logout',{headers: { 'Content-Type': 'application/json'},withCredentials: true})
+    console.log(response)
     setAuth({});
     authService.setIsAuth(false)
-    navigate('/Logout', {state: { logoutSucces: true }});
+    navigate('/Logout', {state: { logoutSucces: true }, replace: true});
   };
 
   return (

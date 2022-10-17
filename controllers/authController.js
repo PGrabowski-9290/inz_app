@@ -128,7 +128,26 @@ module.exports = {
         res.json({ role: foundUser.role, accessToken })
       }
     )
-
+  },
+  async logout (req, res) {
+    try{
+      const cookies = req.cookies;
+      console.log("COOKIES: ",cookies)
+      if (!cookies?.jwt) return res.status(401).json({message: "NoCookie JWT"});
+      const refreshToken = cookies.jwt;
     
+      const foundUser = await User.findOne({ refreshToken }).exec();
+      console.log(foundUser)
+      if (!foundUser?._id) return res.status(401).json({message: "User Error"});
+
+      foundUser.refreshToken = "0";
+      const result = await foundUser.save();
+      console.log("res: ",result)
+      res.clearCookie("jwt")
+      res.status(200).json({message: "Wylogowano"})
+    }catch (err) {
+      console.log(err)
+      throw err;
+    }
   }
 };
