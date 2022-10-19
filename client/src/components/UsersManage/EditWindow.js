@@ -128,7 +128,7 @@ const EditWindow = ({ data,setData, setIsOpen }) => {
               onChange={(e)=>{setPassVal(e.target.value)}}/>
               <Input.RightElement >
                 <Button type="button" size="xs" variant="link" onClick={handleToggleShowPass}>
-                  {showPass ? <EyeIcon/> : <EyeSlashIcon/> }
+                  {showPass ? <EyeIcon className="w-6 h-6"/> : <EyeSlashIcon className="w-6 h-6"/> }
                 </Button>
               </Input.RightElement>
           </Input.Group>

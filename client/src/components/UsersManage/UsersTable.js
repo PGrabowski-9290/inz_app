@@ -26,6 +26,7 @@ const UsersTable = ({ users, edit, setIsOpen }) => {
       <tbody className='text-sm text-gray-700 divide-y divide-gray-100'>
         { users?.map(
           (user, index) => {
+            user.index = index + 1
             return <ListElement data={user} edit={edit} setIsOpen={setIsOpen} key={index}/>
           }
         ) }

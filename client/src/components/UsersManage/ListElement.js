@@ -11,7 +11,7 @@ const ListElement = ({data, edit, setIsOpen}) => {
     <tr>
       <td className='p-2'>
         <div className='font-medium'>
-          { data?.id }
+          { data?.index}
         </div>
       </td>
       <td className='p-2'>
