@@ -7,7 +7,11 @@ module.exports = {
   mode: "jit",
   darkMode: "class", // or 'media' or 'class'
   theme: {
-    extend: {},
+    extend: {
+      colors:{
+        'gray-a60': '#4D4D4D99'
+      }
+    },
   },
   variants: {
     extend: {},

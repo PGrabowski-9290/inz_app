@@ -1,6 +1,6 @@
 import React from 'react'
 import ListElement from './ListElement'
-const UsersTable = ({ users, edit }) => {
+const UsersTable = ({ users, edit, setIsOpen }) => {
   return (
     <table className="table-auto w-full">
       <thead className="text-xs font-semibold uppercase text-gray-500 bg-gray-50">
@@ -23,10 +23,10 @@ const UsersTable = ({ users, edit }) => {
         </tr>
       </thead>
 
-      <tbody className='text-sm divide-y divide-gray-100'>
+      <tbody className='text-sm text-gray-700 divide-y divide-gray-100'>
         { users?.map(
-          user => {
-            return <ListElement data={user} edit={edit}/>
+          (user, index) => {
+            return <ListElement data={user} edit={edit} setIsOpen={setIsOpen} key={index}/>
           }
         ) }
       </tbody>
