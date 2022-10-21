@@ -25,6 +25,7 @@ const EditWindow = ({ data,setData, setIsOpen }) => {
 
   const handleClickSave = async () => {
     // todo send axios to update user information
+    //
     setData(undefined)
     setIsOpen(false)
   }

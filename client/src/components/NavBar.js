@@ -25,7 +25,7 @@ const NavBar = () => {
               <Link to="/offers" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium">Oferty</Link>
               { auth?.accessToken &&
                 <>
-                  { (auth?.role === "admin") &&<Link to="/users" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium">Użytkownicy</Link>}
+                  { (auth?.role === "admin") &&<Link to="/Settings/Profile" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium">Ustawienia</Link>}
                   <Link to="/LogoutConfirm" state={{ locationTo: location.pathname }} className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium">Wyloguj</Link> 
                 </>
               }
@@ -46,7 +46,7 @@ const NavBar = () => {
             <Link onClick={() => setOpen(false)} to="/offers" className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Oferty</Link>
             { auth?.accessToken && 
               <>
-                { (auth?.role === "admin") && <Link onClick={() => setOpen(false)} to="/users" className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Użytkownicy</Link> }
+                { (auth?.role === "admin") && <Link onClick={() => setOpen(false)} to="/Settings/Profile" className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Ustawienia</Link> }
                 <Link onClick={() => setOpen(false)} to="/LogoutConfirm" state={{ locationTo: location.pathname }} className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Wyloguj</Link>
               </> 
             }

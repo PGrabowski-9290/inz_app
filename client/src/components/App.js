@@ -8,7 +8,9 @@ import Logout from "../pages/Logout";
 import LogoutConfirm from "../pages/LogoutConfirm";
 import NotFound from "../pages/NotFound";
 import Offers from "../pages/Offers";
+import Profile from "../pages/Profile";
 import RefreshToken from "../pages/RefreshToken";
+import Settings from "../pages/Settings";
 import UsersManage from "../pages/UsersManage";
 import ProtectedRoleRoute from "./ProtectedRoleRoute";
 import ProtectedRoute from "./ProtectedRoute";
@@ -29,9 +31,12 @@ const App = () => {
               <Route path="/LogoutConfirm" exact element={<LogoutConfirm />} />
               <Route path="/Logout" exact element={<Logout />} />
               <Route path="/Offers" exact element={<Offers />} />
-              <Route element={<ProtectedRoute />} >                
-                <Route element={<ProtectedRoleRoute allowed={["admin"]} />} >
-                  <Route path="/Users" element={<UsersManage />} />
+              <Route element={<ProtectedRoute />} >
+                <Route path="/settings" element={<Settings />} >
+                  <Route path="profile" element={<Profile />}/>
+                  <Route element={<ProtectedRoleRoute allowed={["admin"]} />} >
+                    <Route path="users" element={<UsersManage />} />
+                  </Route>
                 </Route>
               </Route>
               <Route path="/refreshtoken" exact element={<RefreshToken/>}/>
