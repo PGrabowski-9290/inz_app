@@ -60,7 +60,7 @@ const EditWindow = ({ data,setData, setIsOpen }) => {
         <div className="w-full flex items-center justify-between pt-2">
           <hr className="w-full bg-gray-400" />
         </div>
-        <FormControl className="text-sm mt-3 py-1">
+        <FormControl className="text-sm mt-3 py-1" disabled={true}>
           <FormLabel 
             htmlFor="email">
               Email

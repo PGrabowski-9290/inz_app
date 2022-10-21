@@ -25,7 +25,7 @@ const Profile = () => {
       </header>
       <div className='flex flex-col sm:items-center'>
         <div className='sm:w-1/2 flex flex-col items-center'>
-          <FormControl className="text-sm mt-2 py-1" disabled={!edit}>
+          <FormControl className="text-sm mt-2 py-1" disabled={true}>
               <FormLabel 
                 htmlFor="email"
                 className='sm:font-bold md:text-xl'>
