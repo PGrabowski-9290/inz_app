@@ -33,6 +33,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "./uploads")));
 
 app.use('/auth', require("./routes/auth"));
+app.use('/user', require('./routes/user'));
 
 
 app.listen(config.PORT, () => { console.log(`Server runing on http://localhost:${config.PORT}/`) });
