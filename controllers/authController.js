@@ -9,9 +9,6 @@ const toEpochDate = (maxAge) => {
   return now + (maxAge * 1000)
 }
 
-const dateString = (maxAge) => {
-  return new Date(toEpochDate(maxAge)).toGMTString();
-}
 
 module.exports = {
   async register(req, res) {
