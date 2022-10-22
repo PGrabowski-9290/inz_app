@@ -1,29 +1,32 @@
 import { Button } from "@vechaiui/react"
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import EditWindow from "../components/UsersManage/EditWindow"
 import UsersTable from "../components/UsersManage/UsersTable"
+import useAuth from "../hooks/useAuth"
+import axiosPrivate from "../utils/apiPrivate"
 
 
 const UsersManage = () => {
   const [editWindow, setEditWindow] = useState(null)
   const [isOpen, setIsOpen] = useState(false)
+  const [usersList,setUsersList] = useState([])
+  const {auth} = useAuth()
 
-  const users = [
-    {
-      _id: 1,
-      role: "admin",
-      email: "user@user.pl",
-      name: "User",
-      isSuperAdmin: true
-    },
-    {
-      _id: 2,
-      role: "user",
-      email: "test@user.pl",
-      name: "Tester",
-      isSuperAdmin: false
+  const getUserList = async() => {
+    try {
+      const result = await axiosPrivate(auth.accessToken).get('/user/list')
+      setUsersList(result.data?.list)
+      console.log("Pobrano")
+    }catch(err){
+      console.log(err.response?.data?.message)
     }
-  ]
+  }
+
+  useEffect(()=>{
+    getUserList()
+  }, [])
+
+  
 
 
   return (
@@ -34,7 +37,7 @@ const UsersManage = () => {
           <Button onClick={()=>setIsOpen(true)}>Dodaj</Button>
         </header>
         <div className="overflow-x-auto p-3">
-          <UsersTable users={users} edit={setEditWindow} setIsOpen={setIsOpen}/>
+          <UsersTable users={usersList} edit={setEditWindow} setIsOpen={setIsOpen}/>
         </div>
       </div>
       {isOpen && <EditWindow data={editWindow} setData={setEditWindow} setIsOpen={setIsOpen}/>}
