@@ -17,11 +17,9 @@ const axiosPrivate = (token) => {
     (error) => {
       const config = error?.config
       if (error?.response?.status === 401){
-        console.log('response', config)
         if (!config?._retry){
           config._retry = true
           const prevLocation = encodeURIComponent(document.location.pathname)
-          console.log("prevLocation encoded", prevLocation)
           document.location.href = `/refreshToken?redirect=${prevLocation}`
         } else {
           document.location.href = '/login'

@@ -1,21 +1,20 @@
 import { EyeIcon, EyeSlashIcon, XMarkIcon } from "@heroicons/react/24/outline"
-import { Button, FormControl, FormLabel, Input, Select, Switch } from "@vechaiui/react"
+import { Button, FormControl, FormLabel, Input, Select } from "@vechaiui/react"
 import React, { useEffect, useState } from 'react'
 import useAuth from '../../hooks/useAuth'
 import axiosPrivate from '../../utils/apiPrivate'
  
 
-const EditWindow = ({ data,setData, setIsOpen }) => {
+const AddWindow = ({ setIsOpen }) => {
   const [showPass, setShowPass] = useState(false)
-  const [changePassword, setChangePassword] = useState(false)
-  const [formData, setFormData] = useState({
-    _id: data._id,
-    role: data.role,
-    email: data.email,
-    name: data.name,
+  const [formData,setFormData] = useState({
+    role:  '',
+    email: '',
+    name:  '',
     password: ''
   })
   const {auth} = useAuth()
+  
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -25,33 +24,28 @@ const EditWindow = ({ data,setData, setIsOpen }) => {
 
   const handleToggleShowPass = () => setShowPass(!showPass)
 
-  const handleChangePass = (e) => setChangePassword(e.target.checked)
-
-  useEffect(()=>{
-    if (data === undefined) {
-      setChangePassword(true)
-    }
-  },[data])
-
   const handleClickClose = () => {
-    setData(undefined)
     setIsOpen(false)
   }
 
   const handleClickSave = async () => {
-    // todo send axios to update user information
+    // todo send axios to add user 
     try {
-      const response = await axiosPrivate(auth.accessToken).put('/user/update', {user: formData, passwordChange: changePassword})
-      if (response.status === 200){
-        setData(undefined)
+      const response = await axiosPrivate(auth.accessToken).post('/auth/register', {
+        email: formData.email,
+        password: formData.password,
+        role:formData.role,
+        name: formData.name
+      })
+      
+      if(response.status === 200){
+
         setIsOpen(false)
       }
     }catch(err){
       console.log(err?.response?.body?.message)
     }
   }
-  
-  console.log(data)
 
   const options = [
     {
@@ -70,7 +64,7 @@ const EditWindow = ({ data,setData, setIsOpen }) => {
         <div className='flex items-center justify-between text-sm sm:text-base'>
           <div className="space-x-4">
             <span className="text-gray-900 text-bold uppercase">
-              Edycja użytkownika
+              Dodanie nowego użytkownika
             </span>
           </div>
           <Button onClick={()=>handleClickClose()} size="sm" className="text-base" type="button">
@@ -80,7 +74,7 @@ const EditWindow = ({ data,setData, setIsOpen }) => {
         <div className="w-full flex items-center justify-between pt-2">
           <hr className="w-full bg-gray-400" />
         </div>
-        <FormControl className="text-sm mt-3 py-1" disabled={true}>
+        <FormControl className="text-sm mt-3 py-1" >
           <FormLabel 
             htmlFor="email">
               Email
@@ -109,7 +103,7 @@ const EditWindow = ({ data,setData, setIsOpen }) => {
             value={formData.name}
             onChange={handleChange}/>  
         </FormControl>
-        <FormControl className="text-sm mt-3 py-1" disabled={data?.isSuperAdmin}>
+        <FormControl className="text-sm mt-3 py-1">
           <FormLabel 
             htmlFor="role">
               Rola
@@ -129,20 +123,7 @@ const EditWindow = ({ data,setData, setIsOpen }) => {
             })}
           </Select>  
         </FormControl>
-        <div className="w-full flex items-center justify-between pt-2">
-          <hr className="w-full bg-gray-400" />
-        </div>
-        {data?._id && <FormControl className="pt-3 flex items-center space-x-4">
-          <FormLabel htmlFor="toggleChangePass">Zmień hasło</FormLabel>
-          <Switch 
-            id="toggleChangePass"
-            name="toggleChangePass"
-            size="sm"
-            checked={changePassword}
-            onChange={handleChangePass}
-          />
-        </FormControl>}
-        <FormControl className="text-sm mt-3 py-1" disabled={!changePassword}>
+        <FormControl className="text-sm mt-3 py-1">
           <FormLabel 
             htmlFor="password">
               Hasło
@@ -172,10 +153,7 @@ const EditWindow = ({ data,setData, setIsOpen }) => {
         <div className="w-full flex items-center justify-between pt-2">
           <hr className="w-full bg-gray-400" />
         </div>
-        <div className="flex py-2 items-center justify-between">
-          <div>
-            {data?.isSuperAdmin && <span className="text-red-600 text-sm">Główny Administrator</span>}
-          </div>
+        <div className="flex py-2 items-center justify-end">
           <Button type="submit" size="sm" onClick={() => {handleClickSave()}}>
             Zapsiz
           </Button>
@@ -185,4 +163,4 @@ const EditWindow = ({ data,setData, setIsOpen }) => {
   )
 }
 
-export default EditWindow
+export default AddWindow

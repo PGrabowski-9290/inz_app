@@ -25,9 +25,11 @@ const Profile = () => {
 
   const handleToggleShowPass = () => setShowPass(!showPass)
 
+  const handleChangePass = (e) => setChangePass(e.target.checked)
+
   const loadUserData = async () => {
     try {
-      const result = await axiosPrivate(auth.accessToken).get('/user/get')
+      const result = await axiosPrivate(auth.accessToken).get('/user/')
       setFormData({
         ...formData,
         id: result.data?.user?._id,
@@ -41,7 +43,30 @@ const Profile = () => {
   
   const handleClickSave = async (e) => {
     e.preventDefault()
-    console.log("Save Clicked")
+    try {
+      setEdit(!edit)
+      const user = {
+        email: formData.email,
+        name: formData.name,
+        password: formData.password,
+        id: formData.id,
+        changePass: changePass
+      }
+      const response = await axiosPrivate(auth.accessToken).put('/user/',{user: user})
+      console.log(response)
+      console.log("Save Clicked")
+      if (response.status === 200) {
+        setFormData({
+          ...formData,
+          password: ''
+        })
+        setChangePass(!changePass)
+      }
+    }catch (err){
+      console.log(err?.response?.body?.message)
+    }
+
+    
   }
 
   useEffect(()=>{
@@ -55,7 +80,7 @@ const Profile = () => {
         <div className="font-semibold text-gray-900 sm:text-2xl text-xl">Profil</div>
         <Button.Group attached variant="outline">
           <Button onClick={()=>setEdit(!edit)}>{edit ? "Anuluj" : "Edytuj"}</Button>
-          {edit && <Button onClick={()=>handleClickSave()} className='bg-green-200 hover:bg-green-300'>Zapisz</Button>}
+          {edit && <Button onClick={handleClickSave} className='bg-green-200 hover:bg-green-300'>Zapisz</Button>}
         </Button.Group>
         
       </header>
@@ -94,7 +119,14 @@ const Profile = () => {
             </FormControl>
             <FormControl className='mt-2 flex items-center space-x-4' disabled={!edit}>
               <FormLabel htmlFor="passChange">Zmień hasło</FormLabel>
-              <Switch id="passChange" name="passChange" aria-labelledby='passChange' size="md" onChange={()=> {setChangePass(!changePass)} } disabled={!edit}/>
+              <Switch 
+                id="passChange" 
+                name="passChange" 
+                aria-labelledby='passChange' 
+                size="md"
+                checked={changePass}
+                onChange={handleChangePass} 
+                disabled={!edit}/>
             </FormControl>
             <FormControl disabled={(!changePass || !edit)}>
               <FormLabel htmlFor='password' className='sm:font-bold md:text-xl'>
