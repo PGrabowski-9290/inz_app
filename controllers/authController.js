@@ -1,5 +1,4 @@
 const bcrpyt = require('bcrypt');
-const { decode } = require('jsonwebtoken');
 const jwt = require('jsonwebtoken');
 const config = require('../config/config');
 const User = require('../models/user')
@@ -83,7 +82,12 @@ module.exports = {
         foundUser.refreshToken = refreshToken;
         const result = await foundUser.save();
         console.log(result)
-        res.cookie('jwt', refreshToken, {httpOnly: true, secure: true, sameSite: 'None', maxAge: 43200000 });
+        res.cookie('jwt', refreshToken, {
+          httpOnly: true,
+          secure: true,
+          sameSite: 'None',
+          maxAge: 43200000
+        });
 
         res.json({ message: "Zalogowano", accessToken: accessToken, role: foundUser.role})
       } else { 
