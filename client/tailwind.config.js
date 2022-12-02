@@ -1,4 +1,6 @@
 // tailwind.config.js
+const colors = require("tailwindcss/colors")
+
 module.exports = {
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
@@ -9,7 +11,8 @@ module.exports = {
   theme: {
     extend: {
       colors:{
-        'gray-a60': '#4D4D4D99'
+        'gray-a60': '#4D4D4D99',
+        green: colors.green
       }
     },
   },
@@ -18,7 +21,9 @@ module.exports = {
   },
   plugins: [
     require("@tailwindcss/forms"),
-    require("@vechaiui/core"),
+    require("@vechaiui/core")({
+      colors: ["green"]
+    }),
   ],
   important: true,
 };

@@ -79,8 +79,8 @@ const Profile = () => {
       <header className="px-1 sm:px-5 py-4 border-b border-gray-100 flex items-center justify-between ">
         <div className="font-semibold text-gray-900 sm:text-2xl text-xl">Profil</div>
         <Button.Group attached variant="outline">
-          <Button onClick={()=>setEdit(!edit)}>{edit ? "Anuluj" : "Edytuj"}</Button>
-          {edit && <Button onClick={handleClickSave} className='bg-green-200 hover:bg-green-300'>Zapisz</Button>}
+          <Button onClick={()=>setEdit(!edit)} variant="solid">{edit ? "Anuluj" : "Edytuj"}</Button>
+          {edit && <Button onClick={handleClickSave} variant="solid" color="green">Zapisz</Button>}
         </Button.Group>
         
       </header>

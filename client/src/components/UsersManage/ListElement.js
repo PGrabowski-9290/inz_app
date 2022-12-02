@@ -31,7 +31,7 @@ const ListElement = ({data, edit, setIsOpen}) => {
       </td>
       <td className='p-1 flex items-center justify-center'>
         <div className='font-medium'>
-          <Button onClick={() => handleClickEdit()} variant='ghost' size='xs'>Edytuj </Button>
+          <Button onClick={() => handleClickEdit()} variant='ghost' size='xs'>Edytuj</Button>
         </div>
       </td>
     </tr>
