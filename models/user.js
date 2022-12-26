@@ -27,6 +27,11 @@ const UserSchema = new Schema({
     type: Boolean,
     enum: [true, false],
     default: false
+  },
+  isActive: {
+    type: Boolean,
+    required: true,
+    default: true
   }
 });
 
