@@ -11,7 +11,8 @@ const createUser = async () => {
       password: config.adminUser.password,
       role: "admin",
       name: "Admin",
-      isSuperAdmin: true
+      isSuperAdmin: true,
+      isActive: true
     }
   };
 
