@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const settingsSchema = new Schema({
-  owner: {
+  ownerDetails: {
     firstName: {
       type: String,
       required: true

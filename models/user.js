@@ -25,7 +25,7 @@ const UserSchema = new Schema({
   },
   isSuperAdmin: {
     type: Boolean,
-    enum: [true, false],
+    required: true,
     default: false
   },
   isActive: {

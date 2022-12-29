@@ -10,12 +10,19 @@ const offersSchema = new Schema({
     type: String,
     required: true
   },
+  functionalities: [{
+    type: String
+  }],
   price: {
     type: String,
     required: true
   },
   car: {
     make: {
+      type: String,
+      required: true
+    },
+    year: {
       type: String,
       required: true
     },
@@ -74,6 +81,11 @@ const offersSchema = new Schema({
     type: Boolean,
     required: true,
     default: true
+  },
+  isSold: {
+    type: Boolean,
+    required: true,
+    default: false
   },
   salons: {
     type: Schema.Types.ObjectId,

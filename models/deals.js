@@ -2,6 +2,10 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const dealsSchema = new Schema({
+  number: {
+    type: String,
+    required: true
+  },
   offer: {
     type: Schema.Types.ObjectId,
     ref: 'offers',
@@ -33,13 +37,15 @@ const dealsSchema = new Schema({
       }
     },
     phoneNumber: {
-      type: String
+      type: String,
+      requred: true
     },
     nip: {
       type: String
     },
     pesel: {
-      type: String
+      type: String,
+      required: true
     },
     personalIdNumber: {
       type: String,
