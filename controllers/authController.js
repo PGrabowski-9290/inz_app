@@ -70,14 +70,6 @@ module.exports = {
           },
           config.refreshSecret
         );
-        console.log("ref",refreshToken)
-        console.log("acc",accessToken)
-
-        jwt.verify(accessToken, config.secret, (err, decoded) => {
-          console.log("errVerify: ", err)
-          console.log("decoded: ", decoded)
-        });
-
 
         foundUser.refreshToken = refreshToken;
         const result = await foundUser.save();
