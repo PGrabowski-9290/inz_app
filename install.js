@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 const register = require("./controllers/authController").register;
 const config = require("./config/config");
-
+const Settings = require('/models/settings');
 
 const createUser = async () => {
   const req = {
@@ -33,6 +33,22 @@ const createUser = async () => {
   return await register(req,res)
 }
 
+const install = async () => {
+  try {
+    //create user
+    const a = await createUser();
+    if (a) { 
+      console.log(a)
+      process.exit()
+    }
+    console.log(a)
+
+    
+  } catch(err) {
+    throw err
+  }
+}
+
 
 mongoose.connect(config.mongoUri, {
   useNewUrlParser: true,
@@ -40,12 +56,7 @@ mongoose.connect(config.mongoUri, {
 })
   .then(async () => {
     console.log('Połączono z bazą danych')
-    const a = await createUser();
-    if (a) { 
-      console.log(a)
-      process.exit()
-    }
-    console.log(a)
+    
   })
   .catch(err => console.log(`Błąd połączenia z bazą danych:\n ${err}`));
 

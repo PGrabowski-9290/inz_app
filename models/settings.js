@@ -2,6 +2,11 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const settingsSchema = new Schema({
+  id: {
+    type: Schema.Types.Number,
+    required: true,
+    unique: true   
+  },
   ownerDetails: {
     firstName: {
       type: String,
@@ -26,6 +31,10 @@ const settingsSchema = new Schema({
       required: true
     },
     zipCode: {
+      type: String,
+      required: true
+    },
+    street: {
       type: String,
       required: true
     }

@@ -34,6 +34,12 @@ app.use(express.static(path.join(__dirname, "./uploads")));
 
 app.use('/auth', require("./routes/auth"));
 app.use('/user', require('./routes/user'));
+app.use('/settings', require('./routes/settingsRoute'));
 
+app.use((err, req, res, next) => {
+  console.log("\n==========[ERROR]=============\n\nCoś poszło nie tak\n\nStack Trace:");
+  console.error(err.stack);
+  res.status(500).json({message:"Serwer napotkał problem nie do obejścia"})
+})
 
 app.listen(config.PORT, () => { console.log(`Server runing on http://localhost:${config.PORT}/`) });
