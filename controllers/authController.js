@@ -9,92 +9,93 @@ const toEpochDate = (maxAge) => {
 }
 
 
-module.exports = {
-  async register(req, res) {
-    try {
-      const { email, password, role, name, isSuperAdmin } = req.body;
-      if (!email || !password || !role || !name ) return res.status(400).json({ message: 'Wypełnij wszystkie pola' });
 
-      const newUser = new User({
-        email: email.toLowerCase(),
-        name: name,
-        role: role.toLowerCase(),
-        isSuperAdmin: isSuperAdmin || false
-      });
+const register = async (req, res, next) => {
+  try {
+    const { email, password, role, name, isSuperAdmin } = req.body;
+    if (!email || !password || !role || !name ) return res.status(400).json({ message: 'Wypełnij wszystkie pola' });
 
-      const user = await User.findOne({ email: email.toLowerCase() });
-      if (user) return res.status(400).json({ message: 'Istnieje konto o podanym adresie email' });
+    const newUser = new User({
+      email: email.toLowerCase(),
+      name: name,
+      role: role.toLowerCase(),
+      isSuperAdmin: isSuperAdmin || false
+    });
 
-      bcrpyt.genSalt(10, (err, salt) => {
+    const user = await User.findOne({ email: email.toLowerCase() });
+    if (user) return res.status(400).json({ message: 'Istnieje konto o podanym adresie email' });
+
+    bcrpyt.genSalt(10, (err, salt) => {
+      if (err) throw err;
+
+      bcrpyt.hash(password, salt, async (err, hash) => {
         if (err) throw err;
-
-        bcrpyt.hash(password, salt, async (err, hash) => {
-          if (err) throw err;
-          newUser.password = hash;
-          const user = await newUser.save();
-          if (!user) return res.status(403).json({ message: "Nie powiodło się stworrzenie nowego użytkownika"});
-          return res.status(200).json({ message: "Stworzono użytkownika"});
-        });
+        newUser.password = hash;
+        const user = await newUser.save();
+        if (!user) return res.status(403).json({ message: "Nie powiodło się stworrzenie nowego użytkownika"});
+        return res.status(200).json({ message: "Stworzono użytkownika"});
       });
-    } catch (err) {
-      throw err;
-    }
-  },
-  async login (req, res) {
-    try {
-      const { email, password } = req.body;
-      if (!email || !password) return res.status(401).json({ message: "Email i hasło jest wymagane"});
+    });
+  } catch (err) {
+    next(err);
+  }
+}
+const login = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+    if (!email || !password) return res.status(401).json({ message: "Email i hasło jest wymagane"});
 
-      const foundUser = await User.findOne({ email: email.toLowerCase() });
-      if (!foundUser) return res.status(401).json({ message: "Brak użytkownika z takim adresem mailowym" });
-      
-      const match = await bcrpyt.compare(password, foundUser.password);
-      if (match) {
-        const accessToken = jwt.sign(
-          { 
-            exp: Math.floor(toEpochDate(config.expires.token) / 1000),
-            data: { "User": {
-              "email": foundUser.email,
-              "name": foundUser.name,
-              "role": foundUser.role
-              }
+    const foundUser = await User.findOne({ email: email.toLowerCase() });
+    if (!foundUser) return res.status(401).json({ message: "Brak użytkownika z takim adresem mailowym" });
+    
+    const match = await bcrpyt.compare(password, foundUser.password);
+    if (match) {
+      const accessToken = jwt.sign(
+        { 
+          exp: Math.floor(toEpochDate(config.expires.token) / 1000),
+          data: { "User": {
+            "email": foundUser.email,
+            "name": foundUser.name,
+            "role": foundUser.role
             }
-          },
-          config.secret
-        );
+          }
+        },
+        config.secret
+      );
 
-        const refreshToken = jwt.sign(
-          {
-            exp: Math.floor(toEpochDate(config.expires.refToken) / 1000), 
-            data: { "email": foundUser.email }
-          },
-          config.refreshSecret
-        );
+      const refreshToken = jwt.sign(
+        {
+          exp: Math.floor(toEpochDate(config.expires.refToken) / 1000), 
+          data: { "email": foundUser.email }
+        },
+        config.refreshSecret
+      );
 
-        foundUser.refreshToken = refreshToken;
-        const result = await foundUser.save();
-        console.log(result)
-        res.cookie('jwt', refreshToken, {
-          httpOnly: true,
-          secure: true,
-          sameSite: 'None',
-          maxAge: 43200000
-        });
+      foundUser.refreshToken = refreshToken;
+      const result = await foundUser.save();
+      console.log(result)
+      res.cookie('jwt', refreshToken, {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'None',
+        maxAge: 43200000
+      });
 
-        res.json({ message: "Zalogowano", accessToken: accessToken, role: foundUser.role})
-      } else { 
-        res.status(401).json({ message: "Błędne dane logowania"})
-      }
-    }catch (err) {
-      throw err;
+      res.json({ message: "Zalogowano", accessToken: accessToken, role: foundUser.role})
+    } else { 
+      res.status(401).json({ message: "Błędne dane logowania"})
     }
-  },
-  async refreshToken (req,res) {
+  }catch (err) {
+    next(err);
+  }
+}
+const refreshToken = async (req,res, next) => {
+  try {
     const cookies = req.cookies;
     console.log("COOKIES: ",cookies)
     if (!cookies?.jwt) return res.status(401).json({message: "NoCookie JWT"});
     const refreshToken = cookies.jwt;
-   
+  
     const foundUser = await User.findOne({ refreshToken }).exec();
     if (!foundUser?._id) return res.status(401).json({message: "User Error"});
     console.log("typeof reftoken: ",typeof(config.expires.refToken))
@@ -121,26 +122,29 @@ module.exports = {
         res.json({ role: foundUser.role, accessToken })
       }
     )
-  },
-  async logout (req, res) {
-    try{
-      const cookies = req.cookies;
-      console.log("COOKIES: ",cookies)
-      if (!cookies?.jwt) return res.status(401).json({message: "NoCookie JWT"});
-      const refreshToken = cookies.jwt;
-    
-      const foundUser = await User.findOne({ refreshToken }).exec();
-      console.log(foundUser)
-      if (!foundUser?._id) return res.status(401).json({message: "User Error"});
-
-      foundUser.refreshToken = "0";
-      const result = await foundUser.save();
-      console.log("res: ",result)
-      res.clearCookie("jwt")
-      res.status(200).json({message: "Wylogowano"})
-    }catch (err) {
-      console.log(err)
-      throw err;
-    }
+  } catch (err) {
+    next(err);
   }
-};
+}
+const logout = async (req, res, next) => {
+  try{
+    const cookies = req.cookies;
+    console.log("COOKIES: ",cookies)
+    if (!cookies?.jwt) return res.status(401).json({message: "NoCookie JWT"});
+    const refreshToken = cookies.jwt;
+  
+    const foundUser = await User.findOne({ refreshToken }).exec();
+    console.log(foundUser)
+    if (!foundUser?._id) return res.status(401).json({message: "User Error"});
+
+    foundUser.refreshToken = "0";
+    const result = await foundUser.save();
+    console.log("res: ",result)
+    res.clearCookie("jwt")
+    res.status(200).json({message: "Wylogowano"})
+  }catch (err) {
+    console.log(err)
+    next(err);
+  }
+}
+module.exports = { register, login, refreshToken, logout };

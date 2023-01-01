@@ -1,4 +1,3 @@
-const { db } = require('../models/settings');
 const Settings = require('../models/settings');
 
 const getSettings = async (req,res, next) => {
