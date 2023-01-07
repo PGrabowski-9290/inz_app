@@ -32,9 +32,10 @@ app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, "./uploads")));
 
-app.use('/auth', require("./routes/auth"));
-app.use('/user', require('./routes/user'));
-app.use('/settings', require('./routes/settingsRoute'));
+app.use(`/auth`, require("./routes/auth"));
+app.use("/user", require("./routes/user"));
+app.use("/settings", require("./routes/settingsRoute"));
+app.use("/salons", require("./routes/salonsRoute"));
 
 app.use((err, req, res, next) => {
   console.log("\n==========[ERROR]=============\n\nCoś poszło nie tak\n\nStack Trace:");

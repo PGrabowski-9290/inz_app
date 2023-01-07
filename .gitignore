@@ -132,5 +132,5 @@ dist
 
 # Other IDE config folders
 .idea/
-
+.fleet/
 *.code-workspace

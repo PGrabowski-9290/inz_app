@@ -28,9 +28,14 @@ const salonsSchema = new Schema({
   },
   users: [{
     type: Schema.Types.ObjectId,
-    ref: "user"
+    ref: "user",
+    required: true
   }],
-  isActive: bool
+  isActive: {
+    type: Boolean,
+    required: true,
+    default: true
+  }
 });
 
 module.exports = Salons = mongoose.model('salons', salonsSchema);
