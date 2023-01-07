@@ -5,10 +5,10 @@ const role = require("../config/config").roles;
 
 router.get('/', Salons.getActiveSalonsList);
 router.post('/add', verifyJWT, verifyRole(role.Admin), Salons.createSalon );
-router.get('/:salonId', verifyJWT, verifyRole(role.Admin, role.User), Salons.getSalon);
-router.put('/:salonId', verifyJWT, verifyRole(role.Admin,), Salons.getSalon);
+router.get('/details/:salonId', verifyJWT, verifyRole(role.Admin, role.User), Salons.getSalon);
+router.patch('/update/:salonId', verifyJWT, verifyRole(role.Admin,), Salons.updateSalon);
 router.get('/list', verifyJWT, verifyRole(role.Admin), Salons.getSalonsList);
-router.put('/active/:salonId', verifyJWT, verifyRole(role.Admin), Salons.updateActiveStatus);
-// router.put('/addUsers/:salonId', verifyJWT, verifyRole(role.Admin), Salons.)
+router.patch('/active/:salonId', verifyJWT, verifyRole(role.Admin), Salons.updateActiveStatus);
+router.put('/users/:salonId', verifyJWT, verifyRole(role.Admin), Salons.updateUsers);
 
 module.exports = router;

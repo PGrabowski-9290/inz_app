@@ -1,3 +1,4 @@
+const { find } = require('../models/salons');
 const salons = require('../models/salons');
 const Salons = require('../models/salons');
 
@@ -29,13 +30,17 @@ const createSalon = async (req, res, next) => {
 }
 
 const updateSalon = async (req, res, next) => {
-    const data = req.body?.salon;
+    const id = req.params?.salonId;
+    const data = req.body?.data;
 
     try {
-        const findSalon = await Salons.findOne({_id: data.id}).exec();
+        const findSalon = await Salons.findOne({_id: id}).exec();
         if( !findSalon ) return res.status(404).json({message: "Nie odnaleziono salonu do zaktualizowania"})
 
+        findSalon.location = {...data.location}
+        findSalon.contact = {...data.contact}
 
+        await findSalon.save();
 
         res.status(200).json({message: "Zakutalizowano"})
     } catch (err) {
@@ -99,6 +104,30 @@ const getSalon = async (req, res, next) => {
     }
 }
 
+const updateUsers = async (req, res, next) => {
+  const id = req.params?.salonId;
+  const {action, userId} = req.body?.data;
+  try {
+    const findSalon = await Salons.findOne({_id: id});
+    if (!findSalon) return res.status(404).json({message: "Nie znaleziono salonu"});
 
+    if(!action || !userId) return res.status(400).json({message: "Uzupełnij dane"})
 
-module.exports = { createSalon, updateSalon, updateActiveStatus, getSalonsList, getSalon, getActiveSalonsList }
+    if (action === "add"){
+      findSalon.users.push(userId);
+    }
+    else if (action === "remove"){
+      findSalon.users = findSalon.users.pull(userId)
+    } else {
+      return res.status(400).json({message: "Nie poprawna wartość"});
+    }
+
+    await findSalon.save();
+
+    res.status(200).json({message: "Zaktualizowano"})
+  } catch(err) {
+    next(err);
+  }
+}
+
+module.exports = { createSalon, updateSalon, updateActiveStatus, getSalonsList, getSalon, getActiveSalonsList, updateUsers }
