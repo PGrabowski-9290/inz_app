@@ -1,5 +1,3 @@
-const { find } = require('../models/salons');
-const salons = require('../models/salons');
 const Salons = require('../models/salons');
 
 const createSalon = async (req, res, next) => {
@@ -68,7 +66,7 @@ const updateActiveStatus = async (req, res, next) => {
 
 const getActiveSalonsList = async (req,res,next) => {
   try {
-    const result = await Salons.find({ isActive: true});
+    const result = await Salons.find({ isActive: true}).select("_id location.city location.street contact");
     if (!result) return res.status(404).json({message: "Brak aktywnych salonów sprzedaży"});
 
     res.status(200).json({data: result, message: "Pobrano"});
@@ -79,7 +77,7 @@ const getActiveSalonsList = async (req,res,next) => {
 
 const getSalonsList = async (req, res, next) => {
   try {
-    const result = await Salons.find().select("_id location.city location.street contact").exec();
+    const result = await Salons.find().exec();
 
     if (!result) return res.status(400).json({message: "Błąd pobierania listy salonów"});
 
