@@ -8,3 +8,6 @@ module.exports = (req,res,next) => {
   
   next();
 };
+
+//W tym module funkcje weryfikujące token logowania oraz rolę użytkownika zostały wykorzystane z poniższego repozytorium
+//https://github.com/gitdagray/express_user_roles
