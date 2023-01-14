@@ -1,12 +1,11 @@
-const { default: mongoose } = require("mongoose");
 const Offers = require("../models/offers");
 
 const getOffersList = async (req, res, next) => {
   try {
-    const result = await Offers.find({ isSold: false, isActive: true}).select("-isSold -isActive");
+    const result = await Offers.find({ isSold: false, isActive: true}).select("car.engine car.make car.year car.model car.odometer title price salons gallery");
     if (!result) return res.status(404).json({ message: "Nie znaleziono"});
 
-    res.status(200).json({data: result ,message: "test"});
+    res.status(200).json({data: result ,message: "Success"});
   } catch (err) {
     next(err);
   }
@@ -18,7 +17,7 @@ const getFilteredOffersList = async (req, res, next) => {
     const isActive = req.body?.isActive || true;
     const isSold = false;
     filter = {... isSold}
-    const result = await Offers.find({filter}).select("-isSold -isActive")
+    const result = await Offers.find({filter}).select("car.engine car.make car.year car.model car.odometer title price salons gallery")
     if(!result) return res.status(404).json({message: "Nie odnaleziono obiektu"});
 
 
@@ -35,7 +34,7 @@ const getOffertDetails = async (req, res, next) => {
         const result = await Offers.find({_id: id});
         if(!result) return res.status(404).json({message: "Nie odnaleziono"})
 
-
+        res.status(200).json({data: result, message: "Success"})
     }catch (err) {
         next(err)
     }
