@@ -7,6 +7,7 @@ const config = require("./config/config");
 const corsOptions = require("./config/corsOptions");
 const credentials = require("./middleware/credentials");
 const cookieParser = require("cookie-parser");
+
 const app = express();
 const logit = (req, res, next) => {
   console.log('\x1b[36m%s\x1b[0m', '\n\nLOG FROM LOGIT TO ME\n')
