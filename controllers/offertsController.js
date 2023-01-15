@@ -76,12 +76,12 @@ const createOffert = async (req,res,next) => {
 
     const data = req?.body;
 
-    if (!data?.title || !data?.description || !data?.price || !data?.carMake || !data?.carYear || !data?.carModel || !data?.carCategory || !data?.carColor || !data?.carFuelType || !data?.carPower || !data?.carEngCapacity || !data?.carDrive || !data?.carTrans || !data?.carGears || !data?.carDoors || !data?.vin || !data?.odometer || !data?.salon || !data?.number) return res.status(400).json({message: "brak wartości"});
+    if (!data?.title || !data?.description || !data?.price || !data?.carMake || !data?.carYear || !data?.carModel || !data?.carCategory || !data?.carColor || !data?.carFuelType || !data?.carPower || !data?.carEngCapacity || !data?.carDrive || !data?.carTrans || !data?.carGears || !data?.carDoors || !data?.vin || !data?.odometer || !data?.salon) return res.status(400).json({message: "brak wartości"});
 
     const filesUrls = req?.files.map(item => item.path);
-
+    const number = await Offerts.countDocuments().exec() + 1;
     const newOffert = new Offerts({
-      number: data.number,
+      number: number,
       title: data.title,
       description: data.description,
       functionalities: data.functionalities,
@@ -125,10 +125,9 @@ const updateOffert = async (req, res, next) => {
     const data = req.body?.data;
     if(!data || !id) return res.status(400).json({message: "Błędne zapytanie"});
 
-    if (!data?.title || !data?.description || !data?.price || !data?.carMake || !data?.carYear || !data?.carModel || !data?.carCategory || !data?.carColor || !data?.carFuelType || !data?.carPower || !data?.carEngCapacity || !data?.carDrive || !data?.carTrans || !data?.carGears || !data?.carDoors || !data?.vin || !data?.odometer || !data?.salon || !data?.number) return res.status(400).json({message: "brak wartości"});
+    if (!data?.title || !data?.description || !data?.price || !data?.carMake || !data?.carYear || !data?.carModel || !data?.carCategory || !data?.carColor || !data?.carFuelType || !data?.carPower || !data?.carEngCapacity || !data?.carDrive || !data?.carTrans || !data?.carGears || !data?.carDoors || !data?.vin || !data?.odometer || !data?.salon ) return res.status(400).json({message: "brak wartości"});
 
-    const offert = await Offerts.findOneAndUpdate({_id: id}, {
-      number: data.number,
+    const offert = await Offerts.findOneAndUpdate({_id: id, isSold: false}, {
       title: data.title,
       description: data.description,
       functionalities: data.functionalities,
@@ -152,7 +151,8 @@ const updateOffert = async (req, res, next) => {
         odometer: data.odometer,
       },
       salons: data.salon.trim(),
-    }).exec(); 
+    }); 
+    if(!offert) return res.status(404).json({message: "Nie można wykonać aktualizacji"})
 
     res.status(200).json({message: "Updated"});
   } catch (err) {
