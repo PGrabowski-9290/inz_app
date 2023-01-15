@@ -50,6 +50,10 @@ const dealsSchema = new Schema({
     personalIdNumber: {
       type: String,
       required: true
+    },
+    personalIdVerifiedBy:{
+      type: String,
+      required: true
     }
   }
 });

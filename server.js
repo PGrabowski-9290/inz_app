@@ -39,7 +39,7 @@ app.use("/settings", require("./routes/settingsRoute"));
 app.use("/salons", require("./routes/salonsRoute"));
 app.use("/offerts", require("./routes/offertsRoute"));
 app.use("/offerts/public", require('./routes/publicOffertsRoute'));
-
+app.use("/deals", require('./routes/dealsRoute'));
 app.use((err, req, res, next) => {
   console.log("\n==========[ERROR]=============\n\nCoś poszło nie tak\n\nStack Trace:");
   console.error(err.stack);
