@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const offersSchema = new Schema({
+const offertsSchema = new Schema({
   number:{
     type: Schema.Types.Number,
     required: true,
@@ -102,4 +102,4 @@ const offersSchema = new Schema({
   }]
 });
 
-module.exports = Offers = mongoose.model('offers', offersSchema);
+module.exports = Offerts = mongoose.model('offerts', offertsSchema);

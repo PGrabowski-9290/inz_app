@@ -1,8 +1,8 @@
-const Offers = require("../models/offers");
+const Offerts = require("../models/offerts");
 
-const getOffersListPublic = async (req, res, next) => {
+const getOffertsListPublic = async (req, res, next) => {
   try {
-    const result = await Offers.find({ isSold: false, isActive: true}).select("car.engine car.make car.year car.model car.odometer title price salons gallery");
+    const result = await Offerts.find({ isSold: false, isActive: true}).select("car.engine car.make car.year car.model car.odometer title price salons gallery");
     if (!result) return res.status(404).json({ message: "Nie znaleziono"});
 
     res.status(200).json({data: result ,message: "Success"});
@@ -11,13 +11,13 @@ const getOffersListPublic = async (req, res, next) => {
   }
 }
 
-const getFilteredOffersListPublic = async (req, res, next) => {
+const getFilteredOffertsListPublic = async (req, res, next) => {
   try {
     var filter = req.body?.filter;
     const isActive = req.body?.isActive || true;
     const isSold = false;
     filter = {... isSold, isActive: isActive}
-    const result = await Offers.find({filter}).select("car.engine car.make car.year car.model car.odometer title price salons gallery")
+    const result = await Offerts.find({filter}).select("car.engine car.make car.year car.model car.odometer title price salons gallery")
     if(!result) return res.status(404).json({message: "Nie odnaleziono obiektu"});
 
 
@@ -31,7 +31,7 @@ const getOffertDetailsPublic = async (req, res, next) => {
     try {
         const id = req.params?.offertId;
         
-        const result = await Offers.findOne({_id: id}).select('-isActive -isSold');
+        const result = await Offerts.findOne({_id: id}).select('-isActive -isSold');
         if(!result) return res.status(404).json({message: "Nie odnaleziono"})
 
         res.status(200).json({data: result, message: "Success"})
@@ -40,4 +40,4 @@ const getOffertDetailsPublic = async (req, res, next) => {
     }
 }
 
-module.exports = { getOffersListPublic, getFilteredOffersListPublic, getOffertDetailsPublic }
+module.exports = { getOffertsListPublic, getFilteredOffertsListPublic, getOffertDetailsPublic }

@@ -1,6 +1,6 @@
-const Offers = require("../models/offers");
+const Offers = require("../models/offerts");
 
-const getOffersList = async (req, res, next) => {
+const getOffertsList = async (req, res, next) => {
   try {
     res.status(200).json({message: "Success"});
   } catch (error) {
@@ -8,7 +8,7 @@ const getOffersList = async (req, res, next) => {
   }
 }
 
-const getFilteredOffersList = async (req, res, next) => {
+const getFilteredOffertsList = async (req, res, next) => {
   try {
     res.status(200).json({message: "Success"});
   } catch (error) {
@@ -88,4 +88,4 @@ const updateOffert = async (req, res, next) => {
   }
 }
 
-module.exports = { getOffersList, createOffert, getFilteredOffersList, updateOffert, getOffertDetails }
+module.exports = { getOffertsList, createOffert, getFilteredOffertsList, updateOffert, getOffertDetails }
