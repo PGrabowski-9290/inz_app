@@ -2,42 +2,26 @@ const Offers = require("../models/offers");
 
 const getOffersList = async (req, res, next) => {
   try {
-    const result = await Offers.find({ isSold: false, isActive: true}).select("car.engine car.make car.year car.model car.odometer title price salons gallery");
-    if (!result) return res.status(404).json({ message: "Nie znaleziono"});
-
-    res.status(200).json({data: result ,message: "Success"});
-  } catch (err) {
-    next(err);
+    res.status(200).json({message: "Success"});
+  } catch (error) {
+    next(error)
   }
 }
 
 const getFilteredOffersList = async (req, res, next) => {
   try {
-    var filter = req.body?.data;
-    const isActive = req.body?.isActive || true;
-    const isSold = false;
-    filter = {... isSold}
-    const result = await Offers.find({filter}).select("car.engine car.make car.year car.model car.odometer title price salons gallery")
-    if(!result) return res.status(404).json({message: "Nie odnaleziono obiektu"});
-
-
-    res.status(200).json({data: result, message: "Done"});
+    res.status(200).json({message: "Success"});
   } catch (error) {
-    next(error);
+    next(error)
   }
 }
 
 const getOffertDetails = async (req, res, next) => {
-    try {
-        const id = req.params?.offertId;
-        
-        const result = await Offers.find({_id: id});
-        if(!result) return res.status(404).json({message: "Nie odnaleziono"})
-
-        res.status(200).json({data: result, message: "Success"})
-    }catch (err) {
-        next(err)
-    }
+  try {
+    res.status(200).json({message: "Success"});
+  } catch (error) {
+    next(error)
+  }
 }
 
 const createOffert = async (req,res,next) => {
@@ -46,7 +30,7 @@ const createOffert = async (req,res,next) => {
 
     const data = req?.body;
 
-    if (!data.title || !data.description || !data.price || !data.carMake || !data.carYear || !data.carCategory || !data.carColor || !data.carFuelType || !data.carPower || !data.carEngCapacity || !data.carDrive || !data.carTrans || !data.carGears || !data.carDoors || !data.vin || !data.odometer || !data.salon || !data.number) return res.status(400).json({message: "brak wartości"});
+    if (!data?.title || !data?.description || !data?.price || !data?.carMake || !data?.carYear || !data?.carModel || !data?.carCategory || !data?.carColor || !data?.carFuelType || !data?.carPower || !data?.carEngCapacity || !data?.carDrive || !data?.carTrans || !data?.carGears || !data?.carDoors || !data?.vin || !data?.odometer || !data?.salon || !data?.number) return res.status(400).json({message: "brak wartości"});
 
     const filesUrls = req?.files.map(item => item.path);
 
@@ -59,8 +43,9 @@ const createOffert = async (req,res,next) => {
       car: {
         make: data.carMake,
         year: data.carYear,
-        model: data.carCategory,
+        model: data.carModel,
         color: data.carColor,
+        category: data.carCategory,
         engine: {
           fuelType: data.carFuelType,
           power: data.carPower,

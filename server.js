@@ -37,6 +37,7 @@ app.use(`/auth`, require("./routes/auth"));
 app.use("/user", require("./routes/user"));
 app.use("/settings", require("./routes/settingsRoute"));
 app.use("/salons", require("./routes/salonsRoute"));
+app.use("/offers/public", require('./routes/publicOffersRoute'));
 app.use("/offers", require("./routes/offersRoute"));
 
 app.use((err, req, res, next) => {
