@@ -37,8 +37,8 @@ app.use(`/auth`, require("./routes/auth"));
 app.use("/user", require("./routes/user"));
 app.use("/settings", require("./routes/settingsRoute"));
 app.use("/salons", require("./routes/salonsRoute"));
-app.use("/offerts/public", require('./routes/publicOffertsRoute'));
 app.use("/offerts", require("./routes/offertsRoute"));
+app.use("/offerts/public", require('./routes/publicOffertsRoute'));
 
 app.use((err, req, res, next) => {
   console.log("\n==========[ERROR]=============\n\nCoś poszło nie tak\n\nStack Trace:");
