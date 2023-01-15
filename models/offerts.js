@@ -4,8 +4,7 @@ const Schema = mongoose.Schema;
 const offertsSchema = new Schema({
   number:{
     type: Schema.Types.Number,
-    required: true,
-    index: {}
+    required: true
   },
   title: {
     type: String,
@@ -80,6 +79,9 @@ const offertsSchema = new Schema({
     odometer: {
       type: String,
       required: true
+    },
+    numberPlate: {
+      type: String
     }
   },
   isActive: {

@@ -18,35 +18,33 @@ const updateSettings = async (req, res, next) => {
 
     const data = req.body?.settings;
 
-    var dbSettings = await Settings.findOne({id: 0}).exec();
+    var dbSettings = await Settings.findOneAndUpdate(
+      {id: 0}, 
+      {
+        id: 0,
+        ownerDetails: {
+          firstName: data.firstName,
+          surName: data.surName
+        },
+        companyDetails: {
+          name: data.companyName,
+          nip: data.nip,
+          city: data.city,
+          zipCode: data.zipCode,
+          street: data.street
+        },
+        contact: {
+          phoneNumber: data.phone,
+          email: data.email
+        }
+      },
+      {
+        upsert: true,
+        new: true,
+        runValidators: true
+      }
+    );
 
-    if (!dbSettings) {
-      dbSettings = new Settings({
-        id: 0
-      });
-    }
-
-    dbSettings.ownerDetails = {
-      firstName: data.firstName,
-      surName: data.surName
-    }
-
-    dbSettings.companyDetails = {
-      name: data.companyName,
-      nip: data.nip,
-      city: data.city,
-      zipCode: data.zipCode,
-      street: data.street
-    }
-
-    dbSettings.contact = {
-      phoneNumber: data.phone,
-      email: data.email
-    }
-    
-    console.log(dbSettings)
-    const result = await dbSettings.save();
-    console.log(result);
     res.status(200).json({data: dbSettings, message: "Pobrano"});
 
   } catch(err) {

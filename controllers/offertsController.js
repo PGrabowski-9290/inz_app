@@ -103,7 +103,8 @@ const createOffert = async (req,res,next) => {
         doorsNumber: data.carDoors,
         vin: data.vin,
         odometer: data.odometer,
-        gallery: data.gallery
+        gallery: data.gallery,
+        numberPlate: data.carNumberPlate
       },
       isActive: true,
       isSold: false,
@@ -149,6 +150,7 @@ const updateOffert = async (req, res, next) => {
         doorsNumber: data.carDoors,
         vin: data.vin,
         odometer: data.odometer,
+        numberPlate: data.carNumberPlate
       },
       salons: data.salon.trim(),
     }); 

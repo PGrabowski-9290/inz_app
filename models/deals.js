@@ -6,9 +6,9 @@ const dealsSchema = new Schema({
     type: String,
     required: true
   },
-  offer: {
+  offert: {
     type: Schema.Types.ObjectId,
-    ref: 'offers',
+    ref: 'offerts',
     required: true
   },
   user:{
