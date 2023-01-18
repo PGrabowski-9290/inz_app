@@ -14,6 +14,7 @@
   "author": "Paweł Grabowski",
   "license": "ISC",
   "dependencies": {
+    "@pdf-lib/fontkit": "^1.1.1",
     "@visaright/pdf-lib": "^1.17.2",
     "bcrypt": "^5.0.1",
     "cookie-parser": "^1.4.6",
