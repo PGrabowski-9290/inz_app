@@ -24,30 +24,31 @@ const getFilteredOffertsList = async (req, res, next) => {
     const isSold = req.body.filter?.isSold || false;
     const filterObj = new FilterBuilder(isSold, isActive);
 
-    if (filter?.make){
+    if (filter?.make && filter?.make != ""){
       filterObj.addField("car.make",filter.make)
     }
-    if (filter?.year){
+    if (filter?.year && filter?.year != ""){
       filterObj.addField("car.year", filter.year)
     }
-    if(filter?.model){
+    if(filter?.model && filter?.model != ""){
       filterObj.addField("car.model", filter.model)
     }
-    if(filter?.category){
+    if(filter?.category && filter?.category != ""){
       filterObj.addField("car.category", filter.category)
     }
-    if(filter?.fuel){
+    if(filter?.fuel && filter?.fuel != ""){
       filterObj.addField("car.engine.fuelType", filter.fuel)
     }
-    if(filter?.drive){
+    if(filter?.drive && filter?.drive != ""){
       filterObj.addField("car.drive", filter.drive)
     }
-    if(filter?.transsmission){
+    if(filter?.transsmission && filter?.transmission){
       filterObj.addField("car.transmission", filter.transsmission)
     }
-    if(filter?.salons){
+    if(filter?.salons && filter?.salons != ""){
       filterObj?.addField("salons", filter.salons)
     }
+    
     const result = await Offerts.find(filterObj.get()).skip(limit * (page - 1)).limit(limit * 1).exec();
     const count = Math.ceil(await Offerts.countDocuments() / limit)
 

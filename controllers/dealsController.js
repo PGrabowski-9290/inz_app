@@ -100,11 +100,11 @@ const getPdf = async (req,res,next) => {
     pdfForm.flatten();
     
     const pdfBytes = await pdfFile.save()
-    fs.writeFile("filled.pdf", pdfBytes, () => {
-      console.log("PDF DONE")
-    })
+    // fs.writeFile("filled.pdf", pdfBytes, () => {
+    //   console.log("PDF DONE")
+    // })
 
-    res.status(200).json({message: "tak"});
+    res.status(200).json({pdfData: pdfBytes, message: "tak"});
   } catch (err) {
     next(err)
   }
