@@ -4,8 +4,7 @@ const axiosPublic = axios.create({
   baseURL: 'http://localhost:5050',
   headers: {
     'Content-Type': 'application/json',
-  },
-  withCredentials: true
+  }
 });
 
 export default axiosPublic;
