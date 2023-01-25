@@ -1,4 +1,4 @@
-import { FormControl, FormLabel, Input, Select } from '@vechaiui/react';
+import { Button, FormControl, FormLabel, Input, Select } from '@vechaiui/react';
 import React, { useEffect, useState } from 'react';
 import { carBrands } from "../../enums/carBrands";
 import { carCategories } from '../../enums/carsCategories';
@@ -49,7 +49,7 @@ const MainSearch = ({ filters, setFilters }) => {
         <p className='focus:outline-none text-xl font-extrabold leading-6 text-gray-800 text-center sm:text-center px-6'>Wyszukiwarka</p>
         <hr className='my-2'/>
         <div>
-          <div>
+          <div className='px-2 flex flex-col'>
             <FormControl className="text-sm mt-2 py-1">
               <FormLabel className='block text-sm font-medium leading-none text-gray-700'>Salon</FormLabel>
               <Select
@@ -64,10 +64,10 @@ const MainSearch = ({ filters, setFilters }) => {
                 ))}
               </Select>
             </FormControl>
-            <div>
-              <div>
-                <FormControl>
-                  <FormLabel>Typ nadwozia</FormLabel>
+            <div className='flex flex-col md:flex-row md:align-items-stretch'>
+              <div className='md:px-1 flex flex-col align-start content-start'>
+                <FormControl className="text-sm mt-2 py-1">
+                  <FormLabel className='block text-sm font-medium leading-none text-gray-700'>Typ nadwozia</FormLabel>
                   <Select 
                     id="category"
                     name="category"
@@ -81,8 +81,8 @@ const MainSearch = ({ filters, setFilters }) => {
                     }
                   </Select>
                 </FormControl>
-                <FormControl>
-                  <FormLabel>Marka pojazdu</FormLabel>
+                <FormControl className="text-sm mt-2 py-1">
+                  <FormLabel className='block text-sm font-medium leading-none text-gray-700'>Marka pojazdu</FormLabel>
                   <Select
                     id='make'
                     name="make"
@@ -97,11 +97,19 @@ const MainSearch = ({ filters, setFilters }) => {
                     })}
                   </Select>
                 </FormControl>
-              </div>
-              <div>
+
 
               </div>
+              <div className='md:px-1 flex flex-col align-start content-start'>
+                <FormControl className="text-sm mt-2 py-1">
+                  <FormLabel className='block text-sm font-medium leading-none text-gray-700'>Rok produkcji</FormLabel>
+                  <Input></Input>
+                </FormControl>
+              </div>
             </div>
+            <FormControl className="text-sm mt-2 py-1 flex flex-row w-full justify-center align-items-center">
+              <Button>Wyszukaj</Button>
+            </FormControl>
           </div>
         </div>
       </div>
