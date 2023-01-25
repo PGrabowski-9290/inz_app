@@ -10,11 +10,11 @@ import NotFound from "../pages/NotFound";
 import Offers from "../pages/Offers";
 import Profile from "../pages/Profile";
 import RefreshToken from "../pages/RefreshToken";
+import Salons from "../pages/Salons";
 import Settings from "../pages/Settings";
 import UsersManage from "../pages/UsersManage";
 import ProtectedRoleRoute from "./ProtectedRoleRoute";
 import ProtectedRoute from "./ProtectedRoute";
-
 
 const App = () => {
   
@@ -31,6 +31,7 @@ const App = () => {
               <Route path="/LogoutConfirm" exact element={<LogoutConfirm />} />
               <Route path="/Logout" exact element={<Logout />} />
               <Route path="/Offers" exact element={<Offers />} />
+              <Route path="/Salons" exact element={<Salons />} />
               <Route element={<ProtectedRoute />} >
                 <Route path="/settings" element={<Settings />} >
                   <Route path="profile" element={<Profile />}/>
