@@ -1,14 +1,15 @@
 import { VechaiProvider } from "@vechaiui/react";
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import ReactDOM from 'react-dom';
 import App from "./components/App";
 import "./index.css";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
+
+ReactDOM.render(
   <>
     <VechaiProvider>
       <App />
     </VechaiProvider>
-  </>
+  </>,
+  document.getElementById('root')
 );
