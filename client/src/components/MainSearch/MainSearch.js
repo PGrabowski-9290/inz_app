@@ -2,8 +2,8 @@ import { Button, FormControl, FormLabel, Input, Select } from '@vechaiui/react';
 import React, { useEffect, useState } from 'react';
 import { carBrands } from "../../enums/carBrands";
 import { carCategories } from '../../enums/carsCategories';
-import axios from '../../utils/api';
-
+import axiosPublic from '../../utils/api';
+import ModelsSelectDynamic from './ModelsSelectDynamic.jsx';
 
 
 const MainSearch = ({ filters, setFilters }) => {
@@ -22,7 +22,7 @@ const MainSearch = ({ filters, setFilters }) => {
 
   const loadSalonsData = async () => {
     try {
-      const result = await axios.get('/salons/')
+      const result = await axiosPublic.get('/salons/')
       setSalonsList(result?.data.data)
       setIsLoading(false)
     }catch(err) {
@@ -98,12 +98,15 @@ const MainSearch = ({ filters, setFilters }) => {
                   </Select>
                 </FormControl>
 
-
+                <ModelsSelectDynamic formData={formData} handle={handleChange}/>
               </div>
               <div className='md:px-1 flex flex-col align-start content-start'>
                 <FormControl className="text-sm mt-2 py-1">
                   <FormLabel className='block text-sm font-medium leading-none text-gray-700'>Rok produkcji</FormLabel>
-                  <Input></Input>
+                  <Input
+                    type='number'
+                    placeholder=''
+                  ></Input>
                 </FormControl>
               </div>
             </div>
