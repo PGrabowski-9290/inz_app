@@ -1,4 +1,4 @@
-import { Button, FormControl, FormLabel, Input, Select } from '@vechaiui/react';
+import { Button, FormControl, FormLabel, Select } from '@vechaiui/react';
 import React, { useEffect, useState } from 'react';
 import { carBrands } from "../../enums/carBrands";
 import { carCategories } from '../../enums/carsCategories';
@@ -8,7 +8,7 @@ import { years } from '../../enums/years';
 import axiosPublic from '../../utils/api';
 import ModelsSelectDynamic from './ModelsSelectDynamic.jsx';
 
-const MainSearch = ({ filters, setFilters }) => {
+const MainSearch = ({ filters, setFilters, onSearch = () => {console.error("onSearch Not Implemented")} }) => {
   const [formData, setFormData] = useState({
     salons: "",
     make: "",
@@ -20,23 +20,26 @@ const MainSearch = ({ filters, setFilters }) => {
     transsmison: ""
   });
   const [salonsList, setSalonsList] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
 
-  const loadSalonsData = async () => {
+  async function loadSalonsData () {
     try {
       const result = await axiosPublic.get('/salons/')
       setSalonsList(result?.data.data)
-      setIsLoading(false)
     }catch(err) {
       console.log(err.response.data.message)
     }
   }
 
-  const handleChange = (e) => {
+  async function handleChange (e) {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     })
+  }
+
+  function handleClick () {
+    setFilters(formData)
+    onSearch()
   }
 
   useEffect(() => {
@@ -138,10 +141,10 @@ const MainSearch = ({ filters, setFilters }) => {
                     <FormControl className="text-sm mt-2 py-1">
                       <FormLabel className='block text-sm font-medium leading-none text-gray-700'>Skrzynia biegów</FormLabel>
                       <Select
-                        id='fuel'
-                        name="fuel"
+                        id='transsmison'
+                        name="transsmison"
                         placeholder='Typ'
-                        value={formData.fuel}
+                        value={formData.transsmison}
                         onChange={handleChange}
                       >
                         {
@@ -156,10 +159,10 @@ const MainSearch = ({ filters, setFilters }) => {
                     <FormControl className="text-sm mt-2 py-1">
                       <FormLabel className='block text-sm font-medium leading-none text-gray-700'>Rodzaj napędu</FormLabel>
                       <Select
-                        id='fuel'
-                        name="fuel"
+                        id='drive'
+                        name="drive"
                         placeholder='Rodzaj napędu'
-                        value={formData.fuel}
+                        value={formData.drive}
                         onChange={handleChange}
                       >
                         {
@@ -175,7 +178,7 @@ const MainSearch = ({ filters, setFilters }) => {
             </div>
             <hr className='mt-3'/>
             <FormControl className="text-sm mt-4 py-1 flex flex-row w-full justify-center align-items-center">
-              <Button size='lg'>Wyszukaj</Button>
+              <Button onClick={handleClick} size='xl'>Wyszukaj</Button>
             </FormControl>
           </div>
         </div>
