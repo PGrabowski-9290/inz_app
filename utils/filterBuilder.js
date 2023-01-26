@@ -1,8 +1,8 @@
 class FilterBuilder {
   #filterObj;
 
-  constructor(isSold = false, isActive = true) {
-    this.#filterObj = { isSold: isSold, isActive: isActive}
+  constructor() {
+    this.#filterObj = {}
   }
 
   addField(filterKey, value) {

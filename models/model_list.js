@@ -16,4 +16,4 @@ const modelsListSchema = new Schema({
   }] 
 });
 
-module.exports = ModelList = mongoose.model('model_list', modelsListSchema);
+module.exports = ModelsList = mongoose.model('models', modelsListSchema);

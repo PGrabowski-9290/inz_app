@@ -22,7 +22,8 @@ const getFilteredOffertsList = async (req, res, next) => {
 
     const isActive = req.body.filter?.isActive || true;
     const isSold = req.body.filter?.isSold || false;
-    const filterObj = new FilterBuilder(isSold, isActive);
+    const filterObj = new FilterBuilder();
+    filterObj.addField("isSold", isSold).addField("isAcitve", isActive);
 
     if (filter?.make && filter?.make != ""){
       filterObj.addField("car.make",filter.make)
