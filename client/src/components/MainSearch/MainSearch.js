@@ -2,9 +2,11 @@ import { Button, FormControl, FormLabel, Input, Select } from '@vechaiui/react';
 import React, { useEffect, useState } from 'react';
 import { carBrands } from "../../enums/carBrands";
 import { carCategories } from '../../enums/carsCategories';
+import { drive, transmission } from "../../enums/driveTranss";
+import { fuels } from '../../enums/fuels';
+import { years } from '../../enums/years';
 import axiosPublic from '../../utils/api';
 import ModelsSelectDynamic from './ModelsSelectDynamic.jsx';
-
 
 const MainSearch = ({ filters, setFilters }) => {
   const [formData, setFormData] = useState({
@@ -14,7 +16,7 @@ const MainSearch = ({ filters, setFilters }) => {
     model: "",
     fuel: "",
     drive: "",
-    category: carCategories[0].value,
+    category: "",
     transsmison: ""
   });
   const [salonsList, setSalonsList] = useState([]);
@@ -65,7 +67,7 @@ const MainSearch = ({ filters, setFilters }) => {
               </Select>
             </FormControl>
             <div className='flex flex-col md:flex-row md:align-items-stretch'>
-              <div className='md:px-1 flex flex-col align-start content-start'>
+              <div className='md:px-1 flex flex-col align-start content-start w-full sm:w-1/2'>
                 <FormControl className="text-sm mt-2 py-1">
                   <FormLabel className='block text-sm font-medium leading-none text-gray-700'>Typ nadwozia</FormLabel>
                   <Select 
@@ -89,8 +91,6 @@ const MainSearch = ({ filters, setFilters }) => {
                     value={formData.make}
                     onChange={handleChange}
                     placeholder="Marka pojazdu"
-                    onFocus="this.size=8"
-                    
                   >
                     {carBrands.map((item) => {
                       return (<option key={item.value} value={item.value}>{item.name}</option>)
@@ -100,18 +100,82 @@ const MainSearch = ({ filters, setFilters }) => {
 
                 <ModelsSelectDynamic formData={formData} handle={handleChange}/>
               </div>
-              <div className='md:px-1 flex flex-col align-start content-start'>
+              <div className='md:px-1 flex flex-col align-start content-start w-full sm:w-1/2'>
                 <FormControl className="text-sm mt-2 py-1">
                   <FormLabel className='block text-sm font-medium leading-none text-gray-700'>Rok produkcji</FormLabel>
-                  <Input
-                    type='number'
-                    placeholder=''
-                  ></Input>
+                  <Select
+                    id='year'
+                    name="year"
+                    placeholder='Rok Produkcji'
+                    value={formData.year}
+                    onChange={handleChange}
+                  >
+                    {
+                      years.map((item) => {
+                        return (<option key={item} value={item}>{item}</option>)
+                      })
+                    }
+                  </Select>
                 </FormControl>
+                <FormControl className="text-sm mt-2 py-1">
+                  <FormLabel className='block text-sm font-medium leading-none text-gray-700'>Rodzaj paliwa</FormLabel>
+                  <Select
+                    id='fuel'
+                    name="fuel"
+                    placeholder='Rodzaj paliwa'
+                    value={formData.fuel}
+                    onChange={handleChange}
+                  >
+                    {
+                      fuels.map((item) => {
+                        return (<option key={item} value={item}>{item}</option>)
+                      })
+                    }
+                  </Select>
+                </FormControl>
+                <div className='flex flex-col sm:flex-row sm:space-x-2 '>
+                  <div className='w-full sm:w-1/2'>
+                    <FormControl className="text-sm mt-2 py-1">
+                      <FormLabel className='block text-sm font-medium leading-none text-gray-700'>Skrzynia biegów</FormLabel>
+                      <Select
+                        id='fuel'
+                        name="fuel"
+                        placeholder='Typ'
+                        value={formData.fuel}
+                        onChange={handleChange}
+                      >
+                        {
+                          transmission.map((item) => {
+                            return (<option key={item} value={item}>{item}</option>)
+                          })
+                        }
+                      </Select>
+                    </FormControl>
+                  </div>
+                  <div className='w-full sm:w-1/2'>
+                    <FormControl className="text-sm mt-2 py-1">
+                      <FormLabel className='block text-sm font-medium leading-none text-gray-700'>Rodzaj napędu</FormLabel>
+                      <Select
+                        id='fuel'
+                        name="fuel"
+                        placeholder='Rodzaj napędu'
+                        value={formData.fuel}
+                        onChange={handleChange}
+                      >
+                        {
+                          drive.map((item) => {
+                            return (<option key={item} value={item}>{item}</option>)
+                          })
+                        }
+                      </Select>
+                    </FormControl>
+                  </div>
+                </div>
               </div>
             </div>
-            <FormControl className="text-sm mt-2 py-1 flex flex-row w-full justify-center align-items-center">
-              <Button>Wyszukaj</Button>
+            <hr className='mt-3'/>
+            <FormControl className="text-sm mt-4 py-1 flex flex-row w-full justify-center align-items-center">
+              <Button size='lg'>Wyszukaj</Button>
             </FormControl>
           </div>
         </div>

@@ -6,9 +6,12 @@ const ModelsSelectDynamic = ({formData,handle}) => {
   const [list, setList] = useState([])
   const [success, setSuccess] = useState(false)
 
-
   async function loadList() {
     try{
+      if ( formData.make === '' ) {
+        return setSuccess(false)
+      }
+
       const body = {
         make: formData.make,
         year: formData.year,
@@ -19,16 +22,14 @@ const ModelsSelectDynamic = ({formData,handle}) => {
       JSON.stringify(body)
       )
       console.log(formData.make)
-      if (result.status === 200) {
+      if ( result.status === 200 ) {
         console.log("STATUS RESPONSE: ",result.status)
         setSuccess(true)
-        console.log(result.data.list)
         setList(result.data.list)
       }
     }catch(err){
-
+      console.log(err.response.data.message)
     }
-    
   }
 
   useEffect(() => {

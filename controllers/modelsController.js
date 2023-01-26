@@ -3,7 +3,6 @@ const FilterBuilder = require('../utils/filterBuilder')
 const get = async (req, res, next) => {
   try{
     const data = req?.body
-    console.log(req)
     const filterObj = new FilterBuilder()
     if ( !data?.make ){
       return res.status(400).json({message: "Pole wymagane: make"})
