@@ -3,23 +3,25 @@
 /* Firefox */
 * {
   scrollbar-width: thin;
-  scrollbar-color: var(--secondary) var(--primary);
+  scrollbar-color: #4b5563 #e5e7eb;
 }
 
 /* Chrome, Edge, and Safari */
 *::-webkit-scrollbar {
   width: 15px;
+  -webkit-appearance: scrollbartrack-vertical;
+  -webkit-appearance: scrollbarthumb-vertical;
 }
 
 *::-webkit-scrollbar-track {
-  background: var(--primary);
+  background: #e5e7eb;
   border-radius: 5px;
 }
 
 *::-webkit-scrollbar-thumb {
-  background-color: var(--secondary);
+  background-color: #4b5563;
   border-radius: 14px;
-  border: 3px solid var(--primary);
+  border: 3px solid #e5e7eb;
 }
 
 

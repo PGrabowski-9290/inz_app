@@ -7,7 +7,7 @@ const storage = require('../config/config').storage;
 const upload = multer({ storage: storage });
 
 router.get('/', verifyJWT, Offerts.getOffertsList);
-router.get('/filter', verifyJWT, Offerts.getFilteredOffertsList);
+router.post('/filter', verifyJWT, Offerts.getFilteredOffertsList);
 router.get('/details/:offertId', verifyJWT, Offerts.getOffertDetails);
 router.post('/new', verifyJWT, verifyRole(role.Admin, role.User), upload.array("photos", 5), Offerts.createOffert);
 router.patch('/update/:offertId', verifyJWT, verifyRole(role.Admin, role.User), Offerts.updateOffert);

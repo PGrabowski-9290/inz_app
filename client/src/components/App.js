@@ -7,7 +7,7 @@ import Login from "../pages/Login";
 import Logout from "../pages/Logout";
 import LogoutConfirm from "../pages/LogoutConfirm";
 import NotFound from "../pages/NotFound";
-import Offers from "../pages/Offers";
+import Offerts from "../pages/Offerts";
 import Profile from "../pages/Profile";
 import RefreshToken from "../pages/RefreshToken";
 import Salons from "../pages/Salons";
@@ -17,8 +17,6 @@ import ProtectedRoleRoute from "./ProtectedRoleRoute";
 import ProtectedRoute from "./ProtectedRoute";
 
 const App = () => {
-  
-
 
   return (
     <>
@@ -30,7 +28,7 @@ const App = () => {
               <Route path="/Login" exact element={<Login />} />
               <Route path="/LogoutConfirm" exact element={<LogoutConfirm />} />
               <Route path="/Logout" exact element={<Logout />} />
-              <Route path="/Offers" exact element={<Offers />} />
+              <Route path="/Offerts" exact element={<Offerts />} />
               <Route path="/Salons" exact element={<Salons />} />
               <Route element={<ProtectedRoute />} >
                 <Route path="/settings" element={<Settings />} >

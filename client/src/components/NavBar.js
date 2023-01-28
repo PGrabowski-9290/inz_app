@@ -23,7 +23,7 @@ const NavBar = () => {
             </div>
             <div className='hidden sm:ml-6 sm:block'>
               {/* Menu desktop */}
-              <Link to="/offers" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium">Oferty</Link>
+              <Link to="/offerts" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium">Oferty</Link>
               <Link to="/salons" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium">Salony</Link>
               { auth?.accessToken &&
                 <>

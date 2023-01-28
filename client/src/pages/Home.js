@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from "react-router-dom"
 import HomeOffertsSlider from '../components/HomeOffertsSlider'
-import MainSearch from '../components/MainSearch/MainSearch'
+import MainSearch from '../components/search/MainSearch'
 import axiosPublic from '../utils/api'
 
 const Home = () => {
