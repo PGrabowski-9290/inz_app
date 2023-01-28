@@ -49,9 +49,9 @@ const MainSearch = ({ filters, setFilters, onSearch = () => {console.error("onSe
   },[])
 
   return (
-    <div className='flex items-center justify-center'>
-      <div className='bg-white shadow-lg rounded w-full px-2 py-6 sm:w-2/3'>
-        <p className='focus:outline-none text-xl font-extrabold leading-6 text-gray-800 text-center sm:text-center px-6'>Wyszukiwarka</p>
+    <div className='flex items-center justify-center overflow-hidden'>
+      <div className='bg-white shadow-lg rounded w-full px-2 py-3 sm:w-2/3'>
+        <p className='focus:outline-none text-xl font-extrabold leading-6 text-gray-800 text-center sm:text-center px-6 '>Wyszukiwarka</p>
         <hr className='my-2'/>
         <div>
           <div className='px-2 flex flex-col'>
@@ -178,7 +178,7 @@ const MainSearch = ({ filters, setFilters, onSearch = () => {console.error("onSe
             </div>
             <hr className='mt-3'/>
             <FormControl className="text-sm mt-4 py-1 flex flex-row w-full justify-center align-items-center">
-              <Button onClick={handleClick} size='xl'>Wyszukaj</Button>
+              <Button onClick={handleClick} size='xl' className='text-semibold'>Wyszukaj</Button>
             </FormControl>
           </div>
         </div>

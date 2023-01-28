@@ -2,10 +2,13 @@ const Offerts = require("../models/offerts");
 const FilterBuilder = require('../utils/filterBuilder')
 const getOffertsListPublic = async (req, res, next) => {
   try {
-    const result = await Offerts.find({ isSold: false, isActive: true}).select("car.engine car.make car.year car.model car.odometer title price salons gallery");
+    const {limit = 10, page = 1} = req.query;
+    const count = Math.ceil(await Offerts.countDocuments() / limit);
+    
+    const result = await Offerts.find({ isSold: false, isActive: true}).select("car.engine car.make car.year car.model car.odometer title price salons gallery").skip(limit * (page - 1)).limit(limit * 1).exec();
     if (!result) return res.status(404).json({ message: "Nie znaleziono"});
 
-    res.status(200).json({data: result ,message: "Success"});
+    res.status(200).json({data: result, totalPages: count, message: "Success"});
   } catch (err) {
     next(err);
   }

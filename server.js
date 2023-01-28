@@ -31,7 +31,7 @@ app.use(express.json());
 
 app.use(cookieParser());
 
-app.use(express.static(path.join(__dirname, "./uploads")));
+app.use('/uploads',express.static(path.join(__dirname, "./uploads")));
 
 app.use(`/auth`, require("./routes/auth"));
 app.use("/user", require("./routes/user"));

@@ -1,10 +1,10 @@
 import axios from 'axios';
-
+import config from '../config.json';
 
 const axiosPrivate = (token) => {
   const bearerToken = `Bearer ${token}`;
   const instance = axios.create({
-    baseURL: 'http://localhost:5050',
+    baseURL: config.SERVER_API_URL,
     headers: {
       'Authorization': bearerToken
     },
