@@ -5,7 +5,7 @@ import { carCategories } from '../../enums/carsCategories';
 import { drive, transmission } from "../../enums/driveTranss";
 import { fuels } from '../../enums/fuels';
 import { years } from '../../enums/years';
-import axiosPublic from '../../utils/api';
+import axiosPublic from '../../utils/publicApi';
 import ModelsSelectDynamic from './ModelsSelectDynamic.jsx';
 
 const MainSearch = ({ filters, setFilters, onSearch = () => {console.error("onSearch Not Implemented")} }) => {
