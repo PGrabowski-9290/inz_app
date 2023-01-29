@@ -40,7 +40,7 @@ const updateSalon = async (req, res, next) => {
 
         await findSalon.save();
 
-        res.status(200).json({message: "Zakutalizowano"})
+        res.status(200).json({message: "Zaktualizowano"})
     } catch (err) {
         next(err);
     }

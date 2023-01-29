@@ -2,8 +2,8 @@ import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
-import axiosPublic from "../utils/api";
 import authService from "../utils/auth.sevice";
+import axiosPublic from "../utils/publicApi";
 
 const Login = () => {
   const { setAuth } = useAuth()

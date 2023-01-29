@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import useAuth from '../hooks/useAuth'
-import axios from '../utils/api'
 import authService from '../utils/auth.sevice'
+import axios from '../utils/publicApi'
 //todo naprawa przekierowania po 401 otrzymanym przez interceptor axios
 
 const RefreshToken = () => {

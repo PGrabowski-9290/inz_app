@@ -2,7 +2,7 @@ import { Button } from '@vechaiui/react';
 import React, { useEffect, useState } from 'react';
 import OfertsList from '../components/OfertsList.jsx';
 import MainSearch from '../components/search/MainSearch.js';
-import axiosPublic from "../utils/api";
+import axiosPublic from "../utils/publicApi";
 
 const Offers = () => {
   const [data, setData] = useState({})
