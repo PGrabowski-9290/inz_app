@@ -7,9 +7,10 @@ export const carCategories = [
   {name: 'Sedan', value: 'Sedan'},
   {name: 'Van/Minivan', value: 'Van/Minivan'},
   {name: 'Wagon', value: 'Wagon'}
-]
+];
 
-export default { carCategories }
+const enums = { carCategories };
+export default enums;
 
 
 

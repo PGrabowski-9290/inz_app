@@ -9,4 +9,5 @@ export const years = [
   '2020', '2021', '2022'
 ]
 
-export default { years }
+const enums = { years }
+export default enums;

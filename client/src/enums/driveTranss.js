@@ -9,4 +9,5 @@ export const drive = [
   'AWD'
 ]
 
-export default { transmission, drive }
+const enums = { transmission, drive };
+export default enums;

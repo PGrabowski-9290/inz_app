@@ -5,4 +5,5 @@ export const fuels = [
   "CNG"
 ]
 
-export default { fuels }
+const enums = { fuels }
+export default enums

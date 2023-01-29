@@ -194,4 +194,6 @@ export const carBrands = [
   }
 ]
 
-export default { carBrands }
+const enums = { carBrands }
+
+export default enums
