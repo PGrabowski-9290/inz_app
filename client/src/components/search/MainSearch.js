@@ -1,10 +1,6 @@
 import { Button, FormControl, FormLabel, Select } from '@vechaiui/react';
 import React, { useEffect, useState } from 'react';
-import { carBrands } from "../../enums/carBrands";
-import { carCategories } from '../../enums/carsCategories';
-import { drive, transmission } from "../../enums/driveTranss";
-import { fuels } from '../../enums/fuels';
-import { years } from '../../enums/years';
+import { carBrands, carCategories, drive, fuels, transmission, years } from "../../enums/enums";
 import axiosPublic from '../../utils/publicApi';
 import ModelsSelectDynamic from './ModelsSelectDynamic.jsx';
 
@@ -49,7 +45,7 @@ const MainSearch = ({ filters, setFilters, onSearch = () => {console.error("onSe
   },[])
 
   return (
-    <div className='flex items-center justify-center overflow-hidden'>
+    <div className='flex items-center justify-center overflow-hidden shrink-0'>
       <div className='bg-white shadow-lg rounded w-full px-2 py-3 sm:w-2/3'>
         <p className='focus:outline-none text-xl font-extrabold leading-6 text-gray-800 text-center sm:text-center px-6 '>Wyszukiwarka</p>
         <hr className='my-2'/>

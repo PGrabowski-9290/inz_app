@@ -20,7 +20,7 @@ const Home = () => {
 
   async function loadListDataAsync () {
     try {
-      const result = await axiosPublic.get('/offerts/public?limit=6')
+      const result = await axiosPublic.post('/offerts/public?limit=6')
       if ( result.status === 200 )
         setList(result.data.data)
     } catch (error) {

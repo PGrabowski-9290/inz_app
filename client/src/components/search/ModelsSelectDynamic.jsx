@@ -1,6 +1,6 @@
 import { FormControl, FormLabel, Select } from "@vechaiui/react";
 import React, { useEffect, useState } from 'react';
-import axiosPublic from '../../utils/api';
+import axiosPublic from '../../utils/publicApi';
 
 const ModelsSelectDynamic = ({formData,handle}) => {
   const [list, setList] = useState([])

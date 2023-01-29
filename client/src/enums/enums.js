@@ -1,3 +1,50 @@
+export const listElementsSize = [
+  {value: 10, name: "10"},
+  {value: 10, name: "25"},
+  {value: 10, name: "50"},
+  {value: 10, name: "100"}
+]
+
+export const years = [
+  '1992', '1993', '1994', '1995',
+  '1996', '1997', '1998', '1999',
+  '2000', '2001', '2002', '2003',
+  '2004', '2005', '2006', '2007',
+  '2008', '2009', '2010', '2011',
+  '2012', '2013', '2014', '2015',
+  '2016', '2017', '2018', '2019',
+  '2020', '2021', '2022'
+]
+
+export const fuels = [
+  "Benzyna",
+  "Diesel",
+  "LPG",
+  "CNG"
+]
+
+export const transmission = [
+  'Manual',
+  'Automat'
+]
+
+export const drive = [
+  'FWD',
+  'RWD',
+  'AWD'
+]
+
+export const carCategories = [
+  {name: 'Convertible', value: 'Convertible'},
+  {name: 'Coupe', value: 'Coupe'},
+  {name: 'Hatchback', value: 'Hatchback'},
+  {name: 'Pickup', value: 'Pickup'},
+  {name: 'SUV', value: 'SUV'},
+  {name: 'Sedan', value: 'Sedan'},
+  {name: 'Van/Minivan', value: 'Van/Minivan'},
+  {name: 'Wagon', value: 'Wagon'}
+];
+
 export const carBrands = [
   {
     "name": "Acura",
@@ -194,6 +241,6 @@ export const carBrands = [
   }
 ]
 
-const enums = { carBrands }
+const enums = { listElementsSize, years, fuels, transmission, drive, carCategories, carBrands }
 
-export default enums
+export default enums;
