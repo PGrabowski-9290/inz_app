@@ -2,84 +2,79 @@ import { Button, Select } from '@vechaiui/react';
 import React, { useEffect, useState } from 'react';
 import OfertsList from '../components/OfertsList.jsx';
 import MainSearch from '../components/search/MainSearch.js';
+import PaginationNav from '../components/search/paginationNav.jsx';
 import { listElementsSize } from '../enums/enums';
 import axiosPublic from "../utils/publicApi";
+
 
 const Offers = () => {
   const [data, setData] = useState({})
   const [openFilters, setOpenFilters] = useState(false)
-  const [filters,setFilters] = useState()
-  const [limit, setLimit] = useState(20)
-  const [page, setPage] = useState(1)
+  const [filters,setFilters] = useState({})
+  const [limit, setLimit] = useState(listElementsSize[0].value)
+  const [page, setPage] = useState({current: 1, max: 1})
 
-  function updatePage (number) {
-    //if ( number > 3 && number < 3 ) {
-      setPage(curentPage => {
-        return curentPage + number
-      })
-    
-    console.log("Amount: ", page)
-  }
-
-  async function loadListAsync() {
-    try {
-      var url;
-      
-      if ( !filters?.make ) {
-        console.log("nomake")
-        url = `/offerts/public?limit=${limit}&page=${page}`
-      }
-      else {
-        console.log("ismake")
-        url = `/offerts/public/filter?limit=${limit}&page=${page}`
-      }
-
-      const result = await axiosPublic.post(url,
-      JSON.stringify(filters),
-      {
-        headers: { 'Content-Type': 'application/json'}
-      })
-
-      if( result.status === 200 ) {
-        return setData(result.data)
-      }
-
-      return setData([])
-    } catch (error) {
-      console.error(error)
-    }
+  function handleLimitChange (e) {
+    console.log("SELECTED",e.target.value)
+    setLimit(e.target.value)
   }
 
   function handleSearch () {
     setOpenFilters(false);
-    loadListAsync()
   }
 
   useEffect(() => {
+    async function loadListAsync() {
+      try {
+        var url;
+        
+        if ( !filters?.make ) {
+          console.log("nomake")
+          url = `/offerts/public?limit=${limit}&page=${page.current}`
+        }
+        else {
+          console.log("ismake")
+          url = `/offerts/public/filter?limit=${limit}&page=${page.current}`
+        }
+  
+        const result = await axiosPublic.post(url,
+        {filter: filters},
+        {
+          headers: { 'Content-Type': 'application/json'}
+        })
+  
+        if( result.status === 200 ) {
+          setPage(currentPage => {
+            return {
+              current: (currentPage.current > result.data.totalPages) ? 1 : currentPage.current,
+              max: result.data.totalPages
+            }
+          })
+
+          return setData(result.data.data)
+        }
+  
+        return setData([])
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
     loadListAsync()
-  }, [])
+    console.log('test')
+  }, [limit, page.current, filters])
 
 
   return (
     <div className='w-full'>
       <div className='flex flex-row justify-between items-center'>
         <div className='text-xl flex flex-row flex-nowrap space-x-3'>
+          <PaginationNav page={page} setPage={setPage}/>
           <div>
-            <span className='mr-1'>
-              <Button className='text-bold text-lg' onClick={()=>{updatePage(-1)}}>
-                {"<"}
-              </Button>
-            </span>
-            <span className='text-medium'>{page}</span>
-            <span className='text-bold'> / {data.totalPages || "0"}</span>
-            <span className='ml-1'>
-              <Button className='text-bold text-lg' onClick={() => {updatePage(1)}}>
-                {'>'}
-              </Button>
-            </span>
-          </div>
-          <div>
-            <Select>
+            <Select 
+              value={limit} 
+              onChange={handleLimitChange}
+            >
               {listElementsSize.map((item, index) => {
                 return (
                   <option value={item.value} key={index}>{item.name}</option>
