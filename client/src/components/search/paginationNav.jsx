@@ -1,4 +1,5 @@
-import { Button } from '@vechaiui/react'
+import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid'
+import { IconButton } from '@vechaiui/react'
 import React from 'react'
 
 const PaginationNav = ({page, setPage}) => {
@@ -13,16 +14,16 @@ const PaginationNav = ({page, setPage}) => {
   return (
     <div>
       <span className='mr-1'>
-        <Button className='text-bold text-lg' onClick={()=>{updatePage(-1)}}>
-          {"<"}
-        </Button>
+        <IconButton onClick={()=>{updatePage(-1)}}>
+          <ChevronLeftIcon />
+        </IconButton>
       </span>
-      <span className='text-medium'>{page.current}</span>
-      <span className='text-bold'> / {page.max}</span>
+      <span className='font-medium'>{page.current}</span>
+      <span className='font-medium'> / {page.max}</span>
       <span className='ml-1'>
-        <Button className='text-bold text-lg' onClick={() => {updatePage(1)}}>
-          {'>'}
-        </Button>
+        <IconButton onClick={() => {updatePage(1)}}>
+          <ChevronRightIcon />
+        </IconButton>
       </span>
     </div>
   )

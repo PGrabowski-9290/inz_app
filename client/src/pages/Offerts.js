@@ -1,4 +1,5 @@
-import { Button, Select } from '@vechaiui/react';
+import { FunnelIcon } from '@heroicons/react/20/solid';
+import { Button, Icon, Select } from '@vechaiui/react';
 import React, { useEffect, useState } from 'react';
 import OfertsList from '../components/OfertsList.jsx';
 import MainSearch from '../components/search/MainSearch.js';
@@ -6,9 +7,8 @@ import PaginationNav from '../components/search/paginationNav.jsx';
 import { listElementsSize } from '../enums/enums';
 import axiosPublic from "../utils/publicApi";
 
-
 const Offers = () => {
-  const [data, setData] = useState({})
+  const [data, setData] = useState([])
   const [openFilters, setOpenFilters] = useState(false)
   const [filters,setFilters] = useState({})
   const [limit, setLimit] = useState(listElementsSize[0].value)
@@ -84,11 +84,17 @@ const Offers = () => {
           </div>
         </div>
         <div>
-          <Button onClick={()=>{setOpenFilters(!openFilters)}}>FILTRY</Button>
+          <Button 
+            rightIcon={<Icon as={FunnelIcon} label="filter" className='w-4 h-4 ml-2'/>}
+            className='font-medium' 
+            onClick={()=>{setOpenFilters(!openFilters)}}
+          >
+            FILTRY
+          </Button>
         </div>
       </div>
       <div>
-        <OfertsList list={data.data}/>
+        <OfertsList list={data}/>
       </div>
       {openFilters && (
         <div className='relative top-0 left-0 w-full h-full z-10 bg-gray-100'>
