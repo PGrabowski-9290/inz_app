@@ -1,7 +1,7 @@
 import { FunnelIcon } from '@heroicons/react/20/solid';
 import { Button, Icon, Select } from '@vechaiui/react';
 import React, { useEffect, useState } from 'react';
-import OfertsList from '../components/OfertsList.jsx';
+import OffertsList from '../components/OffertsList.jsx';
 import MainSearch from '../components/search/MainSearch.js';
 import PaginationNav from '../components/search/paginationNav.jsx';
 import { listElementsSize } from '../enums/enums';
@@ -94,7 +94,7 @@ const Offers = () => {
         </div>
       </div>
       <div>
-        <OfertsList list={data}/>
+        <OffertsList list={data}/>
       </div>
       {openFilters && (
         <div className='relative top-0 left-0 w-full h-full z-10 bg-gray-100'>
