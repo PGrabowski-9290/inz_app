@@ -18,7 +18,7 @@ const getFilteredOffertsListPublic = async (req, res, next) => {
   try {
     const {limit = 10, page = 1} = req.query;
     const filter = req?.body?.filter;
-    if (!filter) return res.status(401).json({message: "błąd zapytania"});
+    if (!filter) return res.status(400).json({message: "błąd zapytania"});
     const filterObj = new FilterBuilder();
 
     if (filter?.make && filter?.make != ""){

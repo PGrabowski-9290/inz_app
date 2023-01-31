@@ -17,6 +17,7 @@ const getOffertsList = async (req, res, next) => {
 const getFilteredOffertsList = async (req, res, next) => {
   try {
     const {limit = 25, page = 1} = req.query
+    console.log(req?.body)
     const filter = req?.body?.filter;
     if (!filter) return res.status(401).json({message: "błąd zapytania"});
 
@@ -74,7 +75,7 @@ const getOffertDetails = async (req, res, next) => {
 
 const createOffert = async (req,res,next) => {
   try {
-    if(!req?.body) return res.status(401).json({message: "Błąd zapytania"});
+    if(!req?.body) return res.status(400).json({message: "Błąd zapytania"});
 
     const data = req?.body;
 
