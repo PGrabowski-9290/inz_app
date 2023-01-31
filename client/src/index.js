@@ -6,10 +6,10 @@ import "./index.css";
 
 
 ReactDOM.render(
-  <>
+  <React.StrictMode>
     <VechaiProvider>
       <App />
     </VechaiProvider>
-  </>,
+  </React.StrictMode>,
   document.getElementById('root')
 );
