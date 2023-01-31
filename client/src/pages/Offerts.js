@@ -1,7 +1,8 @@
-import { Button } from '@vechaiui/react';
+import { Button, Select } from '@vechaiui/react';
 import React, { useEffect, useState } from 'react';
 import OfertsList from '../components/OfertsList.jsx';
 import MainSearch from '../components/search/MainSearch.js';
+import { listElementsSize } from '../enums/enums';
 import axiosPublic from "../utils/publicApi";
 
 const Offers = () => {
@@ -62,11 +63,30 @@ const Offers = () => {
   return (
     <div className='w-full'>
       <div className='flex flex-row justify-between items-center'>
-        <div className='text-xl'>
-          <span className='mr-1'><Button onClick={()=>{updatePage(-1)}}>{"<"}</Button></span>
-          <span className='text-medium'>{page}</span>
-          <span className='text-bold'> / {data.totalPages || "0"}</span>
-          <span className='ml-1'><Button onClick={() => {updatePage(1)}}>{">"}</Button></span>
+        <div className='text-xl flex flex-row flex-nowrap space-x-3'>
+          <div>
+            <span className='mr-1'>
+              <Button className='text-bold text-lg' onClick={()=>{updatePage(-1)}}>
+                {"<"}
+              </Button>
+            </span>
+            <span className='text-medium'>{page}</span>
+            <span className='text-bold'> / {data.totalPages || "0"}</span>
+            <span className='ml-1'>
+              <Button className='text-bold text-lg' onClick={() => {updatePage(1)}}>
+                {'>'}
+              </Button>
+            </span>
+          </div>
+          <div>
+            <Select>
+              {listElementsSize.map((item, index) => {
+                return (
+                  <option value={item.value} key={index}>{item.name}</option>
+                )
+              })}
+            </Select>
+          </div>
         </div>
         <div>
           <Button onClick={()=>{setOpenFilters(!openFilters)}}>FILTRY</Button>
