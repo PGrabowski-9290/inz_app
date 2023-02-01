@@ -66,7 +66,7 @@ const MainSearch = ({ filters, setFilters, onSearch = () => {console.error("onSe
               </Select>
             </FormControl>
             <div className='flex flex-col md:flex-row md:align-items-stretch'>
-              <div className='md:px-1 flex flex-col align-start content-start w-full sm:w-1/2'>
+              <div className='md:px-1 flex flex-col align-start content-start w-full md:w-1/2'>
                 <FormControl className="text-sm mt-2 py-1">
                   <FormLabel className='block text-sm font-medium leading-none text-gray-700'>Typ nadwozia</FormLabel>
                   <Select 
@@ -99,7 +99,7 @@ const MainSearch = ({ filters, setFilters, onSearch = () => {console.error("onSe
 
                 <ModelsSelectDynamic formData={formData} handle={handleChange}/>
               </div>
-              <div className='md:px-1 flex flex-col align-start content-start w-full sm:w-1/2'>
+              <div className='md:px-1 flex flex-col align-start content-start w-full md:w-1/2'>
                 <FormControl className="text-sm mt-2 py-1">
                   <FormLabel className='block text-sm font-medium leading-none text-gray-700'>Rok produkcji</FormLabel>
                   <Select

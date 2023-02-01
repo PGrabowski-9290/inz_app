@@ -11,7 +11,7 @@ const NavBar = () => {
   const location = useLocation();
 
   return (
-    <nav className='bg-gray-800'>
+    <nav className='bg-gray-800 fixed top-0 w-full z-10'>
       <div className='mx-auto max-w-7xl px-2 sm:px-6 lg:px-8'>
         <div className='relative flex h-16 items-center justify-between'>
           <div className='flex flex-1 items-center justify-center sm:items-center sm:justify-between'>
@@ -45,7 +45,7 @@ const NavBar = () => {
       { open && 
         <div className='sm:hidden'>
           <div className='space-y-1 px-2 pt-2 pb-3'>
-            <Link onClick={() => setOpen(false)} to="/offers" className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Oferty</Link>
+            <Link onClick={() => setOpen(false)} to="/offerts" className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Oferty</Link>
             <Link onClick={() => setOpen(false)} to="/salons" className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Salony</Link>
             { auth?.accessToken && 
               <>

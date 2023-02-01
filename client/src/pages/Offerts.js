@@ -1,5 +1,5 @@
-import { FunnelIcon } from '@heroicons/react/20/solid';
-import { Button, Icon, Select } from '@vechaiui/react';
+import { FunnelIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { Button, Icon, IconButton, Select } from '@vechaiui/react';
 import React, { useEffect, useState } from 'react';
 import OffertsList from '../components/OffertsList.jsx';
 import MainSearch from '../components/search/MainSearch.js';
@@ -97,8 +97,13 @@ const Offers = () => {
         <OffertsList list={data}/>
       </div>
       {openFilters && (
-        <div className='relative top-0 left-0 w-full h-full z-10 bg-gray-100'>
-          <MainSearch filters={filters} setFilters={setFilters} onSearch={handleSearch} />
+        <div className='fixed top-16 left-0 w-full h-full z-10 bg-gray-100'>
+          <div className="mt-4 sm:mt-10">
+            <MainSearch  filters={filters} setFilters={setFilters} onSearch={handleSearch} />
+          </div>
+          <IconButton variant='ghost' className='absolute top-5 right-4 cursor-pointer' onClick={()=>{setOpenFilters(false)}}>
+            <XMarkIcon />
+          </IconButton>
         </div>
       )}
     </div>
