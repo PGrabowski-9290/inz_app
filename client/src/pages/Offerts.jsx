@@ -1,9 +1,9 @@
 import { FunnelIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { Button, Icon, IconButton, Select } from '@vechaiui/react';
 import React, { useEffect, useState } from 'react';
-import OffertsList from '../components/OffertsList.jsx';
-import MainSearch from '../components/search/MainSearch.js';
-import PaginationNav from '../components/search/paginationNav.jsx';
+import OffertsList from '../components/OffertsList';
+import MainSearch from '../components/search/MainSearch';
+import PaginationNav from '../components/search/paginationNav';
 import { listElementsSize } from '../enums/enums';
 import axiosPublic from "../utils/publicApi";
 

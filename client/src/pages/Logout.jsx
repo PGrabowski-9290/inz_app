@@ -10,7 +10,7 @@ const Logout = () => {
       if ( timer === 0 ) {
         navigate('/')
       }
-      setTimer(timer -1)},1000)
+      setTimer(timer - 1)},1000)
   })
 
   return (

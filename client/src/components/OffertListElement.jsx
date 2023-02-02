@@ -1,10 +1,14 @@
 import { MapPinIcon } from "@heroicons/react/20/solid";
 import React from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import config from '../config.json';
 
 const OffertListElement = ({item}) => {
+  const navigate = useNavigate()
+
+
   function onClickOpen (id) {
-    console.log(id)
+    navigate('details', {state: {id: id}, replace: true})
   }
 
 

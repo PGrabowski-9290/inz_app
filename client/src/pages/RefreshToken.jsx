@@ -35,7 +35,7 @@ const RefreshToken = () => {
   },[])
   
   return (
-    <div className='text-center'>Refreshing Token</div>
+    <div className='text-center'>Refreshing Token...</div>
   )
 }
 
