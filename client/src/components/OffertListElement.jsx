@@ -1,6 +1,6 @@
 import { MapPinIcon } from "@heroicons/react/20/solid";
 import React from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import config from '../config.json';
 
 const OffertListElement = ({item}) => {

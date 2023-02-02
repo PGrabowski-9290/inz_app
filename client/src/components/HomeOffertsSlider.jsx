@@ -1,9 +1,11 @@
-import React from 'react'
-import config from '../config.json'
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import config from '../config.json';
 
 const HomeOffertsSlider = ({list}) => {
-
+  const navigate = useNavigate()
   function open(id) {
+    navigate('offerts/details', {state: {id: id}, replace: true})
     console.log(id)
   }
 
