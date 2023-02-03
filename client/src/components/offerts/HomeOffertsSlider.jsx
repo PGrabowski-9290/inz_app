@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import config from '../config.json';
+import config from '../../config.json';
 
 const HomeOffertsSlider = ({list}) => {
   const navigate = useNavigate()
@@ -24,7 +24,7 @@ const HomeOffertsSlider = ({list}) => {
               onClick={()=>{open(item._id)}}
               className='relative basis-72 max-w-sm snap-start rounded shrink-0'
             >
-              <div className='flex w-full flex-col bg-white'>
+              <div className='flex w-full flex-col bg-white cursor-pointer'>
                 <img className='w-full rounded-t-2' src={config.SERVER_API_URL+'/'+item.gallery[0]} alt={item.title}></img>
                 <div className='flex flex-col space-y-4 p-2'>
                   <h3 className='font-bold text-xl'>{item.title}</h3>

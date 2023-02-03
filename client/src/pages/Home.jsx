@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from "react-router-dom"
-import HomeOffertsSlider from '../components/HomeOffertsSlider'
+import HomeOffertsSlider from '../components/offerts/HomeOffertsSlider'
 import MainSearch from '../components/search/MainSearch'
 import axiosPublic from '../utils/publicApi'
 
