@@ -1,5 +1,5 @@
 const authService = {
-    setIsAuth(val) {
+  setIsAuth(val) {
     localStorage.setItem("isAuthenticated", val)
   },
   checkIsAuth() {

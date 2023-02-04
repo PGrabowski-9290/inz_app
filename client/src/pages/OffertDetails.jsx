@@ -1,20 +1,17 @@
-import { BookmarkIcon as BookmarkIconOutline, CheckBadgeIcon } from '@heroicons/react/24/outline';
-import { BookmarkIcon as BookmarkIconSolid } from '@heroicons/react/24/solid';
+import { CheckBadgeIcon, CheckIcon } from '@heroicons/react/24/outline';
 import { Button } from '@vechaiui/react';
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import GallerySlider from '../components/offerts/GallerySlider';
+import WatchButton from '../components/offerts/WatchButton';
 import axios from "../utils/publicApi";
  
 const OffertDetails = () => {
   const location = useLocation()
+  const navigate = useNavigate()
   const offertId = location?.state.id || null;
   const [data, setData] = useState()
-  const [observed, setObserved] = useState(false);
 
-  function handleObserve() {
-    setObserved(!observed)
-  }
 
   useEffect( () => {
     async function fetchData(id) {
@@ -31,6 +28,8 @@ const OffertDetails = () => {
     
     if (offertId)
       fetchData(offertId)
+    else
+      navigate('/offerts', {replace: true})
   }, [offertId])
 
   if (data === undefined)
@@ -51,28 +50,7 @@ const OffertDetails = () => {
           <div className='flex flex-row-reverse justify-between space-y-0 md:space-y-4 md:flex-col md:justify-end py-3'>
             
             <div className='flex justify-end'>
-              {!observed ? (
-                <Button 
-                  onClick={handleObserve}
-                  variant='outline'
-                  color="primary"
-                  rightIcon={<BookmarkIconOutline className='w-4 h-4 ml-2' />}
-                >
-                  Obserwuj
-                </Button>
-              )
-              : (
-                <Button 
-                  onClick={handleObserve}
-                  variant='solid'
-                  color="primary"
-                  rightIcon={<BookmarkIconSolid className='w-4 h-4 ml-2' />}
-                >
-                  Obserwowane
-                </Button>
-              )
-              
-            }
+              <WatchButton id={data._id}/>
             </div>
             <div className='text-right'>
               <p className='font-semibold text-xl text-violet-700'>{(data?.price * 1 ).toLocaleString('pl-PL', { minimumFractionDigits: 2 })}<span className='text-sm ml-1'>PLN</span></p>
@@ -155,7 +133,7 @@ const OffertDetails = () => {
             data.functionalities.map((item, index) => {
               return (
                 <div key={index} className='flex flex-row flex-nowrap content-end overflow-hidden bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold gray-700'>
-                  <CheckBadgeIcon className='w-5 h-5 mr-2 text-violet-700'/>
+                  <CheckIcon className='w-5 h-5 mr-2 text-violet-700'/>
                   <span className='inline-block'>{item}</span>
                 </div>
               )
