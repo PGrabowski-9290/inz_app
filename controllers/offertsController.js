@@ -4,10 +4,9 @@ const FilterBuilder = require('../utils/filterBuilder')
 const getOffertsList = async (req, res, next) => {
   try {
     const {limit = 10, page = 1} = req.query
-    const result = await Offerts.find().sort({_id:1}).skip(limit * (page - 1)).limit(limit * 1).exec();
+    const result = await Offerts.find().populate({path: 'salons'}).sort({_id:1}).skip(limit * (page - 1)).limit(limit * 1).exec();
 
     const count = Math.ceil(await Offerts.countDocuments() / limit)
-    console.log(result)
     res.status(200).json({data: result,totalPages: count, message: "Success"});
   } catch (error) {
     next(error)
@@ -17,7 +16,6 @@ const getOffertsList = async (req, res, next) => {
 const getFilteredOffertsList = async (req, res, next) => {
   try {
     const {limit = 25, page = 1} = req.query
-    console.log(req?.body)
     const filter = req?.body?.filter;
     if (!filter) return res.status(401).json({message: "błąd zapytania"});
 
@@ -51,7 +49,7 @@ const getFilteredOffertsList = async (req, res, next) => {
       filterObj?.addField("salons", filter.salons)
     }
     
-    const result = await Offerts.find(filterObj.get()).sort({_id:1}).skip(limit * (page - 1)).limit(limit * 1).exec();
+    const result = await Offerts.find(filterObj.get()).populate({path: 'salons'}).sort({_id:1}).skip(limit * (page - 1)).limit(limit * 1).exec();
     const count = Math.ceil(await Offerts.countDocuments() / limit)
 
     res.status(200).json({data: result, totalPages: count, message: "Success"});
@@ -64,7 +62,7 @@ const getOffertDetails = async (req, res, next) => {
   try {
     const id = req.params?.offertId;
         
-    const result = await Offerts.findOne({$natural: id});
+    const result = await Offerts.findOne({_id: id}).populate({path: 'salons'});
     if(!result) return res.status(404).json({message: "Nie odnaleziono"});
 
     res.status(200).json({data: result, message: "Success"});
