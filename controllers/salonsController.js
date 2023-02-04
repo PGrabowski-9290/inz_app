@@ -66,7 +66,7 @@ const updateActiveStatus = async (req, res, next) => {
 
 const getActiveSalonsList = async (req,res,next) => {
   try {
-    const result = await Salons.find({ isActive: true}).select("_id location.city location.street contact");
+    const result = await Salons.find({ isActive: true}).select("_id location contact");
     if (!result) return res.status(404).json({message: "Brak aktywnych salonów sprzedaży"});
 
     res.status(200).json({data: result, message: "Pobrano"});

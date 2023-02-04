@@ -31,7 +31,7 @@ const OffertListElement = ({item}) => {
             </div>
             <div className='flex flex-row bg-gray-200 rounded-full px-1 py-1 text-sm font-semibold gray-700'>
               <MapPinIcon className="w-5 h-5 mr-2" />
-              <span > {item?.salons}</span>
+              <span >{item?.salons.location.city+' '+item?.salons.location.street}</span>
             </div>
           </div>
         </div>

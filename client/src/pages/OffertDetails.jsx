@@ -45,7 +45,7 @@ const OffertDetails = () => {
           <GallerySlider items={data?.gallery} />
         </div>
         <div className='h-full md:basis-1/3 p-2 md:pl-4 md:flex md:flex-col md:content-between'>
-          <div className='text-black text-2xl'>
+          <div className='font-bold text-2xl'>
               {data.title}
             </div>
           <div className='flex flex-row-reverse justify-between space-y-0 md:space-y-4 md:flex-col md:justify-end py-3'>
@@ -98,7 +98,7 @@ const OffertDetails = () => {
       </div>
       {/* Szczegóły */}
       <div className='py-4 px-2 shadow-xl'>
-        <h2 className='text-extrabold text-xl text-gray-700 mb-1'>Szczegóły</h2>
+        <h2 className='font-semibold text-xl text-gray-700 mb-1'>Szczegóły</h2>
         <div className='flex flex-col md:flex-row md:space-x-16'>
           <div className='grid grid-cols-2 gap-x-3'>
             <div className='text-gray-500'>Kategoria</div>
@@ -148,7 +148,7 @@ const OffertDetails = () => {
       </div>
       {/* Wyposażenie */}
       <div className='py-4 px-2 shadow-xl'>
-        <h2 className='text-extrabold text-xl text-gray-700 mb-2'>Wyposażenie</h2>
+        <h2 className='font-semibold text-xl text-gray-700 mb-2'>Wyposażenie</h2>
         <div className='flex flex-wrap gap-x-8'>
           
           {data.functionalities[0] !== undefined ? (
@@ -169,7 +169,7 @@ const OffertDetails = () => {
       </div>
       {/* Opsi */}
       <div className='py-4 px-2 shadow-xl'>
-        <h2 className='text-extrabold text-xl text-gray-700 mb-2'>Opis</h2>
+        <h2 className='font-semibold text-xl text-gray-700 mb-2'>Opis</h2>
         <div className='p-2 md:px-4'>
 
         </div>
