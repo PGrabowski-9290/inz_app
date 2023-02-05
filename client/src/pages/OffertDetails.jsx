@@ -1,9 +1,11 @@
-import { CheckBadgeIcon, CheckIcon } from '@heroicons/react/24/outline';
+import { CheckIcon } from '@heroicons/react/24/outline';
 import { Button } from '@vechaiui/react';
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import ContactForm from '../components/ContactForm';
 import GallerySlider from '../components/offerts/GallerySlider';
 import WatchButton from '../components/offerts/WatchButton';
+import OpenWindow from '../components/OpenWindow';
 import axios from "../utils/publicApi";
  
 const OffertDetails = () => {
@@ -11,6 +13,7 @@ const OffertDetails = () => {
   const navigate = useNavigate()
   const offertId = location?.state.id || null;
   const [data, setData] = useState()
+  const [contactFormOpen, setContactFormOpen] = useState(false)
 
 
   useEffect( () => {
@@ -30,8 +33,13 @@ const OffertDetails = () => {
       fetchData(offertId)
     else
       navigate('/offerts', {replace: true})
-  }, [offertId])
+  }, [navigate, offertId])
 
+  function handleCloseContactForm() {
+    setContactFormOpen(false)
+  }
+  
+  
   if (data === undefined)
     return (
       <div>Loading</div>
@@ -53,7 +61,7 @@ const OffertDetails = () => {
               <WatchButton id={data._id}/>
             </div>
             <div className='text-right'>
-              <p className='font-semibold text-xl text-violet-700'>{(data?.price * 1 ).toLocaleString('pl-PL', { minimumFractionDigits: 2 })}<span className='text-sm ml-1'>PLN</span></p>
+              <p className='font-semibold text-xl text-indigo-700'>{(data?.price * 1 ).toLocaleString('pl-PL', { minimumFractionDigits: 2 })}<span className='text-sm ml-1'>PLN</span></p>
             </div>
           </div>
           <div className='flex flex-row justify-between md:flex-col mt-2 items-end'>
@@ -64,9 +72,10 @@ const OffertDetails = () => {
             <div className='flex justify-end md:mt-3'>
               <Button
                 className='cursor-pointer'
-                color='primary'
+                color='indigo'
                 variant='link'
                 size='xl'
+                onClick={()=>{setContactFormOpen(true)}}
               >
                 Skontaktuj się
               </Button>
@@ -80,47 +89,47 @@ const OffertDetails = () => {
         <div className='flex flex-col md:flex-row md:space-x-16'>
           <div className='grid grid-cols-2 gap-x-3'>
             <div className='text-gray-500'>Kategoria</div>
-            <div className='text-violet-700'>{data.car.category}</div>
+            <div className='text-indigo-700'>{data.car.category}</div>
 
             <div className='text-gray-500'>Marka</div>
-            <div className='text-violet-700'>{data.car.make}</div>
+            <div className='text-indigo-700'>{data.car.make}</div>
             
             <div className='text-gray-500'>Model</div>
-            <div className='text-violet-700'>{data.car.model}</div>
+            <div className='text-indigo-700'>{data.car.model}</div>
 
             <div className='text-gray-500'>Rok produkcji</div>
-            <div className='text-violet-700'>{data.car.year}</div>
+            <div className='text-indigo-700'>{data.car.year}</div>
 
             <div className='text-gray-500'>Przebieg</div>
-            <div className='text-violet-700'>{data.car.odometer+' km'}</div>
+            <div className='text-indigo-700'>{data.car.odometer+' km'}</div>
 
             <div className='text-gray-500'>Kolor</div>
-            <div className='text-violet-700'>{data.car.color}</div>
+            <div className='text-indigo-700'>{data.car.color}</div>
             
             <div className='text-gray-500'>Ilość drzwi</div>
-            <div className='text-violet-700'>{data.car.doorsNumber}</div>
+            <div className='text-indigo-700'>{data.car.doorsNumber}</div>
           </div>
           <div className='grid grid-cols-2 gap-x-3'>
             <div className='text-gray-500'>Moc silnika</div>
-            <div className='text-violet-700'>{data.car.engine.power+' KM'}</div>
+            <div className='text-indigo-700'>{data.car.engine.power+' KM'}</div>
 
             <div className='text-gray-500'>Rodzaj paliwa</div>
-            <div className='text-violet-700'>{data.car.engine.fuelType}</div>
+            <div className='text-indigo-700'>{data.car.engine.fuelType}</div>
 
             <div className='text-gray-500'>Pojemność skokowa</div>
-            <div className='text-violet-700'>{data.car.engine.capacity}</div>
+            <div className='text-indigo-700'>{data.car.engine.capacity}</div>
 
             <div className='text-gray-500'>Rodzaj napędu</div>
-            <div className='text-violet-700'>{data.car.drive}</div>
+            <div className='text-indigo-700'>{data.car.drive}</div>
 
             <div className='text-gray-500'>Skrzynia biegów</div>
-            <div className='text-violet-700'>{data.car.gears+' biegów, '+data.car.transmission}</div>
+            <div className='text-indigo-700'>{data.car.gears+' biegów, '+data.car.transmission}</div>
 
             <div className='text-gray-500'>Zarejestrowany</div>
-            <div className='text-violet-700'>{(data.car?.numberPlate)? "TAK": "NIE"}</div>
+            <div className='text-indigo-700'>{(data.car?.numberPlate)? "TAK": "NIE"}</div>
             
             <div className='text-gray-500'>VIN</div>
-            <div className='text-violet-700'>{data.car.vin}</div>
+            <div className='text-indigo-700'>{data.car.vin}</div>
           </div>
         </div>
       </div>
@@ -133,7 +142,7 @@ const OffertDetails = () => {
             data.functionalities.map((item, index) => {
               return (
                 <div key={index} className='flex flex-row flex-nowrap content-end overflow-hidden bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold gray-700'>
-                  <CheckIcon className='w-5 h-5 mr-2 text-violet-700'/>
+                  <CheckIcon className='w-5 h-5 mr-2 text-indigo-700'/>
                   <span className='inline-block'>{item}</span>
                 </div>
               )
@@ -152,8 +161,12 @@ const OffertDetails = () => {
 
         </div>
       </div>
+      <OpenWindow 
+        open={contactFormOpen} 
+        onClose={handleCloseContactForm}
+        component={<ContactForm setTitle={data.title+', Ofert number: '+data.number} onSubmit={() => {setContactFormOpen(false)}}/>}
+      />
     </div>
-    
   )
 }
 

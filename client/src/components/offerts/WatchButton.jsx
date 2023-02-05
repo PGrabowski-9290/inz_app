@@ -22,7 +22,7 @@ const WatchButton = ({id}) => {
         <Button 
           onClick={handleObserve}
           variant='outline'
-          color="primary"
+          color="indigo"
           rightIcon={<BookmarkIconOutline className='w-4 h-4 ml-2' />}
         >
           Obserwuj
@@ -32,7 +32,7 @@ const WatchButton = ({id}) => {
         <Button 
           onClick={handleObserve}
           variant='solid'
-          color="primary"
+          color="indigo"
           rightIcon={<BookmarkIconSolid className='w-4 h-4 ml-2' />}
         >
           Obserwowane

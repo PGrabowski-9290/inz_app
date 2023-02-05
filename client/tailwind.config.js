@@ -22,7 +22,7 @@ module.exports = {
   plugins: [
     require("@tailwindcss/forms"),
     require("@vechaiui/core")({
-      colors: ["green","violet"]
+      colors: ["green","indigo"]
     }),
   ],
   important: true,

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from "react-router-dom"
+import ContactForm from '../components/ContactForm'
 import HomeOffertsSlider from '../components/offerts/HomeOffertsSlider'
 import MainSearch from '../components/search/MainSearch'
 import axiosPublic from '../utils/publicApi'
@@ -37,10 +38,12 @@ const Home = () => {
         <MainSearch setFilters={setFilters} filters={filters} onSearch={handleSearch}/>
       </div>
       <div>
-
         <HomeOffertsSlider list={list} />
-
       </div>
+      <div>
+        <ContactForm />
+      </div>
+      <div></div>
     </div>
   )
 }
