@@ -5,6 +5,7 @@ import { ReactComponent as Logo } from "../assets/logo_no_background.svg";
 import useAuth from "../hooks/useAuth";
 
 
+
 const NavBar = () => {
   const {auth} = useAuth()
   const [open, setOpen] = useState(false);
@@ -23,12 +24,12 @@ const NavBar = () => {
             </div>
             <div className='hidden sm:ml-6 sm:block'>
               {/* Menu desktop */}
-              <Link to="/offerts" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium">Oferty</Link>
-              <Link to="/salons" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium">Salony</Link>
+              <Link to={auth?.accessToken ? "/a/offerts" : "/offerts"} className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium">Oferty</Link>
+              <Link to={auth?.accessToken ? "/a/salons" : "/salons"} className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium">Salony</Link>
               { auth?.accessToken && 
                 <>
-                  { (auth?.role === "admin") &&<Link to="/a/Settings/Profile" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium">Ustawienia</Link>}
-                  <Link to="/LogoutConfirm" state={{ locationTo: location.pathname }} className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium">Wyloguj</Link> 
+                  { (auth?.role === "admin") &&<Link to="/a/settings/profile" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium">Ustawienia</Link>}
+                  <Link to="/logoutconfirm" state={{ locationTo: location.pathname }} className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium">Wyloguj</Link> 
                 </>
               }
             </div>
@@ -45,12 +46,12 @@ const NavBar = () => {
       { open && 
         <div className='sm:hidden'>
           <div className='space-y-1 px-2 pt-2 pb-3'>
-            <Link onClick={() => setOpen(false)} to="/offerts" className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Oferty</Link>
-            <Link onClick={() => setOpen(false)} to="/salons" className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Salony</Link>
+            <Link onClick={() => setOpen(false)} to={auth?.accessToken ? "/a/offerts" : "/offerts"} className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Oferty</Link>
+            <Link onClick={() => setOpen(false)} to={auth?.accessToken ? "/a/salons" : "/salons"} className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Salony</Link>
             { auth?.accessToken && 
               <>
-                { (auth?.role === "admin") && <Link onClick={() => setOpen(false)} to="/a/Settings/Profile" className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Ustawienia</Link> }
-                <Link onClick={() => setOpen(false)} to="/LogoutConfirm" state={{ locationTo: location.pathname }} className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Wyloguj</Link>
+                { (auth?.role === "admin") && <Link onClick={() => setOpen(false)} to="/a/settings/profile" className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Ustawienia</Link> }
+                <Link onClick={() => setOpen(false)} to="/logoutconfirm" state={{ locationTo: location.pathname }} className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Wyloguj</Link>
               </> 
             }
           </div>
