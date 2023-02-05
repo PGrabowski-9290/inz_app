@@ -1,6 +1,6 @@
 import { Button, Checkbox, FormControl, FormLabel, Input, Select } from '@vechaiui/react';
 import React, { useEffect, useState } from 'react';
-import { carBrands, carCategories, drive, fuels, roles, transmission, years } from "../../enums/enums";
+import { carBrands, carCategories, drive, fuels, roles, transmission, years } from "../../enums";
 import axiosPublic from '../../utils/publicApi';
 import ProtectedRoleComponent from '../ProtectedRoleComponent';
 import ModelsSelectDynamic from './ModelsSelectDynamic.jsx';

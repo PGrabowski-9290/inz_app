@@ -6,9 +6,7 @@ import Login from "../pages/Login";
 import Logout from "../pages/Logout";
 import LogoutConfirm from "../pages/LogoutConfirm";
 import NotFound from "../pages/NotFound";
-import Profile from "../pages/private/Profile";
-import Settings from "../pages/private/Settings";
-import UsersManage from "../pages/private/UsersManage";
+import { Details as DetailsPrivate, Edit, New, Offerts as OffertsPrivate, Profile, Salons as SalonsPrivate, Settings, UsersManage } from '../pages/private';
 import OffertDetailsPublic from '../pages/public/OffertDetails';
 import OffertsPublic from "../pages/public/Offerts";
 import SalonsPublic from "../pages/public/Salons";
@@ -16,6 +14,7 @@ import RefreshToken from "../pages/RefreshToken";
 import Layout from "./Layout";
 import ProtectedRoleRoute from "./ProtectedRoleRoute";
 import ProtectedRoute from "./ProtectedRoute";
+
 
 const App = () => {
 
@@ -41,6 +40,15 @@ const App = () => {
                     <Route path="users" element={<UsersManage />} />
                   </Route>
                 </Route>
+                <Route path="offerts" exact >
+                  <Route path="" exact element={<OffertsPrivate/>} />
+                  <Route element={<ProtectedRoleRoute allowed={["admin", "user"]} />} >
+                    <Route path="details" exact element={<DetailsPrivate />} />
+                    <Route path="new" exact element={<New/>}/>
+                    <Route path="edit" exact element={<Edit />}/>
+                  </Route>
+                </Route>
+                <Route path="salons" exact element={<SalonsPrivate/>}/>
               </Route>
               <Route path="/refreshtoken" exact element={<RefreshToken/>}/>
               <Route path="*" element={<NotFound />} />

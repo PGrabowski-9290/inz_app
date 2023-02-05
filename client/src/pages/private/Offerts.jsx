@@ -5,10 +5,11 @@ import OffertsList from '../../components/offerts/OffertsList';
 import MainSearch from '../../components/search/MainSearch';
 import PaginationNav from '../../components/search/paginationNav';
 import { listElementsSize } from '../../enums';
-import axiosPublic from "../../utils/publicApi";
+import useAuth from '../../hooks/useAuth';
+import axiosPrivate from "../../utils/apiPrivate";
 
-
-const Offers = () => {
+const OffertsPrivate = () => {
+  const { auth } = useAuth()
   const [data, setData] = useState([])
   const [openFilters, setOpenFilters] = useState(false)
   const [filters,setFilters] = useState({})
@@ -23,6 +24,7 @@ const Offers = () => {
     setOpenFilters(false);
   }
 
+
   useEffect(() => {
     async function loadListAsync() {
       try {
@@ -30,18 +32,19 @@ const Offers = () => {
         
         if ( !filters?.make ) {
           console.log("nomake")
-          url = `/offerts/public?limit=${limit}&page=${page.current}`
+          url = `/offerts/?limit=${limit}&page=${page.current}`
         }
         else {
           console.log("ismake")
-          url = `/offerts/public/filter?limit=${limit}&page=${page.current}`
+          url = `/offerts/filter?limit=${limit}&page=${page.current}`
         }
   
-        const result = await axiosPublic.post(url,
-        {filter: filters},
-        {
-          headers: { 'Content-Type': 'application/json'}
-        })
+        const result = await axiosPrivate(auth.accessToken).post(url,
+          {filter: filters},
+          {
+            headers: { 'Content-Type': 'application/json'}
+          }
+        )
   
         if( result.status === 200 ) {
           setPage(currentPage => {
@@ -63,7 +66,6 @@ const Offers = () => {
     loadListAsync()
     console.log('test')
   }, [limit, page.current, filters])
-
 
   return (
     <div className='w-full'>
@@ -110,4 +112,4 @@ const Offers = () => {
   )
 }
 
-export default Offers
+export default OffertsPrivate
