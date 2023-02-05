@@ -13,9 +13,14 @@ const ContactForm = ({setTitle, editTitle = false, onSubmit = () => { console.lo
     setFormData({...formData, [e.target.name]: e.target.value})
   }
 
-  function handleSubmit(e){
+  function handleSubmit(e,){
     e.preventDefault()
-    onSubmit()
+    onSubmit(formData)
+    setFormData({
+      title: setTitle || "",
+      replyTo:  "",
+      text: ""
+    })
   }
 
   return (

@@ -40,8 +40,6 @@ const MainSearch = ({ filters, setFilters, onSearch = () => {console.error("onSe
 
   useEffect(() => {
     loadSalonsData();
-    console.log(carCategories)
-    console.log(formData)
   },[])
 
   return (

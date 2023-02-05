@@ -154,11 +154,11 @@ const OffertDetails = () => {
 
         </div>
       </div>
-      {/* Opsi */}
+      {/* Opis */}
       <div className='py-4 px-2 shadow-xl'>
         <h2 className='font-semibold text-xl text-gray-700 mb-2'>Opis</h2>
-        <div className='p-2 md:px-4'>
-
+        <div className='p-2 md:px-4' dangerouslySetInnerHTML={{__html: (data?.description || "Brak opisu").replaceAll('\\n','<br />')}}>
+          
         </div>
       </div>
       <OpenWindow 

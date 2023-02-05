@@ -19,6 +19,10 @@ const Home = () => {
     }
   }
 
+  async function handleFormSubmit(data) {
+    console.log(data)
+  }
+
   async function loadListDataAsync () {
     try {
       const result = await axiosPublic.post('/offerts/public?limit=6')
@@ -41,9 +45,8 @@ const Home = () => {
         <HomeOffertsSlider list={list} />
       </div>
       <div>
-        <ContactForm />
+        <ContactForm editTitle={true} onSubmit={handleFormSubmit}/>
       </div>
-      <div></div>
     </div>
   )
 }
