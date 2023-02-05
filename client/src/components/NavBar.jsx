@@ -11,7 +11,7 @@ const NavBar = () => {
   const location = useLocation();
 
   return (
-    <nav className='bg-gray-800 fixed top-0 w-full z-20'>
+    <nav className='bg-slate-700 fixed top-0 w-full z-20'>
       <div className='mx-auto max-w-7xl px-2 sm:px-6 lg:px-8'>
         <div className='relative flex h-16 items-center justify-between'>
           <div className='flex flex-1 items-center justify-center sm:items-center sm:justify-between'>
@@ -25,9 +25,9 @@ const NavBar = () => {
               {/* Menu desktop */}
               <Link to="/offerts" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium">Oferty</Link>
               <Link to="/salons" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium">Salony</Link>
-              { auth?.accessToken &&
+              { auth?.accessToken && 
                 <>
-                  { (auth?.role === "admin") &&<Link to="/Settings/Profile" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium">Ustawienia</Link>}
+                  { (auth?.role === "admin") &&<Link to="/a/Settings/Profile" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium">Ustawienia</Link>}
                   <Link to="/LogoutConfirm" state={{ locationTo: location.pathname }} className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium">Wyloguj</Link> 
                 </>
               }
@@ -49,7 +49,7 @@ const NavBar = () => {
             <Link onClick={() => setOpen(false)} to="/salons" className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Salony</Link>
             { auth?.accessToken && 
               <>
-                { (auth?.role === "admin") && <Link onClick={() => setOpen(false)} to="/Settings/Profile" className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Ustawienia</Link> }
+                { (auth?.role === "admin") && <Link onClick={() => setOpen(false)} to="/a/Settings/Profile" className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Ustawienia</Link> }
                 <Link onClick={() => setOpen(false)} to="/LogoutConfirm" state={{ locationTo: location.pathname }} className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Wyloguj</Link>
               </> 
             }

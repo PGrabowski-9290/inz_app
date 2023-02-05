@@ -2,11 +2,11 @@ import { CheckIcon } from '@heroicons/react/24/outline';
 import { Button } from '@vechaiui/react';
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import ContactForm from '../components/ContactForm';
-import GallerySlider from '../components/offerts/GallerySlider';
-import WatchButton from '../components/offerts/WatchButton';
-import OpenWindow from '../components/OpenWindow';
-import axios from "../utils/publicApi";
+import ContactForm from '../../components/ContactForm';
+import GallerySlider from '../../components/offerts/GallerySlider';
+import WatchButton from '../../components/offerts/WatchButton';
+import OpenWindow from '../../components/OpenWindow';
+import axios from "../../utils/publicApi";
  
 const OffertDetails = () => {
   const location = useLocation()

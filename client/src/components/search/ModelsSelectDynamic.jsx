@@ -42,6 +42,7 @@ const ModelsSelectDynamic = ({formData,handle}) => {
       <FormControl className="text-sm mt-2 py-1" disabled={!success}>
         <FormLabel className='block text-sm font-medium leading-none text-gray-700'>Model</FormLabel>
         <Select
+          color='indigo'
           id="model"
           name="model"
           value={formData.model}

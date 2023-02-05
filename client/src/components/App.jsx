@@ -6,13 +6,13 @@ import Login from "../pages/Login";
 import Logout from "../pages/Logout";
 import LogoutConfirm from "../pages/LogoutConfirm";
 import NotFound from "../pages/NotFound";
-import OffertDetails from '../pages/OffertDetails';
-import Offerts from "../pages/Offerts";
-import Profile from "../pages/Profile";
+import Profile from "../pages/private/Profile";
+import Settings from "../pages/private/Settings";
+import UsersManage from "../pages/private/UsersManage";
+import OffertDetailsPublic from '../pages/public/OffertDetails';
+import OffertsPublic from "../pages/public/Offerts";
+import SalonsPublic from "../pages/public/Salons";
 import RefreshToken from "../pages/RefreshToken";
-import Salons from "../pages/Salons";
-import Settings from "../pages/Settings";
-import UsersManage from "../pages/UsersManage";
 import Layout from "./Layout";
 import ProtectedRoleRoute from "./ProtectedRoleRoute";
 import ProtectedRoute from "./ProtectedRoute";
@@ -30,12 +30,12 @@ const App = () => {
               <Route path="/logoutConfirm" exact element={<LogoutConfirm />} />
               <Route path="/logout" exact element={<Logout />} />
               <Route path="/offerts"  >
-                <Route path="" exact element={<Offerts />} />
-                <Route path="details" exact element={<OffertDetails />}/>
+                <Route path="" exact element={<OffertsPublic />} />
+                <Route path="details" exact element={<OffertDetailsPublic />}/>
               </Route>
-              <Route path="/salons" exact element={<Salons />} />
-              <Route element={<ProtectedRoute />} >
-                <Route path="/settings" element={<Settings />} >
+              <Route path="/salons" exact element={<SalonsPublic />} />
+              <Route path="/a" element={<ProtectedRoute />} >
+                <Route path="settings" element={<Settings />} >
                   <Route path="profile" element={<Profile />}/>
                   <Route element={<ProtectedRoleRoute allowed={["admin"]} />} >
                     <Route path="users" element={<UsersManage />} />

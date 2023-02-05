@@ -1,7 +1,8 @@
-import { Button, FormControl, FormLabel, Select } from '@vechaiui/react';
+import { Button, Checkbox, FormControl, FormLabel, Input, Select } from '@vechaiui/react';
 import React, { useEffect, useState } from 'react';
-import { carBrands, carCategories, drive, fuels, transmission, years } from "../../enums/enums";
+import { carBrands, carCategories, drive, fuels, roles, transmission, years } from "../../enums/enums";
 import axiosPublic from '../../utils/publicApi';
+import ProtectedRoleComponent from '../ProtectedRoleComponent';
 import ModelsSelectDynamic from './ModelsSelectDynamic.jsx';
 
 const MainSearch = ({ filters, setFilters, onSearch = () => {console.error("onSearch Not Implemented")} }) => {
@@ -13,7 +14,10 @@ const MainSearch = ({ filters, setFilters, onSearch = () => {console.error("onSe
     fuel: "",
     drive: "",
     category: "",
-    transsmison: ""
+    transsmison: "",
+    offertNumber: "",
+    isActive: true,
+    isSold: false
   });
   const [salonsList, setSalonsList] = useState([]);
 
@@ -49,6 +53,54 @@ const MainSearch = ({ filters, setFilters, onSearch = () => {console.error("onSe
         <hr className='my-2'/>
         <div>
           <div className='px-2 flex flex-col'>
+            
+            <>
+              <ProtectedRoleComponent allowed={[roles.Admin, roles.User]} component={
+                <div className='flex flex-col md:flex-row md:align-items-stretch'>
+                  <div className='md:px-1 flex flex-col align-start content-start w-full md:w-1/2'>
+                    <FormControl className="text-sm mt-2 py-1">
+                      <FormLabel className='block text-sm font-medium leading-none text-gray-700'>Numer Oferty</FormLabel>
+                      <Input
+                        color='indigo'
+                        id="offertNumber" 
+                        name="offertNumber"
+                        value={formData.offertNumber}
+                        onChange={handleChange}
+                        >
+                      </Input>
+                    </FormControl>
+                  </div>
+                  <div className='md:px-1 flex flex-col align-start content-start w-full md:w-1/2'>
+                    <FormControl className="text-sm mt-2 py-1">
+                      <FormLabel className='block text-sm font-medium leading-none text-gray-700'>Status</FormLabel>
+                      <div className='grid grid-cols-2'>
+                        <div>
+                          <Checkbox 
+                            color='indigo'
+                            id='isActive'
+                            name='isActive'
+                            checked={formData.isActive} 
+                            onChange={handleChange}
+                            defaultChecked
+                          >Aktywne</Checkbox>
+                        </div>
+                        <div>
+                          <Checkbox
+                            color='indigo'
+                            id='isSold'
+                            name='isSold'
+                            checked={formData.isSold}
+                            onChange={handleChange}
+                          >Sprzedane</Checkbox>
+                        </div>
+                      </div>
+                    </FormControl>
+
+                  </div>
+                </div>
+              }/>
+            </>
+
             <FormControl className="text-sm mt-2 py-1">
               <FormLabel className='block text-sm font-medium leading-none text-gray-700'>Salon</FormLabel>
               <Select
@@ -68,6 +120,7 @@ const MainSearch = ({ filters, setFilters, onSearch = () => {console.error("onSe
                 <FormControl className="text-sm mt-2 py-1">
                   <FormLabel className='block text-sm font-medium leading-none text-gray-700'>Typ nadwozia</FormLabel>
                   <Select 
+                    color='indigo'
                     id="category"
                     name="category"
                     value={formData.category}
@@ -80,9 +133,11 @@ const MainSearch = ({ filters, setFilters, onSearch = () => {console.error("onSe
                     }
                   </Select>
                 </FormControl>
+
                 <FormControl className="text-sm mt-2 py-1">
                   <FormLabel className='block text-sm font-medium leading-none text-gray-700'>Marka pojazdu</FormLabel>
                   <Select
+                    color='indigo'
                     id='make'
                     name="make"
                     value={formData.make}
@@ -96,11 +151,14 @@ const MainSearch = ({ filters, setFilters, onSearch = () => {console.error("onSe
                 </FormControl>
 
                 <ModelsSelectDynamic formData={formData} handle={handleChange}/>
+
               </div>
+
               <div className='md:px-1 flex flex-col align-start content-start w-full md:w-1/2'>
                 <FormControl className="text-sm mt-2 py-1">
                   <FormLabel className='block text-sm font-medium leading-none text-gray-700'>Rok produkcji</FormLabel>
                   <Select
+                    color='indigo'
                     id='year'
                     name="year"
                     placeholder='Rok Produkcji'
@@ -114,9 +172,11 @@ const MainSearch = ({ filters, setFilters, onSearch = () => {console.error("onSe
                     }
                   </Select>
                 </FormControl>
+
                 <FormControl className="text-sm mt-2 py-1">
                   <FormLabel className='block text-sm font-medium leading-none text-gray-700'>Rodzaj paliwa</FormLabel>
                   <Select
+                    color='indigo'
                     id='fuel'
                     name="fuel"
                     placeholder='Rodzaj paliwa'
@@ -130,11 +190,13 @@ const MainSearch = ({ filters, setFilters, onSearch = () => {console.error("onSe
                     }
                   </Select>
                 </FormControl>
+
                 <div className='flex flex-col sm:flex-row sm:space-x-2 '>
                   <div className='w-full sm:w-1/2'>
                     <FormControl className="text-sm mt-2 py-1">
                       <FormLabel className='block text-sm font-medium leading-none text-gray-700'>Skrzynia biegów</FormLabel>
                       <Select
+                        color='indigo'
                         id='transsmison'
                         name="transsmison"
                         placeholder='Typ'
@@ -149,10 +211,12 @@ const MainSearch = ({ filters, setFilters, onSearch = () => {console.error("onSe
                       </Select>
                     </FormControl>
                   </div>
+
                   <div className='w-full sm:w-1/2'>
                     <FormControl className="text-sm mt-2 py-1">
                       <FormLabel className='block text-sm font-medium leading-none text-gray-700'>Rodzaj napędu</FormLabel>
                       <Select
+                        color='indigo'  
                         id='drive'
                         name="drive"
                         placeholder='Rodzaj napędu'
@@ -167,13 +231,18 @@ const MainSearch = ({ filters, setFilters, onSearch = () => {console.error("onSe
                       </Select>
                     </FormControl>
                   </div>
+
                 </div>
               </div>
+
             </div>
+
             <hr className='mt-3'/>
+
             <FormControl className="text-sm mt-4 py-1 flex flex-row w-full justify-center align-items-center">
-              <Button onClick={handleClick} size='xl' className='text-semibold'>Wyszukaj</Button>
+              <Button color='indigo' onClick={handleClick} size='xl' className='text-semibold'>Wyszukaj</Button>
             </FormControl>
+            
           </div>
         </div>
       </div>

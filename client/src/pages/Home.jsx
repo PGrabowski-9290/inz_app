@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from "react-router-dom"
 import ContactForm from '../components/ContactForm'
 import HomeOffertsSlider from '../components/offerts/HomeOffertsSlider'
 import MainSearch from '../components/search/MainSearch'
@@ -8,7 +7,7 @@ import axiosPublic from '../utils/publicApi'
 const Home = () => {
   const [filters, setFilters] = useState()
   const [list, setList] = useState([])
-  const navigate = useNavigate()
+
 
   function handleSearch() {
     try {

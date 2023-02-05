@@ -1,8 +1,8 @@
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import { Button, FormControl, FormLabel, Input, Switch } from '@vechaiui/react';
 import React, { useEffect, useState } from 'react';
-import useAuth from "../hooks/useAuth";
-import axiosPrivate from '../utils/apiPrivate';
+import useAuth from "../../hooks/useAuth";
+import axiosPrivate from '../../utils/apiPrivate';
 
 const Profile = () => {
   const { auth } = useAuth()

@@ -241,6 +241,11 @@ export const carBrands = [
   }
 ]
 
-const enums = { listElementsSize, years, fuels, transmission, drive, carCategories, carBrands }
+export const roles = {
+  Admin: "admin",
+  User: "user"
+}
+
+const enums = { listElementsSize, years, fuels, transmission, drive, carCategories, carBrands, roles }
 
 export default enums;

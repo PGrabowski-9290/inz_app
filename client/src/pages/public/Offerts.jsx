@@ -1,11 +1,11 @@
 import { FunnelIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { Button, Icon, IconButton, Select } from '@vechaiui/react';
 import React, { useEffect, useState } from 'react';
-import OffertsList from '../components/offerts/OffertsList';
-import MainSearch from '../components/search/MainSearch';
-import PaginationNav from '../components/search/paginationNav';
-import { listElementsSize } from '../enums/enums';
-import axiosPublic from "../utils/publicApi";
+import OffertsList from '../../components/offerts/OffertsList';
+import MainSearch from '../../components/search/MainSearch';
+import PaginationNav from '../../components/search/paginationNav';
+import { listElementsSize } from '../../enums/enums';
+import axiosPublic from "../../utils/publicApi";
 
 const Offers = () => {
   const [data, setData] = useState([])
@@ -15,7 +15,6 @@ const Offers = () => {
   const [page, setPage] = useState({current: 1, max: 1})
 
   function handleLimitChange (e) {
-    console.log("SELECTED",e.target.value)
     setLimit(e.target.value)
   }
 

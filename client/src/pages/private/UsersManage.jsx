@@ -1,10 +1,10 @@
 import { Button } from "@vechaiui/react"
 import React, { useEffect, useState } from 'react'
-import AddWindow from "../components/UsersManage/AddWindow"
-import EditWindow from "../components/UsersManage/EditWindow"
-import UsersTable from "../components/UsersManage/UsersTable"
-import useAuth from "../hooks/useAuth"
-import axiosPrivate from "../utils/apiPrivate"
+import AddWindow from "../../components/UsersManage/AddWindow"
+import EditWindow from "../../components/UsersManage/EditWindow"
+import UsersTable from "../../components/UsersManage/UsersTable"
+import useAuth from "../../hooks/useAuth"
+import axiosPrivate from "../../utils/apiPrivate"
 
 
 const UsersManage = () => {

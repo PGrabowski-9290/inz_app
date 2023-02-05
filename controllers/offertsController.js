@@ -45,8 +45,11 @@ const getFilteredOffertsList = async (req, res, next) => {
     if(filter?.transsmission && filter?.transmission){
       filterObj.addField("car.transmission", filter.transsmission)
     }
-    if(filter?.salons && filter?.salons != ""){
-      filterObj?.addField("salons", filter.salons)
+    if(filter?.salons && filter?.salons !== ""){
+      filterObj.addField("salons", filter.salons)
+    }
+    if(filter?.offertNumber && filter?.offertNumber !== ""){
+      filterObj.addField("number", filter.offertNumber)
     }
     
     const result = await Offerts.find(filterObj.get()).populate({path: 'salons'}).sort({_id:1}).skip(limit * (page - 1)).limit(limit * 1).exec();

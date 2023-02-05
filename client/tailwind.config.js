@@ -1,4 +1,5 @@
 // tailwind.config.js
+const { warning } = require("@remix-run/router");
 const colors = require("tailwindcss/colors")
 
 module.exports = {
@@ -12,7 +13,9 @@ module.exports = {
     extend: {
       colors:{
         'gray-a60': '#4D4D4D99',
-        green: colors.green
+        green: colors.green,
+        danger: colors.yellow,
+        warning: colors.red
       }
     },
   },
@@ -22,7 +25,7 @@ module.exports = {
   plugins: [
     require("@tailwindcss/forms"),
     require("@vechaiui/core")({
-      colors: ["green","indigo"]
+      colors: ["green","indigo", "warning", "danger"]
     }),
   ],
   important: true,

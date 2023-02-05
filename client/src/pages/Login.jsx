@@ -40,10 +40,10 @@ const Login = () => {
         setInfo({ success: message});
         setAuth({accessToken: accessToken, role: role})
         authService.setIsAuth(true)
-        setTimeout(() => {
-          console.log("przekierowanie na główną");
-          navigate(fromLocation, {replace: true})
-        }, 1000)
+
+        console.log("przekierowanie na główną");
+        navigate(fromLocation, {replace: true})
+
       }
 
     } catch (err) {
