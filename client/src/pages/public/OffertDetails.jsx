@@ -2,6 +2,7 @@ import { CheckIcon } from '@heroicons/react/24/outline';
 import { Button } from '@vechaiui/react';
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import BackButton from '../../components/BackButton';
 import ContactForm from '../../components/ContactForm';
 import GallerySlider from '../../components/offerts/GallerySlider';
 import WatchButton from '../../components/offerts/WatchButton';
@@ -47,6 +48,10 @@ const OffertDetails = () => {
 
   return (
     <div className='w-full'>
+      <div className='flex flex-col md:flex-row mb-4'>
+        <BackButton path={"/offerts"}/>
+      </div>
+      
       <div className='flex flex-col md:flex-row shadow-lg rounded-b-md mb-4'>
         <div className='md:basis-2/3'>
           <GallerySlider items={data?.gallery} />

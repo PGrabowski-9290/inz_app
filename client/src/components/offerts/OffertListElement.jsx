@@ -1,5 +1,4 @@
 import { MapPinIcon } from "@heroicons/react/20/solid";
-import { Button } from "@vechaiui/react";
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import config from '../../config.json';
@@ -37,14 +36,13 @@ const OffertListElement = ({item}) => {
               <span >{item?.salons.location.city+' '+item?.salons.location.street}</span>
             </div>
           </div>
-          <div className="text-sm text-gray-400">{"Numer oferty: "+item?.number}</div>
         </div>
       </div>
       <div className='p-3'>
-        <p className='font-bold text-xl text-violet-700'>{(item?.price * 1 ).toLocaleString('pl-PL', { minimumFractionDigits: 2 })}<span className='text-sm ml-1'>PLN</span></p>
+        <p className='font-bold text-xl text-violet-700 text-right'>{(item?.price * 1 ).toLocaleString('pl-PL', { minimumFractionDigits: 2 })}<span className='text-sm ml-1'>PLN</span></p>
         <ProtectedRoleComponent allowed={[roles.Admin, roles.User]} component={
-          <div className="flex justify-between">
-            <span className="text-sm text-gray-400">{"Oferta nr. "+item?.number}</span>
+          <div className="flex justify-between gap-2 text-sm">
+            <span className="text-gray-400">{"Oferta nr. "+item?.number}</span>
             {item?.isSold ? (
               <span className="font-bold text-red-500 text-right ">Sprzedane</span>
             ) : 
