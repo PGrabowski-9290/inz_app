@@ -30,10 +30,17 @@ const MainSearch = ({ filters, setFilters, onSearch = () => {console.error("onSe
     }
   }
 
-  async function handleChange (e) {
+  function handleChange (e) {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
+    })
+  }
+
+  function handleChecked (e) {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.checked
     })
   }
 
@@ -73,15 +80,14 @@ const MainSearch = ({ filters, setFilters, onSearch = () => {console.error("onSe
                   <div className='md:px-1 flex flex-col align-start content-start w-full md:w-1/2'>
                     <FormControl className="text-sm mt-2 py-1">
                       <FormLabel className='block text-sm font-medium leading-none text-gray-700'>Status</FormLabel>
-                      <div className='grid grid-cols-2'>
+                      <div className='h-full flex flex-row items-center justify-around'>
                         <div>
                           <Checkbox 
                             color='indigo'
                             id='isActive'
                             name='isActive'
                             checked={formData.isActive} 
-                            onChange={handleChange}
-                            defaultChecked
+                            onChange={handleChecked}
                           >Aktywne</Checkbox>
                         </div>
                         <div>
@@ -90,7 +96,8 @@ const MainSearch = ({ filters, setFilters, onSearch = () => {console.error("onSe
                             id='isSold'
                             name='isSold'
                             checked={formData.isSold}
-                            onChange={handleChange}
+                            onChange={handleChecked}
+
                           >Sprzedane</Checkbox>
                         </div>
                       </div>
