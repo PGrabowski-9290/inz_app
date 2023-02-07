@@ -48,7 +48,7 @@ const getFilteredOffertsListPublic = async (req, res, next) => {
 
     console.log(filterObj.get())
 
-    const count = Math.ceil(await Offerts.countDocuments() / limit);
+    const count = Math.ceil(await Offerts.find(filterObj.get()).countDocuments() / limit);
 
     const result = await Offerts.find(filterObj.get()).populate({path: 'salons', select: 'location contact _id'}).sort({_id:1}).select("car.engine car.make car.year car.model car.odometer title price salons gallery").skip(limit * (page - 1)).limit(limit * 1).exec();
     if(!result) return res.status(404).json({message: "Nie odnaleziono obiektu"});

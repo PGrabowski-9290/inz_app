@@ -22,7 +22,8 @@ const getFilteredOffertsList = async (req, res, next) => {
     const isActive = req.body.filter?.isActive || true;
     const isSold = req.body.filter?.isSold || false;
     const filterObj = new FilterBuilder();
-    filterObj.addField("isSold", isSold).addField("isAcitve", isActive);
+    filterObj.addField("isSold", isSold);
+    filterObj.addField("isAcitve", isActive);
 
     if (filter?.make && filter?.make != ""){
       filterObj.addField("car.make",filter.make)
@@ -53,7 +54,7 @@ const getFilteredOffertsList = async (req, res, next) => {
     }
     
     const result = await Offerts.find(filterObj.get()).populate({path: 'salons'}).sort({_id:1}).skip(limit * (page - 1)).limit(limit * 1).exec();
-    const count = Math.ceil(await Offerts.countDocuments() / limit)
+    const count = Math.ceil(await Offerts.find(filterObj.get()).countDocuments() / limit)
 
     res.status(200).json({data: result, totalPages: count, message: "Success"});
   } catch (error) {

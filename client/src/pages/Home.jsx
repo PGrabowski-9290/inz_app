@@ -1,24 +1,29 @@
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import ContactForm from '../components/ContactForm'
 import HomeOffertsSlider from '../components/offerts/HomeOffertsSlider'
 import MainSearch from '../components/search/MainSearch'
+import useAuth from '../hooks/useAuth'
 import axiosPublic from '../utils/publicApi'
 
 const Home = () => {
+  const { auth } = useAuth()
+  const navigate = useNavigate()
   const [filters, setFilters] = useState()
   const [list, setList] = useState([])
 
 
   function handleSearch() {
     try {
-      console.log("SEARCH IT")
+      const url = auth?.accessToken ? '/a/offerts' : '/offerts' 
+      navigate(url, {state: {filters: filters}, replace: true})
       
     } catch (error) {
       console.error(error)
     }
   }
 
-  async function handleFormSubmit(data) {
+  async function handleContactFormSubmit(data) {
     console.log(data)
   }
 
@@ -32,19 +37,27 @@ const Home = () => {
     }
   }
 
+  useEffect(() => {
+    if (filters !== undefined){
+      console.log(filters)
+      handleSearch()
+    }
+  }, [filters])
+
   useEffect(()=> {
     loadListDataAsync()
   },[])
+
   return (
     <div className='flex flex-col space-y-16'>    
       <div>
-        <MainSearch setFilters={setFilters} filters={filters} onSearch={handleSearch}/>
+        <MainSearch setFilters={setFilters} />
       </div>
       <div>
         <HomeOffertsSlider list={list} />
       </div>
       <div>
-        <ContactForm editTitle={true} onSubmit={handleFormSubmit}/>
+        <ContactForm editTitle={true} onSubmit={handleContactFormSubmit}/>
       </div>
     </div>
   )

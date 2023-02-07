@@ -1,17 +1,18 @@
 import { FunnelIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { Button, Icon, IconButton, Select } from '@vechaiui/react';
 import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import OffertsList from '../../components/offerts/OffertsList';
 import MainSearch from '../../components/search/MainSearch';
 import PaginationNav from '../../components/search/paginationNav';
 import { listElementsSize } from '../../enums';
 import axiosPublic from "../../utils/publicApi";
 
-
 const Offers = () => {
+  const location = useLocation()
   const [data, setData] = useState([])
   const [openFilters, setOpenFilters] = useState(false)
-  const [filters,setFilters] = useState({})
+  const [filters,setFilters] = useState(location.state?.filters || {})
   const [limit, setLimit] = useState(listElementsSize[0].value)
   const [page, setPage] = useState({current: 1, max: 1})
 
@@ -62,7 +63,7 @@ const Offers = () => {
 
     loadListAsync()
     console.log('test')
-  }, [limit, page.current, filters])
+  }, [limit, page, filters])
 
 
   return (

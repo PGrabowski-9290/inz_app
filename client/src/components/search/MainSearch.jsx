@@ -7,17 +7,17 @@ import ModelsSelectDynamic from './ModelsSelectDynamic.jsx';
 
 const MainSearch = ({ filters, setFilters, onSearch = () => {console.error("onSearch Not Implemented")} }) => {
   const [formData, setFormData] = useState({
-    salons: "",
-    make: "",
-    year: "",
-    model: "",
-    fuel: "",
-    drive: "",
-    category: "",
-    transsmison: "",
-    offertNumber: "",
-    isActive: true,
-    isSold: false
+    salons: filters?.salons || "",
+    make: filters?.make || "",
+    year: filters?.year || "",
+    model: filters?.model || "",
+    fuel: filters?.fuel || "",
+    drive: filters?.drive || "",
+    category: filters?.category || "",
+    transsmison: filters?.transmission || "",
+    offertNumber: filters?.offertNumber || "",
+    isActive: filters?.isActive || true,
+    isSold: filters?.isSold || false
   });
   const [salonsList, setSalonsList] = useState([]);
 
@@ -46,7 +46,6 @@ const MainSearch = ({ filters, setFilters, onSearch = () => {console.error("onSe
 
   function handleClick () {
     setFilters(formData)
-    onSearch()
   }
 
   useEffect(() => {
