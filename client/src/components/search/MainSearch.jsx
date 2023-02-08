@@ -1,23 +1,26 @@
-import { Button, Checkbox, FormControl, FormLabel, Input, Select } from '@vechaiui/react';
+import { XMarkIcon } from '@heroicons/react/24/outline';
+import { Button, Checkbox, FormControl, FormLabel, IconButton, Input, Select } from '@vechaiui/react';
 import React, { useEffect, useState } from 'react';
 import { carBrands, carCategories, drive, fuels, roles, transmission, years } from "../../enums";
+import useFilter from '../../hooks/useFilter';
 import axiosPublic from '../../utils/publicApi';
 import ProtectedRoleComponent from '../ProtectedRoleComponent';
 import ModelsSelectDynamic from './ModelsSelectDynamic.jsx';
 
-const MainSearch = ({ filters, setFilters, onSearch = () => {console.error("onSearch Not Implemented")} }) => {
+const MainSearch = ({ showControlBtn = false, onClose = () => {}, onSearch = () => {console.error("onSearch Not Implemented")} }) => {
+  const { filter, setFilter } = useFilter()
   const [formData, setFormData] = useState({
-    salons: filters?.salons || "",
-    make: filters?.make || "",
-    year: filters?.year || "",
-    model: filters?.model || "",
-    fuel: filters?.fuel || "",
-    drive: filters?.drive || "",
-    category: filters?.category || "",
-    transsmison: filters?.transmission || "",
-    offertNumber: filters?.offertNumber || "",
-    isActive: filters?.isActive || true,
-    isSold: filters?.isSold || false
+    salons: filter?.salons || "",
+    make: filter?.make || "",
+    year: filter?.year || "",
+    model: filter?.model || "",
+    fuel: filter?.fuel || "",
+    drive: filter?.drive || "",
+    category: filter?.category || "",
+    transsmison: filter?.transmission || "",
+    offertNumber: filter?.offertNumber || "",
+    isActive: filter?.isActive,
+    isSold: filter?.isSold
   });
   const [salonsList, setSalonsList] = useState([]);
 
@@ -45,7 +48,41 @@ const MainSearch = ({ filters, setFilters, onSearch = () => {console.error("onSe
   }
 
   function handleClick () {
-    setFilters(formData)
+    setFilter(formData)
+    onSearch()
+  }
+
+  function handleReset (){
+    setFilter({
+      salons: "",
+      make: "",
+      year: "",
+      model: "",
+      fuel: "",
+      drive: "",
+      category: "",
+      transsmison: "",
+      offertNumber: "",
+      isActive: true,
+      isSold: false
+    })
+    setFormData({
+      salons: "",
+      make: "",
+      year: "",
+      model: "",
+      fuel: "",
+      drive: "",
+      category: "",
+      transsmison: "",
+      offertNumber: "",
+      isActive: true,
+      isSold: false
+    })
+  }
+
+  function handleClose() {
+    onClose()
   }
 
   useEffect(() => {
@@ -55,7 +92,16 @@ const MainSearch = ({ filters, setFilters, onSearch = () => {console.error("onSe
   return (
     <div className='flex items-center justify-center overflow-hidden shrink-0'>
       <div className='bg-white shadow-lg rounded w-full px-2 py-3 sm:w-2/3'>
-        <p className='focus:outline-none text-xl font-extrabold leading-6 text-gray-800 text-center sm:text-center px-6 '>Wyszukiwarka</p>
+        <div className='relative py-1'>
+          <p className='focus:outline-none text-xl font-extrabold leading-6 text-gray-800 text-center sm:text-center px-6 '>Wyszukiwarka</p>
+          { showControlBtn && (
+            <IconButton variant='ghost' className='absolute top-0 right-0 cursor-pointer' onClick={handleClose}>
+                <XMarkIcon />
+              </IconButton>
+            )
+          }
+          
+        </div>
         <hr className='my-2'/>
         <div>
           <div className='px-2 flex flex-col'>
@@ -246,7 +292,10 @@ const MainSearch = ({ filters, setFilters, onSearch = () => {console.error("onSe
             <hr className='mt-3'/>
 
             <FormControl className="text-sm mt-4 py-1 flex flex-row w-full justify-center align-items-center">
-              <Button color='indigo' onClick={handleClick} size='xl' className='text-semibold'>Wyszukaj</Button>
+              <Button.Group className='space-x-4'>
+                <Button color='indigo' onClick={handleClick} size='xl' className='text-semibold'>Wyszukaj</Button>
+                { showControlBtn && <Button color='indigo' onClick={handleReset} size='xl' className='text-semibold'>Resetuj</Button>}
+              </Button.Group>
             </FormControl>
             
           </div>

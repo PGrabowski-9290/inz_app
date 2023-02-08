@@ -9,14 +9,14 @@ import axiosPublic from '../utils/publicApi'
 const Home = () => {
   const { auth } = useAuth()
   const navigate = useNavigate()
-  const [filters, setFilters] = useState()
   const [list, setList] = useState([])
 
 
   function handleSearch() {
     try {
+      console.log("dziala")
       const url = auth?.accessToken ? '/a/offerts' : '/offerts' 
-      navigate(url, {state: {filters: filters}, replace: true})
+      navigate(url, { replace: true })
       
     } catch (error) {
       console.error(error)
@@ -37,13 +37,6 @@ const Home = () => {
     }
   }
 
-  useEffect(() => {
-    if (filters !== undefined){
-      console.log(filters)
-      handleSearch()
-    }
-  }, [filters])
-
   useEffect(()=> {
     loadListDataAsync()
   },[])
@@ -51,7 +44,7 @@ const Home = () => {
   return (
     <div className='flex flex-col space-y-16'>    
       <div>
-        <MainSearch setFilters={setFilters} />
+        <MainSearch onSearch={handleSearch} />
       </div>
       <div>
         <HomeOffertsSlider list={list} />

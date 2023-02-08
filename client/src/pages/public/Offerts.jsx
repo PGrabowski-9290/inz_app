@@ -1,18 +1,18 @@
 import { FunnelIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { Button, Icon, IconButton, Select } from '@vechaiui/react';
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
 import OffertsList from '../../components/offerts/OffertsList';
 import MainSearch from '../../components/search/MainSearch';
 import PaginationNav from '../../components/search/paginationNav';
 import { listElementsSize } from '../../enums';
+import useFilter from '../../hooks/useFilter';
 import axiosPublic from "../../utils/publicApi";
 
 const Offers = () => {
-  const location = useLocation()
+  const { filter } = useFilter() 
   const [data, setData] = useState([])
   const [openFilters, setOpenFilters] = useState(false)
-  const [filters,setFilters] = useState(location.state?.filters || {})
+  
   const [limit, setLimit] = useState(listElementsSize[0].value)
   const [page, setPage] = useState({current: 1, max: 1})
 
@@ -27,19 +27,11 @@ const Offers = () => {
   useEffect(() => {
     async function loadListAsync() {
       try {
-        var url;
-        
-        if ( !filters?.make ) {
-          console.log("nomake")
-          url = `/offerts/public?limit=${limit}&page=${page.current}`
-        }
-        else {
-          console.log("ismake")
-          url = `/offerts/public/filter?limit=${limit}&page=${page.current}`
-        }
-  
+        var url = `/offerts/public/filter?limit=${limit}&page=${page.current}`
+
+        console.debug("filtry: ", filter)
         const result = await axiosPublic.post(url,
-        {filter: filters},
+        {filter: filter},
         {
           headers: { 'Content-Type': 'application/json'}
         })
@@ -62,52 +54,53 @@ const Offers = () => {
     }
 
     loadListAsync()
-    console.log('test')
-  }, [limit, page, filters])
+  }, [filter, page.current, limit])
 
 
   return (
+    <>
     <div className='w-full'>
-      <div className='flex flex-row justify-between items-center'>
-        <div className='text-xl flex flex-row flex-nowrap space-x-3'>
-          <PaginationNav page={page} setPage={setPage}/>
-          <div>
-            <Select 
-              value={limit} 
-              onChange={handleLimitChange}
-            >
-              {listElementsSize.map((item, index) => {
-                return (
-                  <option value={item.value} key={index}>{item.name}</option>
-                )
-              })}
-            </Select>
-          </div>
-        </div>
-        <div>
-          <Button 
-            rightIcon={<Icon as={FunnelIcon} label="filter" className='w-4 h-4 ml-2'/>}
-            className='font-medium' 
-            onClick={()=>{setOpenFilters(!openFilters)}}
-          >
-            FILTRY
-          </Button>
-        </div>
-      </div>
-      <div>
-        <OffertsList list={data}/>
-      </div>
-      {openFilters && (
-        <div className='fixed top-16 left-0 w-full h-full z-10 bg-gray-100'>
+      {openFilters ? (
+        <div className='top-4 left-0 w-full h-full z-10 bg-gray-100'>
           <div className="mt-4 sm:mt-10">
-            <MainSearch  filters={filters} setFilters={setFilters} onSearch={handleSearch} />
+            <MainSearch onSearch={handleSearch} onClose={()=>{setOpenFilters(false)}} showControlBtn={true}/>
           </div>
-          <IconButton variant='ghost' className='absolute top-5 right-4 cursor-pointer' onClick={()=>{setOpenFilters(false)}}>
-            <XMarkIcon />
-          </IconButton>
         </div>
+      ) : (
+        <>
+          <div className='flex flex-row justify-between items-center'>
+            <div className='text-xl flex flex-row flex-nowrap space-x-3'>
+              <PaginationNav page={page} setPage={setPage}/>
+              <div>
+                <Select 
+                  value={limit} 
+                  onChange={handleLimitChange}
+                  >
+                  {listElementsSize.map((item, index) => {
+                    return (
+                      <option value={item.value} key={index}>{item.name}</option>
+                      )
+                    })}
+                </Select>
+              </div>
+            </div>
+            <div>
+              <Button 
+                rightIcon={<Icon as={FunnelIcon} label="filter" className='w-4 h-4 ml-2'/>}
+                className='font-medium' 
+                onClick={()=>{setOpenFilters(!openFilters)}}
+                >
+                FILTRY
+              </Button>
+            </div>
+          </div>
+          <div>
+            <OffertsList list={data}/>
+          </div>
+        </>
       )}
     </div>
+  </>
   )
 }
 
