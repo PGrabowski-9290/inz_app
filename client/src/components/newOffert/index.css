@@ -1,0 +1,11 @@
+.tag {
+  display: inline-flex;
+  max-height: 100%;
+  cursor: var(--vc-cursor);
+  align-items: center;
+  white-space: nowrap;
+  border-radius: 9999px;
+  font-weight: 500;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}

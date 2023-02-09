@@ -17,7 +17,7 @@ const OffertListElement = ({item}) => {
   return (
     <div
       onClick={()=>{onClickOpen(item._id)}}
-      className='my-6 flex flex-col md:flex-row justify-between rounded shadow-lg cursor-pointer'>
+      className='my-6 flex flex-col md:flex-row justify-between rounded shadow-lg cursor-pointer bg-white'>
       <div className='flex flex-col md:flex-row md:space-x-2'>
         <img className='h-full w-full md:max-w-xs' alt={item.title} src={config.SERVER_API_URL+'/'+item.gallery[0]}></img>
         <div className='p-3'>

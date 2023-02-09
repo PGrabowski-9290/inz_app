@@ -48,11 +48,11 @@ const OffertDetails = () => {
 
   return (
     <div className='w-full'>
-      <div className='flex flex-col md:flex-row mb-4'>
+      <div className='flex flex-row mb-4 justify-between bg-white p-2 rounded-md shadow-lg'>
         <BackButton path={"/offerts"}/>
       </div>
       
-      <div className='flex flex-col md:flex-row shadow-lg rounded-b-md mb-4'>
+      <div className='flex flex-col md:flex-row shadow-lg rounded-b-md mb-4 bg-white'>
         <div className='md:basis-2/3'>
           <GallerySlider items={data?.gallery} />
         </div>
@@ -89,7 +89,7 @@ const OffertDetails = () => {
         </div>
       </div>
       {/* Szczegóły */}
-      <div className='py-4 px-2 shadow-xl'>
+      <div className='pb-3 px-2 shadow-xl mb-4 bg-white'>
         <h2 className='font-semibold text-xl text-gray-700 mb-1'>Szczegóły</h2>
         <div className='flex flex-col md:flex-row md:space-x-16'>
           <div className='grid grid-cols-2 gap-x-3'>
@@ -139,7 +139,7 @@ const OffertDetails = () => {
         </div>
       </div>
       {/* Wyposażenie */}
-      <div className='py-4 px-2 shadow-xl'>
+      <div className='pb-3 px-2 shadow-xl mb-4 bg-white'>
         <h2 className='font-semibold text-xl text-gray-700 mb-2'>Wyposażenie</h2>
         <div className='flex flex-wrap gap-x-8'>
           
@@ -160,7 +160,7 @@ const OffertDetails = () => {
         </div>
       </div>
       {/* Opis */}
-      <div className='py-4 px-2 shadow-xl'>
+      <div className='pb-3 px-2 shadow-xl mb-4 bg-white'>
         <h2 className='font-semibold text-xl text-gray-700 mb-2'>Opis</h2>
         <div className='p-2 md:px-4' dangerouslySetInnerHTML={{__html: (data?.description || "Brak opisu").replaceAll('\\n','<br />')}}>
           
@@ -168,8 +168,13 @@ const OffertDetails = () => {
       </div>
       <OpenWindow 
         open={contactFormOpen} 
-        onClose={handleCloseContactForm}
-        component={<ContactForm setTitle={data.title+', Ofert number: '+data.number} onSubmit={() => {setContactFormOpen(false)}}/>}
+        component={
+          <ContactForm 
+            setTitle={data.title+', Ofert number: '+data.number} 
+            onSubmit={() => {setContactFormOpen(false)}}
+            showControlBtn={true}
+            onClose={handleCloseContactForm}
+          />}
       />
     </div>
   )

@@ -132,7 +132,7 @@ const updateOffert = async (req, res, next) => {
     const data = req.body?.data;
     if(!data || !id) return res.status(400).json({message: "Błędne zapytanie"});
 
-    if (!data?.title || !data?.description || !data?.price || !data?.carMake || !data?.carYear || !data?.carModel || !data?.carCategory || !data?.carColor || !data?.carFuelType || !data?.carPower || !data?.carEngCapacity || !data?.carDrive || !data?.carTrans || !data?.carGears || !data?.carDoors || !data?.vin || !data?.odometer || !data?.salon ) return res.status(400).json({message: "brak wartości"});
+    if (!data?.title || !data?.description || !data?.price || !data?.make || !data?.year || !data?.model || !data?.category || !data?.carColor || !data?.carFuelType || !data?.carPower || !data?.carEngCapacity || !data?.carDrive || !data?.carTrans || !data?.carGears || !data?.carDoors || !data?.vin || !data?.odometer || !data?.salon ) return res.status(400).json({message: "brak wartości"});
 
     const offert = await Offerts.findOneAndUpdate({_id: id, isSold: false}, {
       title: data.title,
@@ -140,11 +140,11 @@ const updateOffert = async (req, res, next) => {
       functionalities: data.functionalities,
       price: data.price,
       car: {
-        make: data.carMake,
-        year: data.carYear,
-        model: data.carModel,
+        make: data.make,
+        year: data.year,
+        model: data.model,
         color: data.carColor,
-        category: data.carCategory,
+        category: data.category,
         engine: {
           fuelType: data.carFuelType,
           power: data.carPower,

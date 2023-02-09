@@ -1,8 +1,9 @@
-import { AtSymbolIcon } from '@heroicons/react/24/solid'
-import { Button, FormControl, FormLabel, Input, Textarea } from '@vechaiui/react'
-import React, { useState } from 'react'
+import { XMarkIcon } from '@heroicons/react/24/outline';
+import { AtSymbolIcon } from '@heroicons/react/24/solid';
+import { Button, FormControl, FormLabel, IconButton, Input, Textarea } from '@vechaiui/react';
+import React, { useState } from 'react';
 
-const ContactForm = ({setTitle, editTitle = false, onSubmit = () => { console.log("On Submit call") } }) => {
+const ContactForm = ({showControlBtn = false, onClose = () => {}, setTitle, editTitle = false, onSubmit = () => { console.log("On Submit call") } }) => {
   const [formData, setFormData] = useState({
     title: setTitle || "",
     replyTo:  "",
@@ -11,6 +12,10 @@ const ContactForm = ({setTitle, editTitle = false, onSubmit = () => { console.lo
 
   function handleFormChange(e) {
     setFormData({...formData, [e.target.name]: e.target.value})
+  }
+  
+  function handleClose() {
+    onClose()
   }
 
   function handleSubmit(e,){
@@ -26,7 +31,19 @@ const ContactForm = ({setTitle, editTitle = false, onSubmit = () => { console.lo
   return (
     <div className='flex items-center justify-center overflow-hidden shrink-0'>
       <div className='bg-white shadow-lg rounded w-full px-2 py-3 sm:w-2/3 md:w-2/4 xl:w-2/5'>
-        <p className='focus:outline-none text-xl font-extrabold leading-6 text-gray-800 text-center sm:text-center px-6 '>Skontaktuj się</p>
+
+        <div className='relative py-1'>
+          <p className='focus:outline-none text-xl font-extrabold leading-6 text-gray-800 text-center sm:text-center px-6 '>Skontaktuj się</p>
+          { showControlBtn && (
+            <IconButton variant='ghost' className='absolute top-0 right-0 cursor-pointer' onClick={handleClose}>
+                <XMarkIcon />
+              </IconButton>
+            )
+          }
+          
+        </div>
+
+        {/* <p className='focus:outline-none text-xl font-extrabold leading-6 text-gray-800 text-center sm:text-center px-6 '>Skontaktuj się</p> */}
         <hr className='my-2'/>
         <div className='px-2'>
           <FormControl>

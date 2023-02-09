@@ -201,8 +201,10 @@ const MainSearch = ({ showControlBtn = false, onClose = () => {}, onSearch = () 
                     })}
                   </Select>
                 </FormControl>
-
-                <ModelsSelectDynamic formData={formData} handle={handleChange}/>
+                
+                <div className='mt-2'>
+                  <ModelsSelectDynamic formData={formData} setFormData={setFormData}/>
+                </div>
 
               </div>
 
