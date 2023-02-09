@@ -1,6 +1,7 @@
 import { Button, Checkbox, cx, FormControl, FormLabel, Input, Select, Textarea } from '@vechaiui/react';
 import React, { useEffect, useState } from 'react';
 import AddFunctionalities from '../../components/newOffert/AddFunctionalities';
+import AddPhoto from '../../components/newOffert/AddPhoto';
 import ModelsSelectDynamic from "../../components/search/ModelsSelectDynamic";
 import { carBrands, carCategories, drive, fuels, transmission, years } from "../../enums";
 import useAuth from '../../hooks/useAuth';
@@ -368,7 +369,9 @@ const New = () => {
             <div className="mt-4">
               <h3 className="font-semibold text-gray-600 text-xl">Zdjęcia podglądowe</h3>
               <p className="text-sm text-gray-400">Maksymalnie 5 zdjęć</p>
-              <div className="flex flex-col md:grid md:grid-cols-2 md:gap-4"></div>
+              <div className='w-full'> 
+                <AddPhoto form={formData} setForm={setFormData}/>
+              </div>
             </div>
             
             <div className="mt-4">
