@@ -15,7 +15,7 @@ import RefreshToken from "../pages/RefreshToken";
 import Layout from "./Layout";
 import ProtectedRoleRoute from "./ProtectedRoleRoute";
 import ProtectedRoute from "./ProtectedRoute";
-
+//todo fix typo offerts -> offers
 const App = () => {
 
   return (

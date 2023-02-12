@@ -51,14 +51,12 @@ const AddFunctionalities = ({form, setForm}) => {
         ) : ( 
           form.functionalities?.map((item, index) => {
             return (
-              <>
-                <div key={index} className="tag outline outline-indigo-600 outline-1 outline-offset-1 pl-2">
-                  <span className='text-gray-700'>{item}</span>
-                  <IconButton onClick={() => handleRemove(index)} variant='link' className='text-indigo-600 opacity-50 hover:opacity-100'>
-                    <XMarkIcon className='w-6 h-6'></XMarkIcon>
-                  </IconButton>
-                </div>
-              </>
+              <div key={index} className="tag outline outline-indigo-600 outline-1 outline-offset-1 pl-2">
+                <span className='text-gray-700'>{item}</span>
+                <IconButton onClick={() => handleRemove(index)} variant='link' className='text-indigo-600 opacity-50 hover:opacity-100'>
+                  <XMarkIcon className='w-6 h-6'></XMarkIcon>
+                </IconButton>
+              </div>
             )
           })
         )}

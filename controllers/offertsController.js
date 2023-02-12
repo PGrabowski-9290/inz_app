@@ -26,26 +26,26 @@ const getFilteredOffertsList = async (req, res, next) => {
     filterObj.addField("isSold", isSold);
     filterObj.addField("isAcitve", isActive);
 
-    if (filter?.make && filter?.make != ""){
+    if (filter?.make && filter?.make !== ""){
       filterObj.addField("car.make",filter.make)
     }
-    if (filter?.year && filter?.year != ""){
+    if (filter?.year && filter?.year !== ""){
       filterObj.addField("car.year", filter.year)
     }
-    if(filter?.model && filter?.model != ""){
+    if(filter?.model && filter?.model !== ""){
       filterObj.addField("car.model", filter.model)
     }
-    if(filter?.category && filter?.category != ""){
+    if(filter?.category && filter?.category !== ""){
       filterObj.addField("car.category", filter.category)
     }
-    if(filter?.fuel && filter?.fuel != ""){
+    if(filter?.fuel && filter?.fuel !== ""){
       filterObj.addField("car.engine.fuelType", filter.fuel)
     }
-    if(filter?.drive && filter?.drive != ""){
+    if(filter?.drive && filter?.drive !== ""){
       filterObj.addField("car.drive", filter.drive)
     }
-    if(filter?.transsmission && filter?.transmission){
-      filterObj.addField("car.transmission", filter.transsmission)
+    if(filter?.transmission && filter?.transmission !== ""){
+      filterObj.addField("car.transmission", filter.transmission)
     }
     if(filter?.salons && filter?.salons !== ""){
       filterObj.addField("salons", filter.salons)
@@ -81,8 +81,8 @@ const createOffert = async (req,res,next) => {
     if(!req?.body) return res.status(400).json({message: "Błąd zapytania"});
 
     const data = req?.body;
-
-    if (!data?.title || !data?.description || !data?.price || !data?.carMake || !data?.carYear || !data?.carModel || !data?.carCategory || !data?.carColor || !data?.carFuelType || !data?.carPower || !data?.carEngCapacity || !data?.carDrive || !data?.carTrans || !data?.carGears || !data?.carDoors || !data?.vin || !data?.odometer || !data?.salon) return res.status(400).json({message: "brak wartości"});
+    console.log("data",data)
+    if (!data?.title || !data?.description || !data?.price || !data?.make || !data?.year || !data?.model || !data?.category || !data?.carColor || !data?.carFuelType || !data?.carPower || !data?.carEngCapacity || !data?.carDrive || !data?.carTrans || !data?.carGears || !data?.carDoors || !data?.vin || !data?.odometer || !data?.salon) return res.status(400).json({message: "brak wartości"});
 
     const filesUrls = req?.files.map(item => item.path);
     const number = await Offerts.countDocuments().exec() + 1;
@@ -93,11 +93,11 @@ const createOffert = async (req,res,next) => {
       functionalities: data.functionalities,
       price: data.price,
       car: {
-        make: data.carMake,
-        year: data.carYear,
-        model: data.carModel,
+        make: data.make,
+        year: data.year,
+        model: data.model,
         color: data.carColor,
-        category: data.carCategory,
+        category: data.category,
         engine: {
           fuelType: data.carFuelType,
           power: data.carPower,
@@ -117,10 +117,10 @@ const createOffert = async (req,res,next) => {
       salons: data.salon.trim(),
       gallery: filesUrls
     })
-    console.log(newOffert)
     await newOffert.save();
+    console.log(newOffert)
 
-    res.status(200).json({message: "Sukcess"});
+    res.status(200).json({id:newOffert?._id, message: "Sukcess"});
   } catch (err) {
     next(err)
   }

@@ -29,7 +29,6 @@ const AddWindow = ({ setIsOpen }) => {
   }
 
   const handleClickSave = async () => {
-    // todo send axios to add user 
     try {
       const response = await axiosPrivate(auth.accessToken).post('/auth/register', {
         email: formData.email,

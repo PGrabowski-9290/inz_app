@@ -1,5 +1,6 @@
 import { Button, Checkbox, cx, FormControl, FormLabel, Input, Select, Textarea } from '@vechaiui/react';
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import AddFunctionalities from '../../components/newOffert/AddFunctionalities';
 import AddPhoto from '../../components/newOffert/AddPhoto';
 import ModelsSelectDynamic from "../../components/search/ModelsSelectDynamic";
@@ -7,9 +8,9 @@ import { carBrands, carCategories, drive, fuels, transmission, years } from "../
 import useAuth from '../../hooks/useAuth';
 import axiosPrivate from '../../utils/apiPrivate';
 
-
 const New = () => {
   const { auth } = useAuth()
+  const navigate = useNavigate()
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -32,7 +33,7 @@ const New = () => {
     odometer: "",
     salon: "",
     photos: [],
-    isActive: false
+    isActive: true
   })
   const [salonsList, setSalonsList] = useState()
 
@@ -54,12 +55,12 @@ const New = () => {
   } 
 
   function handleNumberChange(e) {
-    const pattern = /^\d+[\.]?(\d{1,2})?$/;
+    const pattern = /^\d+[.,]?(\d{1,2})?$/;
     
     if (e.target.value === '' || pattern.test(e.target.value)) {
       setFormData({
         ...formData,
-        [e.target.name]: e.target.value
+        [e.target.name]: e.target.value.replace(',', '.')
       })
     }
   }
@@ -72,7 +73,27 @@ const New = () => {
   }
 
   async function handleSend() {
+    try{
+      let form = new FormData()
 
+      for (const [key, value] of Object.entries(formData)) {
+        if (Array.isArray(value)){
+          value.forEach(v => form.append(key, v))
+        }else{
+          form.append(key, value);
+        }
+      }
+      
+      const result = await axiosPrivate(auth.accessToken).post('/offerts/new',
+        form,
+        {headers: { 'Content-Type': 'multipart/form-data' }}
+      )
+      if ( result.status === 200 ) {
+        navigate('/a/offerts/details', {state: {id: result.data.id}, replace: true})
+      }
+    }catch (error){
+      console.error(error)
+    }
   }
 
   useEffect(()=> {
@@ -120,7 +141,7 @@ const New = () => {
               </FormControl>
 
               <FormControl className="text-sm mt-2 md:m-0 py-1">
-                <FormLabel className='block text-sm font-medium leading-none text-gray-700'>Numer rejestracj</FormLabel>
+                <FormLabel className='block text-sm font-medium leading-none text-gray-700'>Numer rejestracji</FormLabel>
                 <Input 
                   size="lg"
                   id="carNumberPlate"
@@ -419,7 +440,7 @@ const New = () => {
                 <FormControl className='text-lg mt-2 py-1 flex justify-center md:justify-end items-end'>
                   <div className='flex gap-4 justify-center'>
                     <Checkbox size="lg" checked={formData.isActive} onChange={handleChecked}>Aktywna</Checkbox>
-                    <Button size="lg">Dodaj</Button>
+                    <Button onClick={handleSend} size="lg">Dodaj</Button>
                   </div>
                 </FormControl>
               </div> 

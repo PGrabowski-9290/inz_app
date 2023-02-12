@@ -39,7 +39,6 @@ const EditWindow = ({ data,setData, setIsOpen }) => {
   }
 
   const handleClickSave = async () => {
-    // todo send axios to update user information
     try {
       const response = await axiosPrivate(auth.accessToken).put('/user/update', {user: formData, passwordChange: changePassword})
       if (response.status === 200){
