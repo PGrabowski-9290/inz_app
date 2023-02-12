@@ -19,7 +19,7 @@ const RefreshToken = () => {
         authService.setIsAuth(true);
         setAuth({accessToken: accessToken, role: role})
         const param = searchParams.get('redirect')
-        const locationTo = location.state?.redirectTo || param || '/'
+        const locationTo = location?.state?.redirectTo || param || '/'
         console.log("Redirect to: ",locationTo)
         navigate(locationTo,{replace: true})
       }

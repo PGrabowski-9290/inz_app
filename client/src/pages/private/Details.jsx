@@ -12,7 +12,7 @@ import axios from "../../utils/publicApi";
 const Details = () => {
   const location = useLocation()
   const navigate = useNavigate()
-  const offertId = location?.state.id || null;
+  const offertId = location?.state?.id || null;
   const [data, setData] = useState()
   const [contactFormOpen, setContactFormOpen] = useState(false)
 
