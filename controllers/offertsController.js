@@ -82,7 +82,10 @@ const createOffert = async (req,res,next) => {
 
     const data = req?.body;
     console.log("data",data)
-    if (!data?.title || !data?.description || !data?.price || !data?.make || !data?.year || !data?.model || !data?.category || !data?.carColor || !data?.carFuelType || !data?.carPower || !data?.carEngCapacity || !data?.carDrive || !data?.carTrans || !data?.carGears || !data?.carDoors || !data?.vin || !data?.odometer || !data?.salon) return res.status(400).json({message: "brak wartości"});
+    if (!data?.title || !data?.description || !data?.price || !data?.make || !data?.year || !data?.model ||
+        !data?.category || !data?.carColor || !data?.carFuelType || !data?.carPower || !data?.carEngCapacity ||
+        !data?.carDrive || !data?.carTrans || !data?.carGears || !data?.carDoors || !data?.vin || !data?.odometer
+        || !data?.salon) return res.status(400).json({message: "brak wartości"});
 
     const filesUrls = req?.files.map(item => item.path);
     const number = await Offerts.countDocuments().exec() + 1;
@@ -118,7 +121,6 @@ const createOffert = async (req,res,next) => {
       gallery: filesUrls
     })
     await newOffert.save();
-    console.log(newOffert)
 
     res.status(200).json({id:newOffert?._id, message: "Sukcess"});
   } catch (err) {

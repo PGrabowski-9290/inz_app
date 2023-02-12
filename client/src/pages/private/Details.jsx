@@ -173,20 +173,20 @@ const Details = () => {
       {/* Opis */}
       <div className='pb-3 px-2 shadow-xl mb-4 bg-white'>
         <h2 className='font-semibold text-xl text-gray-700 mb-2'>Opis</h2>
-        <div className='p-2 md:px-4' dangerouslySetInnerHTML={{__html: (data?.description || "Brak opisu").replaceAll('\\n','<br />')}}>
+        <div className='p-2 md:px-4 whitespace-pre-line' dangerouslySetInnerHTML={{__html: (data?.description || "Brak opisu").replaceAll('\\n','<br />')}}>
           
         </div>
       </div>
       <OpenWindow 
-        open={contactFormOpen} 
-        component={
-          <ContactForm 
-            setTitle={data.title+', Ofert number: '+data.number} 
+        open={contactFormOpen}
+      >
+        <ContactForm
+            setTitle={data.title+', Ofert number: '+data.number}
             onSubmit={() => {setContactFormOpen(false)}}
             showControlBtn={true}
             onClose={handleCloseContactForm}
-          />}
-      />
+        />
+      </OpenWindow>
     </div>
   )
 }
