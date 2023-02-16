@@ -26,13 +26,13 @@ const Salons = () => {
   return (
     <div className='w-full'>
       <div className='text-2xl text-slate-700 font-semibold text-center p-3 rounded-md shadow-md '>Nasze salony sprzedaży</div>
-      <div className='w-full grid grid-cols-1 md: grid-cols-2 gap-4 mt-4'>
+      <div className='w-full grid grid-cols-1 md:grid-cols-2 gap-4 mt-4'>
         {!salonsList[0] === undefined ? (
           <div className='w-full p-2 py-4 rounded-md shadow-md flex gap-4'>Brak aktywnych salonów</div>
         ) : (
           salonsList.map((salon, index) => {
             return (
-              <div key={index} className='w-full p-2 py-4 rounded-md shadow-lg md:w-2/5'>
+              <div key={index} className='w-full p-2 py-4 rounded-md shadow-lg'>
                 <div className='font-semibold text-slate-600 text-center text-2xl'>{salon.location.zipCode+' '+salon.location.city+' '+salon.location.street}</div>
                 <div className='flex flex-row flex-nowrap justify-around mt-2'>
                   <Button
