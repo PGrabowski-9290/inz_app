@@ -5,14 +5,14 @@ import useAuth from '../../hooks/useAuth'
 import axiosPrivate from '../../utils/apiPrivate'
  
 
-const EditWindow = ({ data,setData, setIsOpen }) => {
+const EditWindow = ({ data, setData, setIsOpen }) => {
   const [showPass, setShowPass] = useState(false)
   const [changePassword, setChangePassword] = useState(false)
   const [formData, setFormData] = useState({
-    _id: data._id,
-    role: data.role,
-    email: data.email,
-    name: data.name,
+    _id: data?._id,
+    role: data?.role,
+    email: data?.email,
+    name: data?.name,
     password: ''
   })
   const {auth} = useAuth()
@@ -49,8 +49,6 @@ const EditWindow = ({ data,setData, setIsOpen }) => {
       console.log(err?.response?.body?.message)
     }
   }
-  
-  console.log(data)
 
   const options = [
     {

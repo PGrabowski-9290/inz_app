@@ -15,7 +15,7 @@ const Logout = () => {
 
   return (
     <div className="xl:px-20 md:px-10 sm:px-6 px-4 md:py-12 py-9 2xl:mx-auto 2xl:container md:flex items-center justify-center">
-      <div div className="bg-white shadow-lg rounded xl:w-2/3 lg:w-5/12 md:w-1/2 w-6/7 lg:px-10 sm:px-6 sm:py-10 px-2 py-6">
+      <div className="bg-white shadow-lg rounded xl:w-2/3 lg:w-5/12 md:w-1/2 w-6/7 lg:px-10 sm:px-6 sm:py-10 px-2 py-6">
         <p className='text-2xl font-bold leading-6 text-gray-800 w-full mb-2 text-center sm:text-left'>Wylogowano</p>
         <div className="w-full flex items-center justify-between py-5">
           <hr className="w-full bg-gray-400" />

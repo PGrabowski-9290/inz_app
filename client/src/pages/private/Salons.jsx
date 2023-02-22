@@ -4,11 +4,16 @@ import {Button, cx} from "@vechaiui/react";
 import {EnvelopeIcon, PhoneIcon} from "@heroicons/react/24/outline";
 import useAuth from '../../hooks/useAuth';
 import OpenWindow from "../../components/OpenWindow";
+import FormSalon from "../../components/salons/FormSalon";
 
 const SalonsPrivate = () => {
   const {auth} = useAuth()
   const [salonsList, setSalonsList] = useState([])
   const [edit, setEdit] = useState({isOpen: false, id: null})
+
+  function handleClose() {
+    setEdit({isOpen: false, id: null});
+  }
 
   useEffect(() => {
     async function get() {
@@ -29,7 +34,17 @@ const SalonsPrivate = () => {
 
   return (
     <div className='w-full'>
-      <div className='text-2xl text-slate-700 font-semibold text-center p-3 rounded-md shadow-md '>Nasze salony sprzedaży</div>
+      <div className={'relative'}>
+        <div className='text-2xl text-slate-700 font-semibold md:text-center p-3 rounded-md shadow-md '>Nasze salony sprzedaży</div>
+        <div className={'absolute top-0 right-3 flex justify-center items-center h-full'}>
+          <Button
+            color={'primary'}
+            onClick={() => setEdit({isOpen: true, id: "new"})}
+          >
+            DODAJ
+          </Button>
+        </div>
+      </div>
       <div className='w-full grid grid-cols-1 md: grid-cols-2 gap-4 mt-4'>
         {!salonsList[0] === undefined ? (
             <div className='w-full p-2 py-4 rounded-md shadow-md flex gap-4'>Brak aktywnych salonów</div>
@@ -40,7 +55,7 @@ const SalonsPrivate = () => {
                 <div className='font-semibold text-slate-600 text-center text-2xl'>{salon.location.zipCode+' '+salon.location.city+' '+salon.location.street}</div>
                 <div className='flex flex-row flex-nowrap justify-around mt-2'>
                   <Button
-                    color='indigo'
+                    color='primary'
                     variant='link'
                     className='cursor-pointer'
                     size='xl'
@@ -48,7 +63,7 @@ const SalonsPrivate = () => {
                   >{salon.contact.email}</Button>
 
                   <Button
-                    color='indigo'
+                    color='primary'
                     variant='link'
                     className='cursor-pointer'
                     size='xl'
@@ -76,13 +91,11 @@ const SalonsPrivate = () => {
               </div>
             )
           })
-        )
-
-        }
+        )}
       </div>
 
-      <OpenWindow open={edit.isOpen} onClose={()=> setEdit({isOpen: false, id: null})}>
-        <div>{edit.id}</div>
+      <OpenWindow open={edit.isOpen} onClose={handleClose}>
+        {edit?.id && <FormSalon id={edit?.id} onError={handleClose} />}
       </OpenWindow>
     </div>
   )

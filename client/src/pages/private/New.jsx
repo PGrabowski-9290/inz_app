@@ -7,7 +7,7 @@ import ModelsSelectDynamic from "../../components/search/ModelsSelectDynamic";
 import { carBrands, carCategories, drive, fuels, transmission, years } from "../../enums";
 import useAuth from '../../hooks/useAuth';
 import axiosPrivate from '../../utils/apiPrivate';
-
+//todo poprawienie UI zgodnie z pracą - pasek nawigacyjny
 const New = () => {
   const { auth } = useAuth()
   const navigate = useNavigate()
