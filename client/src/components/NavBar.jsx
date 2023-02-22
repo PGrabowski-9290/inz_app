@@ -32,10 +32,10 @@ const NavBar = () => {
                 </>
               } />
 
-              <Link to={auth?.accessToken ? "/a/salons" : "/salons"} className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium">Salony</Link>
+              <Link to={auth?.role === roles.Admin ? "/a/salons" : "/salons"} className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium">Salony</Link>
               { auth?.accessToken && 
                 <>
-                  { (auth?.role === "admin") &&<Link to="/a/settings/profile" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium">Ustawienia</Link>}
+                  { (auth?.role === roles.Admin || auth?.role === roles.User) &&<Link to="/a/settings/profile" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium">Ustawienia</Link>}
                   <Link to="/logoutconfirm" state={{ locationTo: location.pathname }} className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium">Wyloguj</Link> 
                 </>
               }
@@ -61,10 +61,10 @@ const NavBar = () => {
                 </>
               } />
 
-            <Link onClick={() => setOpen(false)} to={auth?.accessToken ? "/a/salons" : "/salons"} className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Salony</Link>
+            <Link onClick={() => setOpen(false)} to={auth?.role === roles.Admin ? "/a/salons" : "/salons"} className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Salony</Link>
             { auth?.accessToken && 
               <>
-                { (auth?.role === "admin") && <Link onClick={() => setOpen(false)} to="/a/settings/profile" className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Ustawienia</Link> }
+                { (auth?.role === roles.Admin || auth?.role === roles.User) && <Link onClick={() => setOpen(false)} to="/a/settings/profile" className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Ustawienia</Link> }
                 <Link onClick={() => setOpen(false)} to="/logoutconfirm" state={{ locationTo: location.pathname }} className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Wyloguj</Link>
               </> 
             }
