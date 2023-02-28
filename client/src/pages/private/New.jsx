@@ -1,16 +1,17 @@
 import { Button, Checkbox, cx, FormControl, FormLabel, Input, Select, Textarea } from '@vechaiui/react';
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import AddFunctionalities from '../../components/newOffert/AddFunctionalities';
 import AddPhoto from '../../components/newOffert/AddPhoto';
 import ModelsSelectDynamic from "../../components/search/ModelsSelectDynamic";
 import { carBrands, carCategories, drive, fuels, transmission, years } from "../../enums";
 import useAuth from '../../hooks/useAuth';
 import axiosPrivate from '../../utils/apiPrivate';
-//todo poprawienie UI zgodnie z pracą - pasek nawigacyjny
+import BackButton from "../../components/BackButton";
 const New = () => {
   const { auth } = useAuth()
   const navigate = useNavigate()
+  const location = useLocation()
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -103,6 +104,19 @@ const New = () => {
   return (
     <div className="w-full flex justify-center">
       <div className='w-full max-w-4xl'>
+        <div className='p-2 shadow-lg mb-3 rounded-md bg-white flex justify-between items-center'>
+          <div>
+            <BackButton path={location.state?.locationTo}></BackButton>
+          </div>
+          <div>
+            <FormControl className='text-lg flex justify-center md:justify-end items-end'>
+              <div className='flex gap-4 justify-center'>
+                <Checkbox checked={formData.isActive} onChange={handleChecked}>Aktywna</Checkbox>
+                <Button onClick={handleSend} >Dodaj</Button>
+              </div>
+            </FormControl>
+          </div>
+        </div>
         <div className='p-2 shadow-lg rounded-md bg-white flex flex-col gap-2'>
           <div>
             <h1 className='text-center text-2xl text-gray-600 font-semibold'>Nowa Oferta</h1>
@@ -436,14 +450,7 @@ const New = () => {
                     <Input.RightAddon children="zł" />
                   </Input.Group>
                 </FormControl>
-
-                <FormControl className='text-lg mt-2 py-1 flex justify-center md:justify-end items-end'>
-                  <div className='flex gap-4 justify-center'>
-                    <Checkbox size="lg" checked={formData.isActive} onChange={handleChecked}>Aktywna</Checkbox>
-                    <Button onClick={handleSend} size="lg">Dodaj</Button>
-                  </div>
-                </FormControl>
-              </div> 
+              </div>
             </div>
 
           </div>

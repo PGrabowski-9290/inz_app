@@ -28,7 +28,7 @@ const NavBar = () => {
 
               <ProtectedRoleComponent allowed={[roles.Admin, roles.User]} component={
                 <>
-                  <Link to="/a/offerts/new" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium">Nowa Oferta</Link>
+                  <Link to="/a/offerts/new" state={{ locationTo: location.pathname }} className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium">Nowa Oferta</Link>
                 </>
               } />
 

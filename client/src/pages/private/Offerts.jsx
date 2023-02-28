@@ -71,7 +71,7 @@ const OffertsPrivate = () => {
           </div>
         ) : (
           <>
-            <div className='flex flex-row justify-between items-center'>
+            <div className='flex flex-row justify-between items-center bg-white p-2 rounded shadow-lg'>
               <div className='text-xl flex flex-row flex-nowrap space-x-3'>
                 <PaginationNav page={page} setPage={setPage}/>
                 <div>

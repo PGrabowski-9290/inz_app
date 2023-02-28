@@ -5,7 +5,7 @@ const getOffertsListPublic = async (req, res, next) => {
     const {limit = 10, page = 1} = req.query;
     const count = Math.ceil(await Offerts.countDocuments() / limit);
     
-    const result = await Offerts.find({ isSold: false, isActive: true}).populate({path: 'salons', select: 'location contact _id'}).sort({ $natural:1}).select("car.engine car.make car.year car.model car.odometer title price salons gallery").skip(limit * (page - 1)).limit(limit * 1).exec();
+    const result = await Offerts.find({ isSold: false, isActive: true}).populate({path: 'salons', select: 'location contact _id'}).sort({ $natural:1}).select("car.engine car.make car.year car.model car.odometer title price salons gallery number").skip(limit * (page - 1)).limit(limit * 1).exec();
     if (!result) return res.status(404).json({ message: "Nie znaleziono"});
 
     res.status(200).json({data: result, totalPages: count, message: "Success"});
@@ -51,7 +51,7 @@ const getFilteredOffertsListPublic = async (req, res, next) => {
 
     const count = Math.ceil(await Offerts.find(filterObj.get()).countDocuments() / limit);
 
-    const result = await Offerts.find(filterObj.get()).populate({path: 'salons', select: 'location contact _id'}).sort({_id:1}).select("car.engine car.make car.year car.model car.odometer title price salons gallery").skip(limit * (page - 1)).limit(limit * 1).exec();
+    const result = await Offerts.find(filterObj.get()).populate({path: 'salons', select: 'location contact _id'}).sort({_id:1}).select("car.engine car.make car.year car.model car.odometer title price salons gallery number").skip(limit * (page - 1)).limit(limit * 1).exec();
     if(!result) return res.status(404).json({message: "Nie odnaleziono obiektu"});
 
     res.status(200).json({data: result, totalPages: count, message: "Done"});

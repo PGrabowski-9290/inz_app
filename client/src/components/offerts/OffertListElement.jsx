@@ -40,16 +40,16 @@ const OffertListElement = ({item}) => {
       </div>
       <div className='p-3'>
         <p className='font-bold text-xl text-violet-700 text-right'>{(item?.price * 1 ).toLocaleString('pl-PL', { minimumFractionDigits: 2 })}<span className='text-sm ml-1'>PLN</span></p>
-        <ProtectedRoleComponent allowed={[roles.Admin, roles.User]} component={
-          <div className="flex justify-between gap-2 text-sm">
-            <span className="text-gray-400">{"Oferta nr. "+item?.number}</span>
-            {item?.isSold ? (
-              <span className="font-bold text-red-500 text-right ">Sprzedane</span>
-            ) : 
-              !item?.isActive ? <span className="font-bold text-red-500 text-right">Nie aktywne</span> : 
-                <span className="font-bold text-green-500 text-right">Aktywna</span> }
-          </div>
-        } />
+        <div className="flex justify-between gap-2 text-sm">
+          <span className="text-gray-400">{"Oferta nr. "+item?.number}</span>
+          <ProtectedRoleComponent allowed={[roles.Admin, roles.User]} component={
+            item?.isSold ? (
+                <span className="font-bold text-red-500 text-right ">Sprzedane</span>
+              ) :
+              !item?.isActive ? <span className="font-bold text-red-500 text-right">Nie aktywne</span> :
+                <span className="font-bold text-green-500 text-right">Aktywna</span>
+          }/>
+        </div>
       </div>
     </div>
   )
