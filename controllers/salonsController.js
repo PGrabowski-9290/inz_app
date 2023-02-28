@@ -36,7 +36,7 @@ const updateSalon = async (req, res, next) => {
 
         findSalon.location = {...data.location}
         findSalon.contact = {...data.contact}
-
+        findSalon.users = data.users
         await findSalon.save();
 
         res.status(200).json({message: "Zaktualizowano"})
@@ -92,7 +92,7 @@ const getSalon = async (req, res, next) => {
     console.log(paramId);
 
     try {
-        const result = await Salons.findOne({_id: paramId}).exec();
+        const result = await Salons.findOne({_id: paramId}).populate({path: 'users', select: '_id email name'}).exec();
         if (!result) return res.status(404).json({message: "Nie odnaleziono"});
 
         res.status(200).json({data: result, message: "Pobrano"})

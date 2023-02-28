@@ -1,6 +1,6 @@
 const Deals = require('../models/deals');
 const Users = require('../models/user');
-const Offerts = require('../models/offerts');
+const Offers = require('../models/offerts');
 const Settings = require('../models/settings');
 const fs = require('fs');
 const { PDFDocument} = require('@visaright/pdf-lib');
@@ -12,9 +12,9 @@ const createDeal = async (req,res,next) => {
     const data = req?.body?.data;
     if(!data) return res.status(400).json({message: "Błędne zapytanie"});
 
-    const resOffert = await Offerts.findOne({_id: data.offert});
-    if(!resOffert) return res.status(400).json({message: "Nie odnaleziono oferty"});
-    if(resOffert.isSold === true) return res.status(400).json({message: "Wybrana ofert została już sprzedana"})
+    const resOffer = await Offers.findOne({_id: data.offert});
+    if(!resOffer) return res.status(400).json({message: "Nie odnaleziono oferty"});
+    if(resOffer.isSold === true) return res.status(400).json({message: "Wybrana ofert została już sprzedana"})
 
     const number = await Deals.estimatedDocumentCount() + 1;
     const userId = await Users.findOne({email: req.email}).select('_id');
@@ -36,8 +36,8 @@ const createDeal = async (req,res,next) => {
     });
 
     const result = await newDeal.save();
-    resOffert.isSold = true;
-    await resOffert.save();    
+    resOffer.isSold = true;
+    await resOffer.save();
 
     res.status(200).json({id: result._id ,message: "Utworzno"})
   } catch (err) {

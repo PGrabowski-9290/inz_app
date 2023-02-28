@@ -11,11 +11,10 @@ const FormSalon = ({ id = null, onSuccess = (a) => {console.log(`Data save succe
         zipCode: "",
         phone: "",
         email: "",
-        users: [],
         _id: null
     })
     const [usersList, setUsersList] = useState([])
-    const [selectedUser, setSelectedUser] = useState({_id:'', name: ''})
+    const [selectedUser, setSelectedUser] = useState({_id:null, name: ''})
     const isEdit = !!(id)
     const [selUserList, setSelUserList] = useState([])
 
@@ -27,7 +26,7 @@ const FormSalon = ({ id = null, onSuccess = (a) => {console.log(`Data save succe
     }
     function handleSelectUser(e) {
         let tmpObj = {
-            _id: e.target.value,
+            _id: e.target.value === '' ? null : e.target.value ,
             name: e.target.selectedOptions[0].text
         }
         setSelectedUser(tmpObj)
@@ -40,19 +39,16 @@ const FormSalon = ({ id = null, onSuccess = (a) => {console.log(`Data save succe
                 return true
             }
         } )
-        if (selectedUser._id !== '' && !exist ) {
+        if (selectedUser._id !== null && !exist ) {
             setSelUserList(
               [...selUserList, selectedUser]
             )
         }
-        setSelectedUser({_id: '', name: ''})
+        setSelectedUser({_id: null, name: ''})
     }
 
     function handleRemove (id){
-        setForm({
-            ...form,
-            users: form.users.filter((item, index) => index !== id)
-        })
+        setSelUserList(selUserList.filter((item, index) => index !== id))
     }
     async function handleSubmit () {
         try {
@@ -62,7 +58,7 @@ const FormSalon = ({ id = null, onSuccess = (a) => {console.log(`Data save succe
                 "zipCode": form.zipCode,
                 "phone": form.phone,
                 "email": form.email,
-                "userId": form.users.map(el => el._id)
+                "userId": selUserList.map(el => el._id)
             }
             const axios = axiosPrivate(auth.accessToken)
             let response
@@ -82,7 +78,8 @@ const FormSalon = ({ id = null, onSuccess = (a) => {console.log(`Data save succe
                           contact: {
                               phoneNumber: form.phone,
                               email: form.email
-                          }
+                          },
+                          users: selUserList.map(el => el._id)
                       }
                   })
             }
@@ -103,7 +100,7 @@ const FormSalon = ({ id = null, onSuccess = (a) => {console.log(`Data save succe
                 const resultUsers = await axiosPrivate(auth.accessToken).get('/user/list');
 
                 if (resultUsers.status === 200) {
-                    return setUsersList(resultUsers.data?.list)
+                    setUsersList(resultUsers.data?.list)
                 }
             } catch (err) {
                 console.error(err)
@@ -115,20 +112,10 @@ const FormSalon = ({ id = null, onSuccess = (a) => {console.log(`Data save succe
 
                 if (resultData.status === 200 ) {
                     //todo dodanie pobrnych userow do selUserList
-                    const tmp = []
-                    resultData.data.data.users.forEach(value => {
-                        console.log("value", value)
-                        usersList.filter((el) => {
-                            console.log('122: ', el)
-                            return el._id === value
-                        }).map(el => {
-                            console.log({_id: el._id, name: el.email})
-                            tmp.push({_id: el._id, name: el.email})
-                        })
-                    })
 
-                    console.log(tmp)
-                    setSelUserList(tmp)
+                    setSelUserList(resultData?.data?.data?.users.map(el => {
+                        return {_id: el._id, name: el.email}
+                    }))
                     return setForm({
                         ...form,
                         city: resultData.data?.data?.location?.city,
@@ -136,7 +123,6 @@ const FormSalon = ({ id = null, onSuccess = (a) => {console.log(`Data save succe
                         zipCode: resultData.data?.data?.location?.zipCode,
                         phone: resultData.data?.data?.contact?.phoneNumber,
                         email: resultData.data?.data?.contact?.email,
-                        users: resultData.data?.data?.users,
                         _id: salonID
                     })
                 }
