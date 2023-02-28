@@ -15,6 +15,7 @@ import RefreshToken from "../pages/RefreshToken";
 import Layout from "./Layout";
 import ProtectedRoleRoute from "./ProtectedRoleRoute";
 import ProtectedRoute from "./ProtectedRoute";
+import Company from "../pages/private/Company";
 //todo fix typo offerts -> offers
 const App = () => {
 
@@ -39,6 +40,7 @@ const App = () => {
                     <Route path="profile" element={<Profile />}/>
                     <Route element={<ProtectedRoleRoute allowed={["admin"]} />} >
                       <Route path="users" element={<UsersManage />} />
+                      <Route path="company" element={<Company />} />
                     </Route>
                   </Route>
                   <Route path="offerts" exact >

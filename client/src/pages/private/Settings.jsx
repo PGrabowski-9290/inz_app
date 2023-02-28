@@ -21,11 +21,20 @@ const Settings = () => {
               <Link to={"profile"}>Profil</Link>
             </Breadcrumb.Link>
           </Breadcrumb.Item>
-          {auth?.role === "admin" && <Breadcrumb.Item currentPage={currentPage === "users"}>
-            <Breadcrumb.Link as={"span"}>
-              <Link to={"users"}>Użytkownicy</Link>
-            </Breadcrumb.Link>
-          </Breadcrumb.Item>}
+          {auth?.role === "admin" &&
+            <Breadcrumb.Item currentPage={currentPage === "users"}>
+              <Breadcrumb.Link as={"span"}>
+                <Link to={"users"}>Użytkownicy</Link>
+              </Breadcrumb.Link>
+            </Breadcrumb.Item>
+          }
+          {auth?.role === "admin" &&
+            <Breadcrumb.Item currentPage={currentPage === "company"}>
+              <Breadcrumb.Link as={"span"}>
+                <Link to={"company"}>Firma</Link>
+              </Breadcrumb.Link>
+            </Breadcrumb.Item>
+          }
         </Breadcrumb>
       </div>
       <Outlet />
