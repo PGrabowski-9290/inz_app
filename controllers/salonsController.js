@@ -2,7 +2,7 @@ const Salons = require('../models/salons');
 
 const createSalon = async (req, res, next) => {
   const data = req.body?.salon;
-
+  console.log(data)
   try {
     const salon = new Salons({
       location: {
@@ -14,9 +14,8 @@ const createSalon = async (req, res, next) => {
         phoneNumber: data.phone,
         email: data.email
       },
-      users: [
+      users:
         data.userId
-      ]
     })
 
     await salon.save();

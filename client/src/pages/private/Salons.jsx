@@ -15,20 +15,27 @@ const SalonsPrivate = () => {
     setEdit({isOpen: false, id: null});
   }
 
-  useEffect(() => {
-    async function get() {
-      try {
-        const result = await axios(auth.accessToken).get('/salons/list')
+  function handleSuccess () {
+    get()
+    handleClose()
+    console.log('dziala?')
+  }
 
-        if (result.status === 200) {
-          setSalonsList(result.data.data)
-          console.log(result.data.message)
-        }
-      }catch (error){
-        console.error(error)
+  async function get() {
+    try {
+      const result = await axios(auth.accessToken).get('/salons/list')
+
+      if (result.status === 200) {
+        setSalonsList(result.data.data)
+        console.log(result.data.message)
       }
+    }catch (error){
+      console.error(error)
     }
+  }
 
+
+  useEffect(() => {
     get()
   }, [])
 
@@ -39,7 +46,7 @@ const SalonsPrivate = () => {
         <div className={'absolute top-0 right-3 flex justify-center items-center h-full'}>
           <Button
             color={'primary'}
-            onClick={() => setEdit({isOpen: true, id: "new"})}
+            onClick={() => setEdit({isOpen: true, id: null})}
           >
             DODAJ
           </Button>
@@ -95,7 +102,7 @@ const SalonsPrivate = () => {
       </div>
 
       <OpenWindow open={edit.isOpen} onClose={handleClose}>
-        {edit?.id && <FormSalon id={edit?.id} onError={handleClose} />}
+        {edit?.isOpen && <FormSalon id={edit?.id} onSuccess={handleSuccess} onError={handleClose} />}
       </OpenWindow>
     </div>
   )

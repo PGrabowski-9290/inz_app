@@ -3,7 +3,7 @@ import {Button, cx, FormControl, FormErrorMessage, FormLabel, IconButton, Input,
 import axiosPrivate from "../../utils/apiPrivate";
 import useAuth from "../../hooks/useAuth";
 import {XMarkIcon} from "@heroicons/react/24/outline";
-const FormSalon = ({ id, onError = () => {console.log("Data load error")} }) => {
+const FormSalon = ({ id = null, onSuccess = (a) => {console.log(`Data save success: ${a}`)}, onError = () => {console.log("Data load error")} }) => {
     const { auth } = useAuth();
     const [form, setForm] = useState( {
         city: "",
@@ -11,10 +11,13 @@ const FormSalon = ({ id, onError = () => {console.log("Data load error")} }) => 
         zipCode: "",
         phone: "",
         email: "",
-        users: []
+        users: [],
+        _id: null
     })
     const [usersList, setUsersList] = useState([])
     const [selectedUser, setSelectedUser] = useState({_id:'', name: ''})
+    const isEdit = !!(id)
+    const [selUserList, setSelUserList] = useState([])
 
     function handleChange (e) {
         setForm({
@@ -31,17 +34,16 @@ const FormSalon = ({ id, onError = () => {console.log("Data load error")} }) => 
     }
 
     function handleAddUserToList() {
-        const exist = form.users.some(el => {
+        const exist = selUserList.some(el => {
             if (el._id === selectedUser._id) {
                 console.log('Użytkownik jest już dodany')
                 return true
             }
         } )
         if (selectedUser._id !== '' && !exist ) {
-            setForm({
-                ...form,
-                users: [...form.users, selectedUser]
-            })
+            setSelUserList(
+              [...selUserList, selectedUser]
+            )
         }
         setSelectedUser({_id: '', name: ''})
     }
@@ -54,7 +56,41 @@ const FormSalon = ({ id, onError = () => {console.log("Data load error")} }) => 
     }
     async function handleSubmit () {
         try {
-            console.log('submit')
+            const salon = {
+                "city": form.city,
+                "street": form.street,
+                "zipCode": form.zipCode,
+                "phone": form.phone,
+                "email": form.email,
+                "userId": form.users.map(el => el._id)
+            }
+            const axios = axiosPrivate(auth.accessToken)
+            let response
+            console.log(isEdit)
+            if (!isEdit){
+                response = await axios.post('/salons/add',
+                  {salon: salon})
+            } else {
+                response = await axios.patch(`/salons/update/${form._id}`,
+                  {
+                      data: {
+                          location: {
+                              city: form.city,
+                              street: form.street,
+                              zipCode: form.zipCode
+                          },
+                          contact: {
+                              phoneNumber: form.phone,
+                              email: form.email
+                          }
+                      }
+                  })
+            }
+
+            if( response.status === 200) {
+                console.log('Zapisaono')
+                onSuccess(response.data)
+            }
 
         } catch (err) {
             console.error(err)
@@ -78,13 +114,30 @@ const FormSalon = ({ id, onError = () => {console.log("Data load error")} }) => 
                 const resultData = await axiosPrivate(auth.accessToken).get(`/salons/details/${salonID}`);
 
                 if (resultData.status === 200 ) {
+                    //todo dodanie pobrnych userow do selUserList
+                    const tmp = []
+                    resultData.data.data.users.forEach(value => {
+                        console.log("value", value)
+                        usersList.filter((el) => {
+                            console.log('122: ', el)
+                            return el._id === value
+                        }).map(el => {
+                            console.log({_id: el._id, name: el.email})
+                            tmp.push({_id: el._id, name: el.email})
+                        })
+                    })
+
+                    console.log(tmp)
+                    setSelUserList(tmp)
                     return setForm({
                         ...form,
                         city: resultData.data?.data?.location?.city,
                         street: resultData.data?.data?.location?.street,
                         zipCode: resultData.data?.data?.location?.zipCode,
                         phone: resultData.data?.data?.contact?.phoneNumber,
-                        email: resultData.data?.data?.contact?.email
+                        email: resultData.data?.data?.contact?.email,
+                        users: resultData.data?.data?.users,
+                        _id: salonID
                     })
                 }
                 return onError()
@@ -94,8 +147,9 @@ const FormSalon = ({ id, onError = () => {console.log("Data load error")} }) => 
                 return onError();
             }
         }
+
         loadUsersList()
-        if (id !== "new") {
+        if (id !== null) {
             loadData(id);
         }
     }, [])
@@ -224,18 +278,14 @@ const FormSalon = ({ id, onError = () => {console.log("Data load error")} }) => 
                                 </div>
                             </FormControl>
                             <div className='flex flex-wrap gap-3 mt-2 px-2 md:p-3 '>
-                                {form?.users.map((item, index) => {
-                                    return (
-                                      <div key={index} className="tag outline outline-indigo-600 outline-1 outline-offset-1 pl-2">
-                                          <span className='text-gray-700'>{item.name}</span>
-                                          <IconButton onClick={() => handleRemove(index)} variant='link' className='text-indigo-600 opacity-50 hover:opacity-100'>
-                                              <XMarkIcon className='w-6 h-6'></XMarkIcon>
-                                          </IconButton>
-                                      </div>
-                                    )
-                                })
-
-                                }
+                                { selUserList.map((item, index) => (
+                                  <div key={index} className="tag outline outline-indigo-600 outline-1 outline-offset-1 pl-2">
+                                      <span className='text-gray-700'>{item.name}</span>
+                                      <IconButton onClick={() => handleRemove(index)} variant='link' className='text-indigo-600 opacity-50 hover:opacity-100'>
+                                          <XMarkIcon className='w-6 h-6'></XMarkIcon>
+                                      </IconButton>
+                                  </div>
+                                )) }
                             </div>
                         </div>
 
