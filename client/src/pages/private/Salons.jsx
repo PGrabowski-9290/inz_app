@@ -18,7 +18,26 @@ const SalonsPrivate = () => {
   function handleSuccess () {
     get()
     handleClose()
-    console.log('dziala?')
+  }
+
+  async function handleChangeStatus(e, status) {
+    try {
+      const id = e.target.getAttribute('data-id')
+      console.log((Boolean(status)))
+      console.log(!(Boolean(status)))
+      const res = await axios(auth.accessToken).patch(`/salons/active/${id}`,
+        {
+          status: !(Boolean(status))
+        })
+      if (res.status === 200) {
+        console.log("Zaktualizowano")
+      }
+      get()
+    } catch (err) {
+      console.error(err)
+    }
+
+
   }
 
   async function get() {
@@ -79,11 +98,19 @@ const SalonsPrivate = () => {
                 </div>
                 <hr  className="my-3"/>
                 <div className="grid grid-cols-2 items-center">
-                  <div className="text-center text-slate-600 font-semibold">Status <span className={cx(
-                    "uppercase text-semibold",
-                    salon?.isActive ? "text-green-600" : "text-red-600"
-                  )}>
-                    {salon.isActive ? "Aktywny" : "Nieaktywny"}
+                  <div className="text-center text-slate-600 font-semibold">Status <span className={'pl-1'}>
+                    <Button
+                      data-value={salon?.isActive}
+                      data-id={salon?._id}
+                      onClick={(e) => {handleChangeStatus(e, salon?.isActive)}}
+                      variant={'light'}
+                      color={salon?.isActive ? 'green' : 'warning'}
+                      className={cx(
+                        "uppercase text-semibold",
+                        salon?.isActive ? "text-green-600" : "text-red-600")}
+                    >
+                      {salon.isActive ? "Aktywny" : "Nieaktywny"}
+                    </Button>
                   </span></div>
                   <div className={"justify-self-center"}>
                     <Button
