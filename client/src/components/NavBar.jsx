@@ -24,11 +24,11 @@ const NavBar = () => {
             </div>
             <div className='hidden sm:ml-6 sm:block'>
               {/* Menu desktop */}
-              <Link to={auth?.accessToken ? "/a/offerts" : "/offerts"} className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium">Oferty</Link>
+              <Link to={auth?.accessToken ? "/a/offers" : "/offers"} className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium">Oferty</Link>
 
               <ProtectedRoleComponent allowed={[roles.Admin, roles.User]} component={
                 <>
-                  <Link to="/a/offerts/new" state={{ locationTo: location.pathname }} className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium">Nowa Oferta</Link>
+                  <Link to="/a/offers/new" state={{ locationTo: location.pathname }} className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium">Nowa Oferta</Link>
                 </>
               } />
 
@@ -53,11 +53,11 @@ const NavBar = () => {
       { open && 
         <div className='sm:hidden'>
           <div className='space-y-1 px-2 pt-2 pb-3'>
-            <Link onClick={() => setOpen(false)} to={auth?.accessToken ? "/a/offerts" : "/offerts"} className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Oferty</Link>
+            <Link onClick={() => setOpen(false)} to={auth?.accessToken ? "/a/offers" : "/offers"} className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Oferty</Link>
 
             <ProtectedRoleComponent allowed={[roles.Admin, roles.User]} component={
                 <>
-                  <Link to="/a/offerts/new" onClick={() => setOpen(false)} className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Nowa Oferta</Link>
+                  <Link to="/a/offers/new" onClick={() => setOpen(false)} className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Nowa Oferta</Link>
                 </>
               } />
 

@@ -85,12 +85,12 @@ const New = () => {
         }
       }
       
-      const result = await axiosPrivate(auth.accessToken).post('/offerts/new',
+      const result = await axiosPrivate(auth.accessToken).post('/offers/new',
         form,
         {headers: { 'Content-Type': 'multipart/form-data' }}
       )
       if ( result.status === 200 ) {
-        navigate('/a/offerts/details', {state: {id: result.data.id}, replace: true})
+        navigate('/a/offers/details', {state: {id: result.data.id}, replace: true})
       }
     }catch (error){
       console.error(error)

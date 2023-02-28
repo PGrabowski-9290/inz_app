@@ -7,15 +7,14 @@ import Login from "../pages/Login";
 import Logout from "../pages/Logout";
 import LogoutConfirm from "../pages/LogoutConfirm";
 import NotFound from "../pages/NotFound";
-import { Details as DetailsPrivate, Edit, New, Offerts as OffertsPrivate, Profile, Salons as SalonsPrivate, Settings, UsersManage } from '../pages/private';
-import OffertDetailsPublic from '../pages/public/OffertDetails';
-import OffertsPublic from "../pages/public/Offerts";
+import { Details as DetailsPrivate, Edit, New, Offers as OffersPrivate, Profile, Salons as SalonsPrivate, Settings, UsersManage, Company } from '../pages/private';
+import OfferDetailsPublic from '../pages/public/OffertDetails';
+import OffersPublic from "../pages/public/Offerts";
 import SalonsPublic from "../pages/public/Salons";
 import RefreshToken from "../pages/RefreshToken";
 import Layout from "./Layout";
 import ProtectedRoleRoute from "./ProtectedRoleRoute";
 import ProtectedRoute from "./ProtectedRoute";
-import Company from "../pages/private/Company";
 //todo fix typo offerts -> offers
 const App = () => {
 
@@ -30,9 +29,9 @@ const App = () => {
                 <Route path="/login" exact element={<Login />} />
                 <Route path="/logoutConfirm" exact element={<LogoutConfirm />} />
                 <Route path="/logout" exact element={<Logout />} />
-                <Route path="/offerts"  >
-                  <Route path="" exact element={<OffertsPublic />} />
-                  <Route path="details" exact element={<OffertDetailsPublic />}/>
+                <Route path="/offers"  >
+                  <Route path="" exact element={<OffersPublic />} />
+                  <Route path="details" exact element={<OfferDetailsPublic />}/>
                 </Route>
                 <Route path="/salons" exact element={<SalonsPublic />} />
                 <Route path="/a" element={<ProtectedRoute />} >
@@ -43,8 +42,8 @@ const App = () => {
                       <Route path="company" element={<Company />} />
                     </Route>
                   </Route>
-                  <Route path="offerts" exact >
-                    <Route path="" exact element={<OffertsPrivate/>} />
+                  <Route path="offers" exact >
+                    <Route path="" exact element={<OffersPrivate/>} />
                     <Route element={<ProtectedRoleRoute allowed={["admin", "user"]} />} >
                       <Route path="details" exact element={<DetailsPrivate />} />
                       <Route path="new" exact element={<New/>}/>
