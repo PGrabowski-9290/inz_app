@@ -5,5 +5,6 @@ const roles = require('../config/config').roles;
 
 router.post('/new', verifyJWT, verifyRole(roles.Admin, roles.User), dealsController.createDeal);
 router.get('/generate', verifyJWT, verifyRole(roles.Admin, roles.User), dealsController.getPdf);
+router.get('/check/:id', verifyJWT, verifyRole(roles.Admin, roles.User), dealsController.check)
 
 module.exports = router;

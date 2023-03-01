@@ -3,7 +3,7 @@ const Users = require('../models/user');
 const Offers = require('../models/offerts');
 const Settings = require('../models/settings');
 const fs = require('fs');
-const { PDFDocument} = require('@visaright/pdf-lib');
+const { PDFDocument } = require('@visaright/pdf-lib');
 const fontkit = require('@pdf-lib/fontkit')
 const util = require('util');
 
@@ -45,6 +45,23 @@ const createDeal = async (req,res,next) => {
   }
 }
 
+const check = async (req,res,next) => {
+  try {
+    const offerId = req.params?.id;
+    console.log(offerId)
+    if (!offerId) return res.status(400).json({message: 'Brak id offerty'})
+    const deal = await Deals.findOne({offert: offerId})
+    console.log(deal)
+    if (deal) {
+      console.log(deal)
+      return res.status(200).json({status: true, deal: deal._id})
+    }
+    return res.status(200).json({status: false})
+  }catch (err) {
+    next (err)
+  }
+}
+
 const getPdf = async (req,res,next) => {
   try {
     const dealId = req.query?.id;
@@ -56,7 +73,7 @@ const getPdf = async (req,res,next) => {
     
     const defValues = await Settings.findOne({id: 0});
 
-    console.log(deal);
+    const fileName = dealId + '.pdf'
 
     const data = {
       "date": deal.dateAdd.toString(),
@@ -67,7 +84,7 @@ const getPdf = async (req,res,next) => {
       "buyerName": deal.buyerDetails.name.toString(),
       "buyerPesel": deal.buyerDetails?.pesel?.toString(),
       "buyerNIP": deal.buyerDetails?.nip?.toString(),
-      "BuyerAddress": deal.buyerDetails.address.toString(),
+      "BuyerAddress": deal.buyerDetails.address.city.toString()+' '+deal.buyerDetails.address.zipCode.toString()+' '+deal.buyerDetails.address.street.toString(),
       "buyerId": deal.buyerDetails.personalIdNumber.toString(),
       "buyerIdVerBy": deal.buyerDetails.personalIdVerifiedBy.toString(),
       "car": deal.offert?.car?.make.toString()+" "+deal.offert?.car?.model.toString(),
@@ -98,16 +115,13 @@ const getPdf = async (req,res,next) => {
       field.setText(data[el]);
     })
     pdfForm.flatten();
-    
-    const pdfBytes = await pdfFile.save()
-    // fs.writeFile("filled.pdf", pdfBytes, () => {
-    //   console.log("PDF DONE")
-    // })
 
-    res.status(200).json({pdfData: pdfBytes, message: "tak"});
+    const base64pdf = await pdfFile.saveAsBase64()
+    res.status(200).json({message: 'ok', file: base64pdf})
+
   } catch (err) {
     next(err)
   }
 }
 
-module.exports = {createDeal, getPdf}
+module.exports = {createDeal, getPdf, check}

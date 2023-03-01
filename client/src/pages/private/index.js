@@ -7,5 +7,6 @@ import Salons from './Salons';
 import Settings from "./Settings";
 import UsersManage from "./UsersManage";
 import Company from "./Company";
+import Deal from "./Deal";
 
-export { Details, Offers, Profile, Salons, Settings, UsersManage, New, Edit, Company };
+export { Details, Offers, Profile, Salons, Settings, UsersManage, New, Edit, Company, Deal };
