@@ -5,7 +5,7 @@ import config from '../../config.json';
 const HomeOffertsSlider = ({list}) => {
   const navigate = useNavigate()
   function open(id) {
-    navigate('offerts/details', {state: {id: id}, replace: true})
+    navigate('offers/details', {state: {id: id}, replace: true})
     console.log(id)
   }
 

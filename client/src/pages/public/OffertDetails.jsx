@@ -33,7 +33,7 @@ const OffertDetails = () => {
     if (offertId)
       fetchData(offertId)
     else
-      navigate('/offerts', {replace: true})
+      navigate('/offers', {replace: true})
   }, [navigate, offertId])
 
   function handleCloseContactForm() {
@@ -49,7 +49,7 @@ const OffertDetails = () => {
   return (
     <div className='w-full'>
       <div className='flex flex-row mb-4 justify-between bg-white p-2 rounded-md shadow-lg'>
-        <BackButton path={"/offerts"}/>
+        <BackButton path={"/offers"}/>
       </div>
       
       <div className='flex flex-col md:flex-row shadow-lg rounded-b-md mb-4 bg-white'>

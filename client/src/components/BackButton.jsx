@@ -3,11 +3,11 @@ import { Button } from '@vechaiui/react'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
-const BackButton = ({path}) => {
+const BackButton = ({path, state = undefined}) => {
   const navigate = useNavigate()
 
   function handle() {
-    navigate(path, {replace: true})
+    navigate(path, {state: state, replace: true})
   }
 
   return (

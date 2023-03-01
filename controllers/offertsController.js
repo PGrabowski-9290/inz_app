@@ -17,7 +17,7 @@ const getFilteredOffertsList = async (req, res, next) => {
   try {
     const {limit = 25, page = 1} = req.query
     const filter = req?.body?.filter;
-    console.log(filter)
+
     if (!filter) return res.status(401).json({message: "błąd zapytania"});
 
     const isActive = req.body.filter?.isActive || true;

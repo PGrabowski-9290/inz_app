@@ -7,7 +7,7 @@ import Login from "../pages/Login";
 import Logout from "../pages/Logout";
 import LogoutConfirm from "../pages/LogoutConfirm";
 import NotFound from "../pages/NotFound";
-import { Details as DetailsPrivate, Edit, New, Offers as OffersPrivate, Profile, Salons as SalonsPrivate, Settings, UsersManage, Company } from '../pages/private';
+import { Details as DetailsPrivate, Edit, New, Offers as OffersPrivate, Profile, Salons as SalonsPrivate, Settings, UsersManage, Company, Deal } from '../pages/private';
 import OfferDetailsPublic from '../pages/public/OffertDetails';
 import OffersPublic from "../pages/public/Offerts";
 import SalonsPublic from "../pages/public/Salons";
@@ -48,6 +48,7 @@ const App = () => {
                       <Route path="details" exact element={<DetailsPrivate />} />
                       <Route path="new" exact element={<New/>}/>
                       <Route path="edit" exact element={<Edit />}/>
+                      <Route path='deal' exact element={<Deal/>} />
                     </Route>
                   </Route>
                   <Route path="salons" exact element={<SalonsPrivate/>}/>

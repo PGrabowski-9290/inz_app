@@ -12,7 +12,7 @@ import axios from "../../utils/publicApi";
 const Details = () => {
   const location = useLocation()
   const navigate = useNavigate()
-  const offertId = location?.state?.id || null;
+  const offerId = location?.state?.id || null;
   const [data, setData] = useState()
   const [contactFormOpen, setContactFormOpen] = useState(false)
 
@@ -30,22 +30,22 @@ const Details = () => {
       }
     }
     
-    if (offertId)
-      fetchData(offertId)
+    if (offerId)
+      fetchData(offerId)
     else
-      navigate('/a/offerts', {replace: true})
-  }, [navigate, offertId])
+      navigate('/a/offers', {replace: true})
+  }, [navigate, offerId])
 
   function handleCloseContactForm() {
     setContactFormOpen(false)
   }
   
   function handleEdit(){
-    navigate('/a/offerts/edit', {state: {id: data._id}, replace: true})
+    navigate('/a/offers/edit', {state: {id: data._id}, replace: true})
   }
 
   function handleGenerate(){
-    navigate('/a/offerts/deal', {state: {id: data._id}, replace: true})
+    navigate('/a/offers/deal', {state: {id: data._id}, replace: true})
   }
   
   if (data === undefined)
@@ -56,7 +56,7 @@ const Details = () => {
   return (
     <div className='w-full'>
       <div className='flex flex-row mb-4 justify-between bg-white p-2 rounded-md shadow-lg'>
-        <BackButton path="/a/offerts"/>
+        <BackButton path="/a/offers"/>
         <Button.Group attached>
           <Button onClick={handleGenerate}>Generuj Umowę</Button>
           <Button onClick={handleEdit}>Edytuj</Button>
@@ -181,7 +181,7 @@ const Details = () => {
         open={contactFormOpen}
       >
         <ContactForm
-            setTitle={data.title+', Ofert number: '+data.number}
+            setTitle={data.title + ', Ofert number: '+data.number}
             onSubmit={() => {setContactFormOpen(false)}}
             showControlBtn={true}
             onClose={handleCloseContactForm}

@@ -15,7 +15,7 @@ const Home = () => {
   function handleSearch() {
     try {
       console.log("dziala")
-      const url = auth?.accessToken ? '/a/offerts' : '/offerts' 
+      const url = auth?.accessToken ? '/a/offers' : '/offers'
       navigate(url, { replace: true })
       
     } catch (error) {
