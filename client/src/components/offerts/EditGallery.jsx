@@ -3,10 +3,13 @@ import { Button, IconButton } from '@vechaiui/react';
 import Carousel from 'nuka-carousel';
 import React, { useEffect, useRef, useState } from 'react';
 import noimage from '../../assets/noimage.png';
+import config from "../../config.json";
 
-const AddPhoto = ({form, setForm, extra}) => {
+const EditGalery = ({form, setForm}) => {
   const [files, setFile] = useState([])
+  const [oldFiles, setOldFiles] = useState(form.oldPhotos)
   const input = useRef(null)
+  const removePhotos = useRef([])
 
   function handleSelect(e){
     input.current.click()
@@ -29,12 +32,25 @@ const AddPhoto = ({form, setForm, extra}) => {
     setFile(result)
   }
 
+  function handleRemoveOld(id) {
+    console.log(id)
+    let result = oldFiles.filter((item, index) => {
+      if (index !== id) {
+        return true
+      }
+      removePhotos.current.push(item)
+      return false
+    } )
+    setOldFiles(result)
+  }
+
   useEffect(() => {
     setForm({
       ...form,
-      photos: files
+      photos: files,
+      removePhotos: removePhotos.current,
     })
-  }, [files])
+  }, [files, oldFiles])
 
   return (
     <div className='flex flex-col md:flex-row flex-no-wrap gap-2'>
@@ -44,6 +60,18 @@ const AddPhoto = ({form, setForm, extra}) => {
         <div>
           <p className='text-center w-full mt-3 text-gray-600'>Wybrane zdjęcia:</p>
           <ul className='flex flex-col'>
+            {
+              oldFiles?.map((item, index) => {
+                return (
+                  <li key={index} className='inline-flex py-1'>
+                    <IconButton onClick={() => handleRemoveOld(index)} variant='link'>
+                      <TrashIcon className='text-indigo-600 w-5 h-5 mr-1'/>
+                    </IconButton>
+                    <span className='break-all'>{item.split("\\")[1]}</span>
+                  </li>
+                )
+              })
+            }
             {
               files?.map((item, index) => {
                 return (
@@ -65,7 +93,7 @@ const AddPhoto = ({form, setForm, extra}) => {
           cellAlign="center"
           className='max-h-[436px] h-[436px]'
         > 
-          { (files.length === 0) && (
+          { (files.length === 0 && oldFiles.length === 0) && (
             <img src={noimage} alt="not found preview img"></img>
           )}
 
@@ -73,10 +101,16 @@ const AddPhoto = ({form, setForm, extra}) => {
             <img key={index} className="object-cover" src={URL.createObjectURL(file)} alt="preview img"></img>
           ))
           }
+
+          {
+            oldFiles?.map((file, index) => (
+              <img key={index} className="object-cover" src={config.SERVER_API_URL+'/'+file} alt="preview img"></img>
+            ))
+          }
         </Carousel>
       </div>
     </div>
   )
 }
 
-export default AddPhoto
+export default EditGalery

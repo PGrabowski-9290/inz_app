@@ -41,7 +41,7 @@ const Details = () => {
   }
   
   function handleEdit(){
-    navigate('/a/offers/edit', {state: {id: data._id}, replace: true})
+    navigate('/a/offers/edit', {state: {offerId: data._id}, replace: true})
   }
 
   function handleGenerate(){

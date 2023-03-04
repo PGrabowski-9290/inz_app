@@ -1,6 +1,8 @@
 const Offerts = require("../models/offerts");
 const FilterBuilder = require('../utils/filterBuilder')
-
+const fs = require('fs');
+const util = require('util');
+const path = require('path')
 const getOffertsList = async (req, res, next) => {
   try {
     const {limit = 10, page = 1} = req.query
@@ -131,17 +133,34 @@ const createOffer = async (req, res, next) => {
 const updateOffert = async (req, res, next) => {
   try {
     const id = req.params?.offertId;
-    const data = req.body?.data;
+    const data = req?.body;
+    console.log("?")
     if(!data || !id) return res.status(400).json({message: "Błędne zapytanie"});
 
-    if (!data?.title || !data?.description || !data?.price || !data?.make || !data?.year || !data?.model || !data?.category || !data?.carColor || !data?.carFuelType || !data?.carPower || !data?.carEngCapacity || !data?.carDrive || !data?.carTrans || !data?.carGears || !data?.carDoors || !data?.vin || !data?.odometer || !data?.salon ) return res.status(400).json({message: "brak wartości"});
+    if (!data?.title || !data?.description || !data?.price || !data?.make || !data?.year || !data?.model ||
+      !data?.category || !data?.carColor || !data?.carFuelType || !data?.carPower || !data?.carEngCapacity ||
+      !data?.carDrive || !data?.carTrans || !data?.carGears || !data?.carDoors || !data?.vin || !data?.odometer ||
+      !data?.salon ) return res.status(400).json({message: "brak wartości"});
 
-    const offert = await Offerts.findOneAndUpdate({_id: id, isSold: false}, {
-      title: data.title,
-      description: data.description,
-      functionalities: data.functionalities,
-      price: data.price,
-      car: {
+    const offert = await Offerts.findOne({_id: id, isSold: false})
+
+    const removedFiles = (!Array.isArray(data?.removePhotos)) ? [data?.removePhotos] : (data?.removePhotos || [])
+    const filesUrls = req?.files.map(item => item.path);
+    console.log("removed", removedFiles)
+    console.log("photos before",offert.gallery)
+    let photos = offert.gallery.filter((item) => {
+      console.log("filter f(): ", item)
+      return !removedFiles?.includes(item)
+    })
+    photos = [...photos, ...filesUrls]
+    console.log("photos after",photos)
+
+    offert.gallery = photos
+    offert.title = data.title
+    offert.description = data.description
+    offert.functionalities = data.functionalities
+    offert.price = data.price
+    offert.car = {
         make: data.make,
         year: data.year,
         model: data.model,
@@ -159,10 +178,26 @@ const updateOffert = async (req, res, next) => {
         vin: data.vin,
         odometer: data.odometer,
         numberPlate: data.carNumberPlate
-      },
-      salons: data.salon.trim(),
-    }); 
+      }
+    offert.isActive = data.isActive
+    offert.salons = data.salon.trim()
+
+    offert.save()
     if(!offert) return res.status(404).json({message: "Nie można wykonać aktualizacji"})
+
+    const removeFile = util.promisify(fs.unlink)
+
+    removedFiles.forEach((v) => {
+      try {
+        console.log(v)
+        let file = path.join(__dirname,'..\\uploads', v.split("\\")[1])
+        console.log("file:", file)
+        removeFile(file)
+      } catch (e) {
+        console.log(e)
+      }
+    })
+
 
     res.status(200).json({message: "Updated"});
   } catch (err) {

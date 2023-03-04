@@ -10,6 +10,6 @@ router.post('/', verifyJWT, Offerts.getOffertsList);
 router.post('/filter', verifyJWT, Offerts.getFilteredOffertsList);
 router.get('/details/:offertId', verifyJWT, Offerts.getOffertDetails);
 router.post('/new', verifyJWT, verifyRole(role.Admin, role.User), upload.array("photos", 5), Offerts.createOffert);
-router.patch('/update/:offertId', verifyJWT, verifyRole(role.Admin, role.User), Offerts.updateOffert);
+router.put('/update/:offertId', verifyJWT, verifyRole(role.Admin, role.User),	upload.array("photos", 5), Offerts.updateOffert);
 
 module.exports = router;
