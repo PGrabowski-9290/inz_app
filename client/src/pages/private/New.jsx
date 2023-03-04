@@ -85,7 +85,7 @@ const New = () => {
         }
       }
       
-      const result = await axiosPrivate(auth.accessToken).post('/offers/new',
+      const result = await axiosPrivate(auth.accessToken).post('/offerts/new',
         form,
         {headers: { 'Content-Type': 'multipart/form-data' }}
       )

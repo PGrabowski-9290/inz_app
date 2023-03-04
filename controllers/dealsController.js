@@ -65,26 +65,26 @@ const check = async (req,res,next) => {
 const getPdf = async (req,res,next) => {
   try {
     const dealId = req.query?.id;
-    if (!dealId) return res.status(400).json({message: "Bad Request"});
+    if (!dealId) return res.status(400).json({message: "Błąd zapytania"});
 
     const deal = await Deals.findOne({_id: dealId}).populate({path: 'offert', populate: {path: "salons"}}).exec();
 
-    if (!deal) return res.status(400).json({message: "Błąd zapytania"});
+    if (!deal) return res.status(404).json({message: "Brak umowy o tym id"});
     
     const defValues = await Settings.findOne({id: 0});
-
-    const fileName = dealId + '.pdf'
-
+    const date = new Date(deal.dateAdd.toString())
     const data = {
-      "date": deal.dateAdd.toString(),
+      "date": date.toLocaleString('pl-PL', { timeZone: 'UTC' }).split(',')[0],
       "city": deal.offert?.salons?.location?.city.toString(),
       "sellerName": defValues.companyDetails.name.toString(),
       "sellerNIP": defValues.companyDetails.nip.toString(),
-      "address": defValues.companyDetails.street.toString()+" "+defValues.companyDetails.zipCode.toString()+" "+defValues.companyDetails.city.toString(),
+      "address": defValues.companyDetails.street.toString()+" "
+        +defValues.companyDetails.zipCode.toString()+" "+defValues.companyDetails.city.toString(),
       "buyerName": deal.buyerDetails.name.toString(),
       "buyerPesel": deal.buyerDetails?.pesel?.toString(),
       "buyerNIP": deal.buyerDetails?.nip?.toString(),
-      "BuyerAddress": deal.buyerDetails.address.city.toString()+' '+deal.buyerDetails.address.zipCode.toString()+' '+deal.buyerDetails.address.street.toString(),
+      "BuyerAddress": deal.buyerDetails.address.city.toString()+' '
+        +deal.buyerDetails.address.zipCode.toString()+' '+deal.buyerDetails.address.street.toString(),
       "buyerId": deal.buyerDetails.personalIdNumber.toString(),
       "buyerIdVerBy": deal.buyerDetails.personalIdVerifiedBy.toString(),
       "car": deal.offert?.car?.make.toString()+" "+deal.offert?.car?.model.toString(),
@@ -92,7 +92,7 @@ const getPdf = async (req,res,next) => {
       "vin": deal.offert?.car?.vin.toString(),
       "numberPlate": deal.offert?.car?.numberPlate?.toString(),
       "odometer": deal.offert?.car?.odometer.toString(),
-      "price": deal.offert?.price.toString()
+      "price": deal.offert?.price.toString()+' PLN'
     }
 
     const readFile = util.promisify(fs.readFile)
@@ -113,6 +113,7 @@ const getPdf = async (req,res,next) => {
     Object.keys(data).forEach(el => {
       const field = pdfForm.getTextField(el);
       field.setText(data[el]);
+      field.updateAppearances(customFont)
     })
     pdfForm.flatten();
 

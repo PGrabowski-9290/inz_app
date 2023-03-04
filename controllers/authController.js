@@ -46,8 +46,8 @@ const login = async (req, res, next) => {
     if (!email || !password) return res.status(401).json({ message: "Email i hasło jest wymagane"});
 
     const foundUser = await User.findOne({ email: email.toLowerCase() });
+
     if (!foundUser) return res.status(401).json({ message: "Brak użytkownika z takim adresem mailowym" });
-    
     if(!foundUser.isActive) return res.status(401).json({message: "Błąd logowania"})
     
     const match = await bcrpyt.compare(password, foundUser.password);

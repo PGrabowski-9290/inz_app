@@ -6,7 +6,6 @@ const storage = multer.diskStorage({
     cb(null, './uploads')
   },
   filename: (req, file, cb) => {
-    console.log(file)
     const fileType = file.originalname.split('.')
     cb(null, Date.now()+"-"+Math.floor(Math.random() * 100000000)+'.'+fileType[fileType.length-1]);
   },

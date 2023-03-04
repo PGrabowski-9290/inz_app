@@ -76,7 +76,7 @@ const getOffertDetails = async (req, res, next) => {
   }
 }
 
-const createOffert = async (req,res,next) => {
+const createOffer = async (req, res, next) => {
   try {
     if(!req?.body) return res.status(400).json({message: "Błąd zapytania"});
 
@@ -89,7 +89,7 @@ const createOffert = async (req,res,next) => {
 
     const filesUrls = req?.files.map(item => item.path);
     const number = await Offerts.countDocuments().exec() + 1;
-    const newOffert = new Offerts({
+    const newOffer = new Offerts({
       number: number,
       title: data.title,
       description: data.description,
@@ -120,9 +120,9 @@ const createOffert = async (req,res,next) => {
       salons: data.salon.trim(),
       gallery: filesUrls
     })
-    await newOffert.save();
+    await newOffer.save();
 
-    res.status(200).json({id:newOffert?._id, message: "Sukcess"});
+    res.status(200).json({id:newOffer?._id, message: "Sukcess"});
   } catch (err) {
     next(err)
   }
@@ -170,4 +170,4 @@ const updateOffert = async (req, res, next) => {
   }
 }
 
-module.exports = { getOffertsList, createOffert, getFilteredOffertsList, updateOffert, getOffertDetails }
+module.exports = { getOffertsList, createOffert: createOffer, getFilteredOffertsList, updateOffert, getOffertDetails }
