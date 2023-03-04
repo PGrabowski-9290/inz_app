@@ -194,7 +194,7 @@ const updateOffert = async (req, res, next) => {
         console.log("file:", file)
         removeFile(file)
       } catch (e) {
-        console.log(e)
+        next(e)
       }
     })
 

@@ -2,7 +2,7 @@ import { FormControl, FormLabel, Select } from "@vechaiui/react";
 import React, { useEffect, useState } from 'react';
 import axiosPublic from '../../utils/publicApi';
 
-const ModelsSelectDynamic = ({formData,setFormData, size="md"}) => {
+const ModelsSelectDynamic = ({formData,setFormData, size="md", required=false}) => {
   const [list, setList] = useState([])
   const [success, setSuccess] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -52,7 +52,7 @@ const ModelsSelectDynamic = ({formData,setFormData, size="md"}) => {
 
   return (
     <>
-      <FormControl className="text-sm mt-2 md:m-0 py-1" disabled={!success || loading}>
+      <FormControl className="text-sm mt-2 md:m-0 py-1" disabled={!success || loading} required={required}>
         <FormLabel className='block text-sm font-medium leading-none text-gray-700'>Model</FormLabel>
         <Select
           size={size}

@@ -36,7 +36,56 @@ const New = () => {
     photos: [],
     isActive: true
   })
+  const [formError, setFormError] = useState({
+    title: false,
+    description: false,
+    price: false,
+    make: false,
+    year: false,
+    model: false,
+    category: false,
+    carColor: false,
+    carFuelType: false,
+    carPower: false,
+    carEngCapacity: false,
+    carDrive: false,
+    carTrans: false,
+    carGears: false,
+    carDoors: false,
+    carNumberPlate: false,
+    functionalities: false,
+    vin: false,
+    odometer: false,
+    salon: false,
+    photos: false
+  })
   const [salonsList, setSalonsList] = useState()
+
+  function isValid() {
+    let error = false
+    let tmp = {}
+    for (const [key, val] of Object.entries(formData)) {
+      const check = (t) => {
+        switch (typeof t){
+          case "string":
+            return Boolean(t === '')
+          case "object":
+            return Boolean(t.length === 0)
+          case "number":
+            return Boolean(t)
+          default:
+            return false
+        }
+      }
+      tmp[key] = check(val)
+      if (check(val))
+        error = true
+    }
+    setFormError(tmp)
+    console.log(error)
+    return error
+  }
+
 
   async function loadSalonsData () {
     try {
@@ -53,6 +102,10 @@ const New = () => {
       ...formData,
       [e.target.name]: e.target.value
     })
+    setFormError({
+      ...formError,
+      [e.target.name]: false
+    })
   } 
 
   function handleNumberChange(e) {
@@ -64,6 +117,11 @@ const New = () => {
         [e.target.name]: e.target.value.replace(',', '.')
       })
     }
+
+    setFormError({
+      ...formError,
+      [e.target.name]: false
+    })
   }
 
   function handleChecked(e) {
@@ -71,10 +129,17 @@ const New = () => {
       ...formData,
       isActive: e.target.checked
     })
+
+    setFormError({
+      ...formError,
+      [e.target.name]: false
+    })
   }
 
   async function handleSend() {
     try{
+      if (isValid()) return console.log("Uzupełnij dane")
+
       let form = new FormData()
 
       for (const [key, value] of Object.entries(formData)) {
@@ -123,7 +188,7 @@ const New = () => {
             <hr className='mt-2'></hr>
           </div>
           <div className='flex flex-col'>
-            <FormControl className="text-sm mt-2 py-1">
+            <FormControl className="text-sm mt-2 py-1" required={true} invalid={formError.salon}>
               <FormLabel className='block text-sm font-medium leading-none text-gray-700'>Salon</FormLabel>
               <Select
                 size='lg'
@@ -143,7 +208,7 @@ const New = () => {
             <h3 className="font-semibold text-gray-600 text-xl">Dane pojazdu</h3>
 
             <div className="flex flex-col md:grid md:grid-cols-2 md:gap-4">
-              <FormControl className="text-sm mt-2 md:m-0 py-1">
+              <FormControl className="text-sm mt-2 md:m-0 py-1" required={true} invalid={formError.vin}>
                 <FormLabel className='block text-sm font-medium leading-none text-gray-700'>VIN</FormLabel>
                 <Input 
                   size="lg"
@@ -154,7 +219,7 @@ const New = () => {
                 />
               </FormControl>
 
-              <FormControl className="text-sm mt-2 md:m-0 py-1">
+              <FormControl className="text-sm mt-2 md:m-0 py-1" required={true} invalid={formError.carNumberPlate}>
                 <FormLabel className='block text-sm font-medium leading-none text-gray-700'>Numer rejestracji</FormLabel>
                 <Input 
                   size="lg"
@@ -165,7 +230,7 @@ const New = () => {
                 />
               </FormControl>
 
-              <FormControl className="text-sm mt-2 md:m-0 py-1">
+              <FormControl className="text-sm mt-2 md:m-0 py-1" required={true} invalid={formError.year}>
                 <FormLabel className='block text-sm font-medium leading-none text-gray-700'>Rok produkcji</FormLabel>
                 <Select 
                   size="lg"
@@ -190,7 +255,7 @@ const New = () => {
                 </Select>
               </FormControl>
 
-              <FormControl className="text-sm mt-2 md:m-0 py-1">
+              <FormControl className="text-sm mt-2 md:m-0 py-1" required={true} invalid={formError.make}>
                 <FormLabel className='block text-sm font-medium leading-none text-gray-700'>Marka</FormLabel>
                 <Select 
                   size="lg"
@@ -215,7 +280,7 @@ const New = () => {
                 </Select>
               </FormControl>
 
-              <FormControl className="text-sm mt-2 md:m-0 py-1">
+              <FormControl className="text-sm mt-2 md:m-0 py-1" required={true} invalid={formError.category}>
                 <FormLabel className='block text-sm font-medium leading-none text-gray-700'>Typ nadwozia</FormLabel>
                 <Select 
                   size="lg"
@@ -233,11 +298,11 @@ const New = () => {
                   })
                   }
                 </Select>
-              </FormControl>
+              </FormControl >
 
-              <ModelsSelectDynamic formData={formData} setFormData={setFormData} size="lg"/>
+              <ModelsSelectDynamic formData={formData} setFormData={setFormData} size="lg" required={true}/>
 
-              <FormControl className="text-sm mt-2 md:m-0 py-1">
+              <FormControl className="text-sm mt-2 md:m-0 py-1" required={true} invalid={formError.odometer}>
                 <FormLabel className='block text-sm font-medium leading-none text-gray-700'>Stan Licznika</FormLabel>
                 <Input.Group size="lg">
                   <Input 
@@ -256,7 +321,7 @@ const New = () => {
             <div className="mt-4">
               <h3 className="font-semibold text-gray-600 text-xl">Szczegółowe dane pojazdu</h3>
               <div className="flex flex-col md:grid md:grid-cols-3 md:gap-4">
-                <FormControl className="text-sm mt-2 md:m-0 py-1">
+                <FormControl className="text-sm mt-2 md:m-0 py-1" required={true} invalid={formError.carPower}>
                   <FormLabel className='block text-sm font-medium leading-none text-gray-700'>Moc pojazdu</FormLabel>
                   <Input.Group size="lg">
                     <Input 
@@ -271,7 +336,7 @@ const New = () => {
                   </Input.Group>
                 </FormControl>
 
-                <FormControl className="text-sm mt-2 md:m-0 py-1">
+                <FormControl className="text-sm mt-2 md:m-0 py-1" required={true} invalid={formError.carEngCapacity}>
                   <FormLabel className='block text-sm font-medium leading-none text-gray-700'>Pojemność silnika</FormLabel>
                   <Input.Group size="lg">
                     <Input 
@@ -286,7 +351,7 @@ const New = () => {
                   </Input.Group>
                 </FormControl>
 
-                <FormControl className="text-sm mt-2 md:m-0 py-1">
+                <FormControl className="text-sm mt-2 md:m-0 py-1" required={true} invalid={formError.carFuelType}>
                   <FormLabel className='block text-sm font-medium leading-none text-gray-700'>Rodzaj paliwa</FormLabel>
                   <Select 
                     size="lg"
@@ -311,7 +376,7 @@ const New = () => {
 
               <div className="md:grid md:grid-cols-3 md:gap-4">
 
-                <FormControl className="text-sm mt-2 md:m-0 py-1">
+                <FormControl className="text-sm mt-2 md:m-0 py-1" required={true} invalid={formError.carDrive}>
                   <FormLabel className='block text-sm font-medium leading-none text-gray-700'>Rodzaj napędu</FormLabel>
                   <Select 
                     size="lg"
@@ -333,7 +398,7 @@ const New = () => {
                   </Select>
                 </FormControl>
 
-                <FormControl className="text-sm mt-2 md:m-0 py-1">
+                <FormControl className="text-sm mt-2 md:m-0 py-1" required={true} invalid={formError.carTrans}>
                   <FormLabel className='block text-sm font-medium leading-none text-gray-700'>Rodzaj skrzyni biegów</FormLabel>
                   <Select 
                     size="lg"
@@ -355,7 +420,7 @@ const New = () => {
                   </Select>
                 </FormControl>
 
-                <FormControl className="text-sm mt-2 md:m-0 py-1">
+                <FormControl className="text-sm mt-2 md:m-0 py-1" required={true} invalid={formError.carGears}>
                   <FormLabel className='block text-sm font-medium leading-none text-gray-700'>Ilość biegów</FormLabel>
                   <Input
                     size="lg"
@@ -369,7 +434,7 @@ const New = () => {
               </div>
 
               <div className="md:grid md:grid-cols-2 md:gap-4">
-                <FormControl className="text-sm mt-2 md:m-0 py-1">
+                <FormControl className="text-sm mt-2 md:m-0 py-1" required={true} invalid={formError.carDoors}>
                   <FormLabel className='block text-sm font-medium leading-none text-gray-700'>Ilość drzwi</FormLabel>
                   <Input
                     size="lg"
@@ -381,7 +446,7 @@ const New = () => {
                   />
                 </FormControl>
 
-                <FormControl className="text-sm mt-2 md:m-0 py-1">
+                <FormControl className="text-sm mt-2 md:m-0 py-1" required={true} invalid={formError.carColor}>
                   <FormLabel className='block text-sm font-medium leading-none text-gray-700'>Kolor pojazdu</FormLabel>
                   <Input
                     size="lg"
@@ -411,7 +476,7 @@ const New = () => {
             
             <div className="mt-4">
               <h3 className="font-semibold text-gray-600 text-xl">Dane oferty</h3>
-              <FormControl id='title' className='text-lg mt-2 py-1'>
+              <FormControl id='title' className='text-lg mt-2 py-1' required={true} invalid={formError.title}>
                 <FormLabel className='block text-base font-medium leading-none text-gray-500'>Tytuł</FormLabel>
                 <Input
                   size='lg'
@@ -423,7 +488,7 @@ const New = () => {
                 />
               </FormControl>
               
-              <FormControl id='title' className='text-lg mt-2 py-1'>
+              <FormControl id='title' className='text-lg mt-2 py-1' required={true} invalid={formError.description}>
                 <FormLabel className='block text-base font-medium leading-none text-gray-500'>Opis</FormLabel>
                 <Textarea
                   size='lg'
@@ -436,7 +501,7 @@ const New = () => {
               </FormControl>
 
               <div className="flex flex-col md:grid md:grid-cols-2 md:gap-4">
-                <FormControl id='title' className='text-lg mt-2 py-1'>
+                <FormControl id='title' className='text-lg mt-2 py-1' required={true} invalid={formError.price}>
                   <FormLabel className='block text-base font-medium leading-none text-gray-500'>Cena</FormLabel>
                   <Input.Group size="lg">
                     <Input
