@@ -11,7 +11,7 @@ const check = (t) => {
 	}
 }
 
-export function isValid(test, setErrorState) {
+export function isValid(test, setErrorState = (t) => {}) {
 	let error = false
 	let tmp = {}
 	for (const [key, val] of Object.entries(test)) {

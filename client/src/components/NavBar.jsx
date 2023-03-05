@@ -17,7 +17,7 @@ const NavBar = () => {
         <div className='relative flex h-16 items-center justify-between'>
           <div className='flex flex-1 items-center justify-center sm:items-center sm:justify-between'>
             <div className='flex flex-shrink-0 items-center'>
-              <Link to={"/"} >
+              <Link to={"/"} aria-label={"logo"} >
                 <Logo className='block h-10 w-10 text-white' />
               </Link>
               

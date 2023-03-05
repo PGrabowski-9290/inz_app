@@ -47,7 +47,7 @@ const ContactForm = ({showControlBtn = false, onClose = () => {}, setTitle, edit
         <hr className='my-2'/>
         <div className='px-2'>
           <FormControl>
-            <FormLabel className='text-gray-500'>Email</FormLabel>
+            <FormLabel htmlFor={"replyTo"} className='text-gray-500'>Email</FormLabel>
             <Input.Group>
               <Input.LeftElement 
                 children={<AtSymbolIcon className='w-4 h-4 text-indigo-600'/>}
@@ -63,7 +63,7 @@ const ContactForm = ({showControlBtn = false, onClose = () => {}, setTitle, edit
             </Input.Group>
           </FormControl>
           <FormControl>
-            <FormLabel className='text-gray-500'>Tytuł</FormLabel>
+            <FormLabel htmlFor={"title"} className='text-gray-500'>Tytuł</FormLabel>
             <Input
               id='title'
               name='title'
@@ -75,7 +75,7 @@ const ContactForm = ({showControlBtn = false, onClose = () => {}, setTitle, edit
             />
           </FormControl>
           <FormControl>
-            <FormLabel className='text-gray-500'>Treść</FormLabel>
+            <FormLabel htmlFor={"text"} className='text-gray-500'>Treść</FormLabel>
             <Textarea
               id='text'
               name='text'
