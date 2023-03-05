@@ -1,5 +1,5 @@
 import { EyeIcon, EyeSlashIcon, XMarkIcon } from "@heroicons/react/24/outline"
-import { Button, FormControl, FormLabel, Input, Select, Switch } from "@vechaiui/react"
+import {Button, FormControl, FormLabel, Input, Select, Switch, useNotification} from "@vechaiui/react"
 import React, { useEffect, useState } from 'react'
 import useAuth from '../../hooks/useAuth'
 import axiosPrivate from '../../utils/apiPrivate'
@@ -16,6 +16,16 @@ const EditWindow = ({ data, setData, setIsOpen }) => {
     password: ''
   })
   const {auth} = useAuth()
+  const notification = useNotification()
+  const handleNotification = (status, text) => {
+    notification({
+      title: text,
+      status: status,
+      position: "bottom-right",
+      closeable: true,
+      duration: 3000
+    })
+  }
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -44,9 +54,11 @@ const EditWindow = ({ data, setData, setIsOpen }) => {
       if (response.status === 200){
         setData(undefined)
         setIsOpen(false)
+        handleNotification("success", "zapisano")
       }
     }catch(err){
-      console.log(err?.response?.body?.message)
+      handleNotification("error", err?.response?.data?.message)
+      console.log(err?.response?.data?.message)
     }
   }
 

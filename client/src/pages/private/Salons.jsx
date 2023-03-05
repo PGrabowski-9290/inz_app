@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import axios from "../../utils/apiPrivate";
-import {Button, cx} from "@vechaiui/react";
+import {Button, cx, useNotification} from "@vechaiui/react";
 import {EnvelopeIcon, PhoneIcon} from "@heroicons/react/24/outline";
 import useAuth from '../../hooks/useAuth';
 import OpenWindow from "../../components/OpenWindow";
@@ -10,7 +10,16 @@ const SalonsPrivate = () => {
   const {auth} = useAuth()
   const [salonsList, setSalonsList] = useState([])
   const [edit, setEdit] = useState({isOpen: false, id: null})
-
+  const notification = useNotification()
+  const handleNotification = (status, text) => {
+    notification({
+      title: text,
+      status: status,
+      position: "bottom-right",
+      closeable: true,
+      duration: 3000
+    })
+  }
   function handleClose() {
     setEdit({isOpen: false, id: null});
   }
@@ -30,10 +39,11 @@ const SalonsPrivate = () => {
           status: !(Boolean(status))
         })
       if (res.status === 200) {
-        console.log("Zaktualizowano")
+        handleNotification("success","Zaktualizowano")
       }
       get()
     } catch (err) {
+      handleNotification("error", "Błąd aktualizacji statusu")
       console.error(err)
     }
 

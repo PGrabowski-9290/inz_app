@@ -1,8 +1,10 @@
 import React, {useEffect, useState} from "react";
-import {Button, cx, FormControl, FormErrorMessage, FormLabel, IconButton, Input, Select} from '@vechaiui/react'
+import {Button, cx, FormControl, FormErrorMessage, FormLabel, IconButton, Input, Select, useNotification} from '@vechaiui/react'
 import axiosPrivate from "../../utils/apiPrivate";
 import useAuth from "../../hooks/useAuth";
 import {XMarkIcon} from "@heroicons/react/24/outline";
+import {isValid} from "../../utils";
+
 const FormSalon = ({ id = null, onSuccess = (a) => {console.log(`Data save success: ${a}`)}, onError = () => {console.log("Data load error")} }) => {
     const { auth } = useAuth();
     const [form, setForm] = useState( {
@@ -10,14 +12,30 @@ const FormSalon = ({ id = null, onSuccess = (a) => {console.log(`Data save succe
         street: "",
         zipCode: "",
         phone: "",
-        email: "",
-        _id: null
+        email: ""
     })
+    const [errorForm, setErrorForm] = useState({
+        city: false,
+        street: false,
+        zipCode: false,
+        phone: false,
+        email: false
+    })
+    const salonId = id;
     const [usersList, setUsersList] = useState([])
     const [selectedUser, setSelectedUser] = useState({_id:null, name: ''})
     const isEdit = !!(id)
     const [selUserList, setSelUserList] = useState([])
-
+    const notification = useNotification()
+    const handleNotification = (status, text) => {
+        notification({
+            title: text,
+            status: status,
+            position: "bottom-right",
+            closeable: true,
+            duration: 3000
+        })
+    }
     function handleChange (e) {
         setForm({
             ...form,
@@ -64,10 +82,11 @@ const FormSalon = ({ id = null, onSuccess = (a) => {console.log(`Data save succe
             let response
             console.log(isEdit)
             if (!isEdit){
+                if (isValid(form, setErrorForm)) return handleNotification("error", "Uzupełnij wymagane dane")
                 response = await axios.post('/salons/add',
                   {salon: salon})
             } else {
-                response = await axios.patch(`/salons/update/${form._id}`,
+                response = await axios.patch(`/salons/update/${salonId}`,
                   {
                       data: {
                           location: {
@@ -86,10 +105,12 @@ const FormSalon = ({ id = null, onSuccess = (a) => {console.log(`Data save succe
 
             if( response.status === 200) {
                 console.log('Zapisaono')
+                handleNotification("success", "Zapisano")
                 onSuccess(response.data)
             }
 
         } catch (err) {
+            handleNotification("error", err?.response?.data?.message || "Błąd")
             console.error(err)
         }
     }
@@ -103,6 +124,7 @@ const FormSalon = ({ id = null, onSuccess = (a) => {console.log(`Data save succe
                     setUsersList(resultUsers.data?.list)
                 }
             } catch (err) {
+                handleNotification("error", "Błąd pobierania")
                 console.error(err)
             }
         }
@@ -122,21 +144,21 @@ const FormSalon = ({ id = null, onSuccess = (a) => {console.log(`Data save succe
                         street: resultData.data?.data?.location?.street,
                         zipCode: resultData.data?.data?.location?.zipCode,
                         phone: resultData.data?.data?.contact?.phoneNumber,
-                        email: resultData.data?.data?.contact?.email,
-                        _id: salonID
+                        email: resultData.data?.data?.contact?.email
                     })
                 }
                 return onError()
 
             } catch (err) {
+                handleNotification("error", "Błąd pobierania salonu")
                 console.error(err)
                 return onError();
             }
         }
 
         loadUsersList()
-        if (id !== null) {
-            loadData(id);
+        if (salonId !== null) {
+            loadData(salonId);
         }
     }, [])
 
@@ -152,8 +174,9 @@ const FormSalon = ({ id = null, onSuccess = (a) => {console.log(`Data save succe
                         <h3 className="font-semibold text-gray-600 text-xl">Adres</h3>
 
                         <div className="flex flex-col md:grid md:grid-cols-3 md:gap-4">
-                            <FormControl>
+                            <FormControl required={true} invalid={errorForm.city}>
                                 <FormLabel
+                                  htmlFor={'city'}
                                   className={'text-gray-500'}>
                                     Miejscowość
                                 </FormLabel>
@@ -165,8 +188,9 @@ const FormSalon = ({ id = null, onSuccess = (a) => {console.log(`Data save succe
                                 />
                             </FormControl>
 
-                            <FormControl>
+                            <FormControl required={true} invalid={errorForm.zipCode}>
                                 <FormLabel
+                                  htmlFor={"zipCode"}
                                   className={'text-gray-500'}>
                                     Kod pocztowy
                                 </FormLabel>
@@ -178,8 +202,9 @@ const FormSalon = ({ id = null, onSuccess = (a) => {console.log(`Data save succe
                                 />
                             </FormControl>
 
-                            <FormControl>
+                            <FormControl required={true} invalid={errorForm.street}>
                                 <FormLabel
+                                  htmlFor={"street"}
                                   className={'text-gray-500'}>
                                     Ulica i numer
                                 </FormLabel>
@@ -199,8 +224,9 @@ const FormSalon = ({ id = null, onSuccess = (a) => {console.log(`Data save succe
 
                         <div className="flex flex-col md:grid md:grid-cols-2 md:gap-4">
 
-                            <FormControl>
+                            <FormControl required={true} invalid={errorForm.email}>
                                 <FormLabel
+                                  htmlFor={'email'}
                                   className={'text-gray-500'}>
                                     Email
                                 </FormLabel>
@@ -213,8 +239,9 @@ const FormSalon = ({ id = null, onSuccess = (a) => {console.log(`Data save succe
                                 <FormErrorMessage></FormErrorMessage>
                             </FormControl>
 
-                            <FormControl>
+                            <FormControl required={true} invalid={errorForm.phone}>
                                 <FormLabel
+                                  htmlFor={'phone'}
                                   className={'text-gray-500'}>
                                     Telefon
                                 </FormLabel>

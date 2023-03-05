@@ -24,7 +24,7 @@ const LogoutConfirm = () => {
 
   return (
     <div className="xl:px-20 md:px-10 sm:px-6 px-4 md:py-12 py-9 2xl:mx-auto 2xl:container md:flex items-center justify-center">
-      <div div className="bg-white shadow-lg rounded xl:w-2/3 lg:w-5/12 md:w-1/2 w-full lg:px-10 sm:px-6 sm:py-10 px-2 py-6">
+      <div className="bg-white shadow-lg rounded xl:w-2/3 lg:w-5/12 md:w-1/2 w-full lg:px-10 sm:px-6 sm:py-10 px-2 py-6">
         <p className="focus:outline-none text-2xl text-center font-extrabold leading-6 text-gray-800 ">
           {"Czy napewno chcesz się wylogować?"}
         </p>

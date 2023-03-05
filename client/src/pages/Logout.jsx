@@ -1,14 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import {useNotification} from "@vechaiui/react";
 
 const Logout = () => {
-  const [timer, setTimer] = useState(10);
+  const [timer, setTimer] = useState(5);
   const navigate = useNavigate();
+  const notification = useNotification()
+  const handleNotification = () => {
+    notification({
+      title: "Wylogowano",
+      status: "info",
+      description: "Aby zalogować się ponownie klinij",
+      undoText: "ZALOGUJ",
+      onUndo: () => {
+        navigate('/login',{replace: true})
+      },
+      position: "bottom-right",
+      closeable: true,
+      duration: 6000
+    })
+  }
 
   useEffect(() => {
     setTimeout(() => {
       if ( timer === 0 ) {
         navigate('/')
+        handleNotification()
       }
       setTimer(timer - 1)},1000)
   })

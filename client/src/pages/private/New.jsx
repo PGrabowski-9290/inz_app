@@ -1,4 +1,4 @@
-import { Button, Checkbox, cx, FormControl, FormLabel, Input, Select, Textarea } from '@vechaiui/react';
+import {Button, Checkbox, cx, FormControl, FormLabel, Input, Select, Textarea, useNotification,} from '@vechaiui/react';
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import AddFunctionalities from '../../components/newOffert/AddFunctionalities';
@@ -8,6 +8,8 @@ import { carBrands, carCategories, drive, fuels, transmission, years } from "../
 import useAuth from '../../hooks/useAuth';
 import axiosPrivate from '../../utils/apiPrivate';
 import BackButton from "../../components/BackButton";
+import { isValid } from "../../utils"
+
 const New = () => {
   const { auth } = useAuth()
   const navigate = useNavigate()
@@ -60,32 +62,17 @@ const New = () => {
     photos: false
   })
   const [salonsList, setSalonsList] = useState()
+  const notification = useNotification()
 
-  function isValid() {
-    let error = false
-    let tmp = {}
-    for (const [key, val] of Object.entries(formData)) {
-      const check = (t) => {
-        switch (typeof t){
-          case "string":
-            return Boolean(t === '')
-          case "object":
-            return Boolean(t.length === 0)
-          case "number":
-            return Boolean(t)
-          default:
-            return false
-        }
-      }
-      tmp[key] = check(val)
-      if (check(val))
-        error = true
-    }
-    setFormError(tmp)
-    console.log(error)
-    return error
+  const handleNotification = (status, text) => {
+    notification({
+      title: text,
+      status: status,
+      position: "bottom-right",
+      closeable: true,
+      duration: 3000
+    })
   }
-
 
   async function loadSalonsData () {
     try {
@@ -138,7 +125,7 @@ const New = () => {
 
   async function handleSend() {
     try{
-      if (isValid()) return console.log("Uzupełnij dane")
+      if (isValid(formData, setFormError)) return  handleNotification("warning", "Uzupełnij dane")
 
       let form = new FormData()
 
@@ -155,10 +142,12 @@ const New = () => {
         {headers: { 'Content-Type': 'multipart/form-data' }}
       )
       if ( result.status === 200 ) {
+        handleNotification("success", "Dodano")
         navigate('/a/offers/details', {state: {id: result.data.id}, replace: true})
       }
     }catch (error){
       console.error(error)
+      handleNotification("error", "Błąd dodawania oferty")
     }
   }
 

@@ -1,17 +1,33 @@
 import { EyeIcon, EyeSlashIcon, XMarkIcon } from "@heroicons/react/24/outline"
-import { Button, FormControl, FormLabel, Input, Select } from "@vechaiui/react"
-import React, { useEffect, useState } from 'react'
+import { Button, FormControl, FormLabel, Input, Select, useNotification } from "@vechaiui/react"
+import React, { useState } from 'react'
 import useAuth from '../../hooks/useAuth'
 import axiosPrivate from '../../utils/apiPrivate'
- 
+import { isValid } from "../../utils"
 
 const AddWindow = ({ setIsOpen }) => {
+  const notification = useNotification()
+  const handleNotification = (status, text) => {
+    notification({
+      title: text,
+      status: status,
+      position: "bottom-right",
+      closeable: true,
+      duration: 3000
+    })
+  }
   const [showPass, setShowPass] = useState(false)
   const [formData,setFormData] = useState({
     role:  '',
     email: '',
     name:  '',
     password: ''
+  })
+  const [formError, setFormError] = useState({
+    role:  false,
+    email: false,
+    name:  false,
+    password: false
   })
   const {auth} = useAuth()
   
@@ -30,6 +46,8 @@ const AddWindow = ({ setIsOpen }) => {
 
   const handleClickSave = async () => {
     try {
+      if (isValid(formData, setFormError)) return handleNotification("warning", "Uzupełnij dane")
+
       const response = await axiosPrivate(auth.accessToken).post('/auth/register', {
         email: formData.email,
         password: formData.password,
@@ -38,11 +56,12 @@ const AddWindow = ({ setIsOpen }) => {
       })
       
       if(response.status === 200){
-
+        handleNotification("success", "Zapisano")
         setIsOpen(false)
       }
     }catch(err){
-      console.log(err?.response?.body?.message)
+      handleNotification("error", err?.response?.data?.message)
+      console.log(err?.response?.data?.message)
     }
   }
 
@@ -73,7 +92,7 @@ const AddWindow = ({ setIsOpen }) => {
         <div className="w-full flex items-center justify-between pt-2">
           <hr className="w-full bg-gray-400" />
         </div>
-        <FormControl className="text-sm mt-3 py-1" >
+        <FormControl className="text-sm mt-3 py-1" required={true} invalid={formError.email}>
           <FormLabel 
             htmlFor="email">
               Email
@@ -88,7 +107,7 @@ const AddWindow = ({ setIsOpen }) => {
             value={formData.email}
             onChange={handleChange}/>  
         </FormControl>
-        <FormControl className="text-sm mt-3 py-1">
+        <FormControl className="text-sm mt-3 py-1" required={true} invalid={formError.name}>
           <FormLabel 
             htmlFor="name">
               Nazwa
@@ -102,7 +121,7 @@ const AddWindow = ({ setIsOpen }) => {
             value={formData.name}
             onChange={handleChange}/>  
         </FormControl>
-        <FormControl className="text-sm mt-3 py-1">
+        <FormControl className="text-sm mt-3 py-1" required={true} invalid={formError.role}>
           <FormLabel 
             htmlFor="role">
               Rola
@@ -122,7 +141,7 @@ const AddWindow = ({ setIsOpen }) => {
             })}
           </Select>  
         </FormControl>
-        <FormControl className="text-sm mt-3 py-1">
+        <FormControl className="text-sm mt-3 py-1" required={true} invalid={formError.password}>
           <FormLabel 
             htmlFor="password">
               Hasło

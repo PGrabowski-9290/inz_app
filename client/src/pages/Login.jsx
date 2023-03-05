@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import authService from "../utils/auth.sevice";
 import axiosPublic from "../utils/publicApi";
-
+import { useNotification } from '@vechaiui/react'
 const Login = () => {
   const { setAuth } = useAuth()
   const [showPass, setShowPass] = useState(false);
@@ -14,12 +14,23 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const fromLocation = location?.state?.srcLocation?.pathname || "/";
+  const notification = useNotification()
 
   useEffect(()=> {
     setInfo(null)
   }, [email, passwd])
 
   const handleLogin = async (e) => {
+    const handleNotification = (status, text) => {
+      notification({
+        title: text,
+        status: status,
+        position: "bottom-right",
+        closeable: true,
+        duration: 3000
+      })
+    }
+
     try{
       if ( !email || !passwd ) return setInfo({error: "Uzupełnij dane"});
       const response = await axiosPublic.post('/auth/login',
@@ -41,14 +52,14 @@ const Login = () => {
         setAuth({accessToken: accessToken, role: role})
         authService.setIsAuth(true)
 
-        console.log("przekierowanie na główną");
-        navigate(fromLocation, {replace: true})
+        handleNotification("info", "Zalogowano")
 
+        navigate(fromLocation, {replace: true})
       }
 
     } catch (err) {
       console.error(err)
-
+      handleNotification("error", err?.response?.data?.message)
       setInfo({error: err?.response?.data?.message});
     }
   }
