@@ -75,8 +75,9 @@ plik konfiguracyjny dla aplikacji frontend jest w katalogu `/client/config.json`
 `SERVER_API_URL` - adres serwera z aplikacją backend
 
 ---
+
 ## Skrypty 
-skrypty wykonujmy przez polecenie `npm run` z konsoli w głównym folderze z aplikacją p
+skrypty wykonujmy przez polecenie `npm run` z konsoli w głównym folderze z aplikacją
 
 
 ### `setup`
