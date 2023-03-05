@@ -5,13 +5,22 @@ import HomeOffertsSlider from '../components/offerts/HomeOffertsSlider'
 import MainSearch from '../components/search/MainSearch'
 import useAuth from '../hooks/useAuth'
 import axiosPublic from '../utils/publicApi'
+import {useNotification} from "@vechaiui/react";
 
 const Home = () => {
   const { auth } = useAuth()
   const navigate = useNavigate()
   const [list, setList] = useState([])
-
-
+  const notification = useNotification()
+  const handleNotification = (status, text) => {
+    notification({
+      title: text,
+      status: status,
+      position: "bottom-right",
+      closeable: true,
+      duration: 3000
+    })
+  }
   function handleSearch() {
     try {
       console.log("dziala")
@@ -24,7 +33,21 @@ const Home = () => {
   }
 
   async function handleContactFormSubmit(data) {
-    console.log(data)
+    try {
+      const res = await axiosPublic.post('/mail/send',
+        {
+          "text": data.text,
+          "title": data.title,
+          "replyTo": data.replyTo
+        })
+
+      if (res.status === 200) {
+        return  handleNotification("success", "Wiadomośc wysłana")
+      }
+      return handleNotification("warn", "Błąd wysyłania")
+    } catch (e) {
+      handleNotification("error", "Niepowodzenie wysłania ")
+    }
   }
 
   async function loadListDataAsync () {

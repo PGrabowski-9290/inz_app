@@ -34,5 +34,14 @@ module.exports = {
     refToken: process.env.EXPIRE_REF_TOKEN || 7200,
     token: process.env.EXPIRE_TOKEN || 900
   },
+  mailer: {
+    serverSMTP: process.env.SMTP || null,
+    port: process.env.SMTP_PORT || null,
+    secure: process.env.SECURE || false,
+    auth: {
+      user: process.env.USER || null,
+      pass: process.env.PASS || null
+    }
+  },
   storage
 };

@@ -1,5 +1,5 @@
 import { CheckIcon } from '@heroicons/react/24/outline';
-import { Button } from '@vechaiui/react';
+import {Button, useNotification} from '@vechaiui/react';
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import BackButton from '../../components/BackButton';
@@ -15,7 +15,16 @@ const OffertDetails = () => {
   const offertId = location?.state?.id || null;
   const [data, setData] = useState()
   const [contactFormOpen, setContactFormOpen] = useState(false)
-
+  const notification = useNotification()
+  const handleNotification = (status, text) => {
+    notification({
+      title: text,
+      status: status,
+      position: "bottom-right",
+      closeable: true,
+      duration: 3000
+    })
+  }
 
   useEffect( () => {
     async function fetchData(id) {
@@ -39,7 +48,25 @@ const OffertDetails = () => {
   function handleCloseContactForm() {
     setContactFormOpen(false)
   }
-  
+  async function handleSubmitContactForm(form) {
+    try {
+      setContactFormOpen(false)
+      const res = await axios.post('/mail/send', {
+        "text": form.text,
+        "title": form.title,
+        "replyTo": form.replyTo,
+        "sendTo": data.salons.contact.email
+      })
+
+      if (res.status === 200) {
+        return  handleNotification("success", "Wiadomośc wysłana")
+      }
+
+      return handleNotification("warn", "Błąd wysyłania")
+    } catch (e) {
+      handleNotification("error", "Niepowodzenie wysłania ")
+    }
+  }
   
   if (data === undefined)
     return (
@@ -171,7 +198,7 @@ const OffertDetails = () => {
         children={
           <ContactForm 
             setTitle={data.title+', Ofert number: '+data.number} 
-            onSubmit={() => {setContactFormOpen(false)}}
+            onSubmit={handleSubmitContactForm}
             showControlBtn={true}
             onClose={handleCloseContactForm}
           />}
