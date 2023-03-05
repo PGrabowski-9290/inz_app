@@ -55,6 +55,7 @@ konto tworzone podczas wdrożenia aplikacji i instalacji bazy
 `SECURE` - wartość boolean, domyślnie `false`, dla połączeń SSL (port 465) należy użyć wartości `true`  
 `USER` - dane logowania do serwera SMTP, z tego adresu również będą wysyłane maile    
 `PASS` - hasło logowania do serwera SMTP  
+
 ---
 
 ### Plik konfiguracjny CORS
