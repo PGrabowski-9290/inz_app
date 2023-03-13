@@ -22,7 +22,7 @@ const get = async (req, res, next) => {
     const results = await ModelsList.find({sort: {"Model": 1}}).distinct("Model", filterObj.get())
     console.log(results)
 
-    res.status(200).json({list: results, message: "Sukcess"})
+    res.status(200).json({list: results, message: "Sukces"})
   }catch (err) {
     next(err)
   }

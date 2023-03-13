@@ -43,7 +43,6 @@ const ContactForm = ({showControlBtn = false, onClose = () => {}, setTitle, edit
           
         </div>
 
-        {/* <p className='focus:outline-none text-xl font-extrabold leading-6 text-gray-800 text-center sm:text-center px-6 '>Skontaktuj się</p> */}
         <hr className='my-2'/>
         <div className='px-2'>
           <FormControl>
