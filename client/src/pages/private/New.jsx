@@ -64,7 +64,7 @@ const New = () => {
   const [salonsList, setSalonsList] = useState()
   const notification = useNotification()
 
-  const handleNotification = (status, text) => {
+  function handleNotification (status, text) {
     notification({
       title: text,
       status: status,

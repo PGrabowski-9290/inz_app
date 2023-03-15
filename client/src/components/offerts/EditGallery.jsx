@@ -11,7 +11,7 @@ const EditGalery = ({form, setForm}) => {
   const input = useRef(null)
   const removePhotos = useRef([])
 
-  function handleSelect(e){
+  function handleSelect(){
     input.current.click()
   }
 

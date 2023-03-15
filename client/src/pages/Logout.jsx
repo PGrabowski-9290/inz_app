@@ -6,7 +6,7 @@ const Logout = () => {
   const [timer, setTimer] = useState(5);
   const navigate = useNavigate();
   const notification = useNotification()
-  const handleNotification = () => {
+  function handleNotification() {
     notification({
       title: "Wylogowano",
       status: "info",

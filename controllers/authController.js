@@ -107,7 +107,7 @@ const refreshToken = async (req,res, next) => {
       (err, decoded) => { 
         if (err || foundUser.email !== decoded.data.email) {
           return res.status(401).json({message: "JWT error"})
-        };
+        }
         const accessToken = jwt.sign(
           { 
             exp: Math.floor(toEpochDate(config.expires.token) / 1000),

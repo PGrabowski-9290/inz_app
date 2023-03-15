@@ -9,18 +9,18 @@ const LogoutConfirm = () => {
   const navigate = useNavigate();
   const { auth, setAuth } = useAuth();
   
-  const handleBack = () => {
+  function handleBack() {
     navigate(location.state?.locationTo, {replace: true});
-  };
+  }
 
-  const handleLogout = async () => {
+  async function handleLogout() {
     console.log("LogOut")
     const response = await axiosPrivate(auth.accessToken).get('/auth/logout',{headers: { 'Content-Type': 'application/json'},withCredentials: true})
     console.log(response)
     setAuth({});
     authService.setIsAuth(false)
     navigate('/Logout', {state: { logoutSucces: true }, replace: true});
-  };
+  }
 
   return (
     <div className="xl:px-20 md:px-10 sm:px-6 px-4 md:py-12 py-9 2xl:mx-auto 2xl:container md:flex items-center justify-center">

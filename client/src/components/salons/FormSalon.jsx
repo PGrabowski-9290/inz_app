@@ -27,7 +27,7 @@ const FormSalon = ({ id = null, onSuccess = (a) => {console.log(`Data save succe
     const isEdit = !!(id)
     const [selUserList, setSelUserList] = useState([])
     const notification = useNotification()
-    const handleNotification = (status, text) => {
+    function handleNotification (status, text) {
         notification({
             title: text,
             status: status,

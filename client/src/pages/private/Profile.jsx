@@ -16,18 +16,23 @@ const Profile = () => {
   const [changePass, setChangePass] = useState(false)
   const [showPass, setShowPass] = useState(false)
 
-  const handleChange = (e) => {
+  function handleChange(e) {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     })
   }
 
-  const handleToggleShowPass = () => setShowPass(!showPass)
+  function handleToggleShowPass()
+  {
+    setShowPass(!showPass)
+  }
 
-  const handleChangePass = (e) => setChangePass(e.target.checked)
+  function handleChangePass(e) {
+    setChangePass(e.target.checked)
+  }
 
-  const loadUserData = async () => {
+  async function loadUserData() {
     try {
       const result = await axiosPrivate(auth.accessToken).get('/user/')
       setFormData({
@@ -41,7 +46,7 @@ const Profile = () => {
     }
   }
   
-  const handleClickSave = async (e) => {
+  async function handleClickSave(e) {
     e.preventDefault()
     try {
       setEdit(!edit)

@@ -16,7 +16,7 @@ const OffertDetails = () => {
   const [data, setData] = useState()
   const [contactFormOpen, setContactFormOpen] = useState(false)
   const notification = useNotification()
-  const handleNotification = (status, text) => {
+  function handleNotification(status, text) {
     notification({
       title: text,
       status: status,

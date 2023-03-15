@@ -31,20 +31,23 @@ const AddWindow = ({ setIsOpen }) => {
   })
   const {auth} = useAuth()
   
-  const handleChange = (e) => {
+  function handleChange(e) {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     })
   }
 
-  const handleToggleShowPass = () => setShowPass(!showPass)
+  function handleToggleShowPass()
+  {
+    setShowPass(!showPass)
+  }
 
-  const handleClickClose = () => {
+  function handleClickClose() {
     setIsOpen(false)
   }
 
-  const handleClickSave = async () => {
+  async function handleClickSave(){
     try {
       if (isValid(formData, setFormError)) return handleNotification("warning", "Uzupełnij dane")
 

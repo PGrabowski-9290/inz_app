@@ -20,7 +20,7 @@ const Login = () => {
     setInfo(null)
   }, [email, passwd])
 
-  const handleLogin = async (e) => {
+  async function handleLogin(e) {
     const handleNotification = (status, text) => {
       notification({
         title: text,

@@ -12,7 +12,7 @@ const Home = () => {
   const navigate = useNavigate()
   const [list, setList] = useState([])
   const notification = useNotification()
-  const handleNotification = (status, text) => {
+  function handleNotification(status, text){
     notification({
       title: text,
       status: status,

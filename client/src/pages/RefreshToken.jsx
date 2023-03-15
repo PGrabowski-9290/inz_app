@@ -10,10 +10,10 @@ const RefreshToken = () => {
   const { setAuth } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
-  const handleAuth = async () => {
+  async function handleAuth() {
     try{  
       const response = await axios.get("/auth/refresh",{headers: { 'Content-Type': 'application/json'},withCredentials: true})
-      console.log(searchParams)
+
       if (response?.status === 200){
         const {role, accessToken} = response?.data
         authService.setIsAuth(true);

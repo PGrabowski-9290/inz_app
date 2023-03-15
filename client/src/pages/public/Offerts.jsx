@@ -16,7 +16,7 @@ const Offers = () => {
   const [limit, setLimit] = useState(listElementsSize[0].value)
   const [page, setPage] = useState({current: 1, max: 1})
 
-  function handleLimitChange (e) {
+  function handleLimitChange(e) {
     setLimit(e.target.value)
   }
 

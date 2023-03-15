@@ -1,5 +1,4 @@
 // tailwind.config.js
-const { warning } = require("@remix-run/router");
 const colors = require("tailwindcss/colors")
 
 module.exports = {

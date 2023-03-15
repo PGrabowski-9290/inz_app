@@ -2,7 +2,7 @@ import { Button } from '@vechaiui/react'
 import React from 'react'
 
 const ListElement = ({data, edit, setIsOpen}) => {
-  const handleClickEdit = () => {
+  function handleClickEdit() {
     edit(data)
     setIsOpen(true)
   }

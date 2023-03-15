@@ -11,7 +11,7 @@ const SalonsPrivate = () => {
   const [salonsList, setSalonsList] = useState([])
   const [edit, setEdit] = useState({isOpen: false, id: null})
   const notification = useNotification()
-  const handleNotification = (status, text) => {
+  function handleNotification(status, text){
     notification({
       title: text,
       status: status,

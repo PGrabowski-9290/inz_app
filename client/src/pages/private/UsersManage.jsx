@@ -14,7 +14,7 @@ const UsersManage = () => {
   const [usersList,setUsersList] = useState([])
   const {auth} = useAuth()
 
-  const getUserList = async() => {
+  async function getUserList() {
     try {
       const result = await axiosPrivate(auth.accessToken).get('/user/list')
       setUsersList(result.data?.list)
@@ -25,7 +25,8 @@ const UsersManage = () => {
   }
 
   useEffect(()=>{
-    if(!isOpenEdit || !isOpenAdd) getUserList()
+    if(!isOpenEdit || !isOpenAdd)
+      getUserList()
   }, [isOpenEdit, isOpenAdd])
 
   return (

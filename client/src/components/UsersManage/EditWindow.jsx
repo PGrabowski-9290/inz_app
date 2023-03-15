@@ -17,7 +17,7 @@ const EditWindow = ({ data, setData, setIsOpen }) => {
   })
   const {auth} = useAuth()
   const notification = useNotification()
-  const handleNotification = (status, text) => {
+  function handleNotification (status, text){
     notification({
       title: text,
       status: status,
@@ -26,29 +26,28 @@ const EditWindow = ({ data, setData, setIsOpen }) => {
       duration: 3000
     })
   }
-  const handleChange = (e) => {
+  function handleChange(e) {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     })
   }
 
-  const handleToggleShowPass = () => setShowPass(!showPass)
+  function handleToggleShowPass() {
+    setShowPass(!showPass)
+  }
 
-  const handleChangePass = (e) => setChangePassword(e.target.checked)
+  function handleChangePass(e) {
+    setChangePassword(e.target.checked)
+  }
 
-  useEffect(()=>{
-    if (data === undefined) {
-      setChangePassword(true)
-    }
-  },[data])
 
-  const handleClickClose = () => {
+  function handleClickClose() {
     setData(undefined)
     setIsOpen(false)
   }
 
-  const handleClickSave = async () => {
+  async function handleClickSave() {
     try {
       const response = await axiosPrivate(auth.accessToken).put('/user/update', {user: formData, passwordChange: changePassword})
       if (response.status === 200){
@@ -61,7 +60,6 @@ const EditWindow = ({ data, setData, setIsOpen }) => {
       console.log(err?.response?.data?.message)
     }
   }
-
   const options = [
     {
       label: "Admin",
@@ -72,6 +70,12 @@ const EditWindow = ({ data, setData, setIsOpen }) => {
       value: "user"
     }
   ]
+
+  useEffect(()=>{
+    if (data === undefined) {
+      setChangePassword(true)
+    }
+  },[data])
 
   return (
     <div className='fixed top-0 left-0 w-screen h-screen bg-gray-a60 flex items-start justify-center z-10'>
@@ -90,11 +94,11 @@ const EditWindow = ({ data, setData, setIsOpen }) => {
           <hr className="w-full bg-gray-400" />
         </div>
         <FormControl className="text-sm mt-3 py-1" disabled={true}>
-          <FormLabel 
+          <FormLabel
             htmlFor="email">
               Email
           </FormLabel>
-          <Input 
+          <Input
             id="email"
             name="email"
             aria-labelledby="email"
@@ -102,28 +106,28 @@ const EditWindow = ({ data, setData, setIsOpen }) => {
             placeholder="Email"
             size="sm"
             value={formData.email}
-            onChange={handleChange}/>  
+            onChange={handleChange}/>
         </FormControl>
         <FormControl className="text-sm mt-3 py-1">
-          <FormLabel 
+          <FormLabel
             htmlFor="name">
               Nazwa
           </FormLabel>
-          <Input 
+          <Input
             id="name"
             name="name"
             aria-labelledby="name"
             placeholder="Nazwa"
             size="sm"
             value={formData.name}
-            onChange={handleChange}/>  
+            onChange={handleChange}/>
         </FormControl>
         <FormControl className="text-sm mt-3 py-1" disabled={data?.isSuperAdmin}>
-          <FormLabel 
+          <FormLabel
             htmlFor="role">
               Rola
           </FormLabel>
-          <Select 
+          <Select
             id="role"
             name="role"
             aria-labelledby="role"
@@ -136,14 +140,14 @@ const EditWindow = ({ data, setData, setIsOpen }) => {
             {options.map( (option, index) => {
               return <option key={index} value={option.value}>{option.label}</option>
             })}
-          </Select>  
+          </Select>
         </FormControl>
         <div className="w-full flex items-center justify-between pt-2">
           <hr className="w-full bg-gray-400" />
         </div>
         {data?._id && <FormControl className="pt-3 flex items-center space-x-4">
           <FormLabel htmlFor="toggleChangePass">Zmień hasło</FormLabel>
-          <Switch 
+          <Switch
             id="toggleChangePass"
             name="toggleChangePass"
             size="sm"
@@ -152,12 +156,12 @@ const EditWindow = ({ data, setData, setIsOpen }) => {
           />
         </FormControl>}
         <FormControl className="text-sm mt-3 py-1" disabled={!changePassword}>
-          <FormLabel 
+          <FormLabel
             htmlFor="password">
               Hasło
           </FormLabel>
           <Input.Group>
-            <Input 
+            <Input
               id="password"
               name="password"
               aria-labelledby="password"
@@ -167,7 +171,7 @@ const EditWindow = ({ data, setData, setIsOpen }) => {
               type={showPass ? 'text' : 'password'}
               onChange={handleChange}/>
               <Input.RightElement >
-                <Button 
+                <Button
                   type="button"
                   size="xs"
                   variant="link"
