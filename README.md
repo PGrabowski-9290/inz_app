@@ -4,7 +4,7 @@ Autor : [Paweł Grabowski](https://github.com/PGrabowski-9290)
 ---
 # Aplikacja 
 Do aplikacji wymagane jest zainstalowane środowisko uruchomieniowe `nodejs 18 LTS`  
-Baza danych jako MongoDB minimalna wersja silnika serwera mongo `4.x`
+Baza danych jako MongoDB minimalna wersja silnika serwera mongo `5.x`
 
 
 ### Konfiguracja serwera
