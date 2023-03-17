@@ -3,6 +3,7 @@ require("dotenv").config();
 const register = require("./controllers/authController").register;
 const config = require("./config/config");
 const Settings = require('./models/settings');
+const Models = require('./models/model_list')
 const createUser = async () => {
   const req = {
     body: {
@@ -55,7 +56,7 @@ const install = async () => {
       console.log("* USER DONE *")
     }
 
-    await Promise.all([user, settings]).then(values => console.log(values))
+    await Promise.all([user, settings, await Models.createCollection()]).then(values => console.log("Done"))
   } catch(err) {
     console.log(err)
     return false

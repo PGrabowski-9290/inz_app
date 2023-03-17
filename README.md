@@ -83,7 +83,8 @@ skrypty wykonujmy przez polecenie `npm run` z konsoli w głównym folderze z apl
 ### `setup`
 Instalacja wymaganych pakietów dla klienta oraz serwera
 ### `setubDb`
-Konfiguracja bazy danych, utworzenie i dodanie wymaganych danych do poszczególnych tabel, utworzenie konta typu `superAdmin` w systemie
+Konfiguracja bazy danych, utworzenie i dodanie wymaganych danych do poszczególnych tabel, utworzenie konta typu `superAdmin` w systemie  
+Po wykonaniu skryptu należy przy pomocy MongoDB Compass zaimportować do kolekcji `models` plik `/install/models.json`
 ### `dev`
 uruchomienia serwera i klienta w trybie deweloperskim
 ### `server`

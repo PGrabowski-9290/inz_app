@@ -1,4 +1,4 @@
-const models = [{
+[{
   "Make": "Acura",
   "Year": "2020",
   "Model": "RLX",
@@ -70520,5 +70520,3 @@ const models = [{
     "Sedan"
   ]
 }]
-
-module.exports = models
