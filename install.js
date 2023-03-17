@@ -3,7 +3,6 @@ require("dotenv").config();
 const register = require("./controllers/authController").register;
 const config = require("./config/config");
 const Settings = require('./models/settings');
-const ModelsList = require('./models/model_list')
 const createUser = async () => {
   const req = {
     body: {
@@ -29,46 +28,34 @@ const createUser = async () => {
     }
   };
 
-  console.log(req)
-  return await register(req,res)
+
+  return await register(req,res, (e) => console.log(e))
 }
-const restoreDB = async () => {
-  try {
-    const modelsData = require('./install/models.js')
-    const settings = require('./install/settings.js')
 
-    await Settings.createCollection()
-    await Settings.insertMany(settings,{limit: null, lean: true}, () => {
-      console.log("*** settings imported ***")
-    })
-    await ModelsList.createCollection()
+const restoreSettings = async () => {
+  const settings = require('./install/settings.js')
 
-    for (const obj of modelsData ) {
-      const newModel = new ModelsList(obj)
-      await newModel.save()
-    }
-
-    console.log("   * Koniec importu")
-    return true
-  } catch (e) {
-    console.log(e)
-    return false
-  }
+  await Settings.createCollection()
+  return Settings.insertMany(settings, {limit: null, lean: true}, () => {
+    console.log("*** settings imported ***")
+  });
 }
 const install = async () => {
   try {
-    //restore DB
-    const db = await restoreDB()
-    if (db) {
+    const settings = restoreSettings()
+    //create user
+    const user = createUser();
+
+
+    console.log("DONE")
+    if (settings) {
       console.log("* DB DONE *")
     }
-    //create user
-    const user = await createUser();
     if (user) {
       console.log("* USER DONE *")
     }
 
-    return true
+    await Promise.all([user, settings]).then(values => console.log(values))
   } catch(err) {
     console.log(err)
     return false
@@ -82,11 +69,7 @@ mongoose.connect(config.mongoUri, {
 })
   .then(async () => {
     console.log(' - Połączono z bazą danych')
-    const fin = await install()
-    if (fin) {
-      console.log(" - Zakończono")
-    }
-    process.exit()
+    await install()
   })
   .catch(err => console.log(` !!! Błąd połączenia z bazą danych:\n ${err}`));
 
