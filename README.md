@@ -1,8 +1,19 @@
-# System wspomagający pracę komisu samochodowego
-Aplikacja stworzona na potrzeby pracy dyplomowej  
-Autor : [Paweł Grabowski](https://github.com/PGrabowski-9290)
----
-# Aplikacja 
+# System wspomagający pracę komisu samochodowego  
+#### Aplikacja stworzona na potrzeby pracy dyplomowej  
+#### Autor : [Paweł Grabowski](https://github.com/PGrabowski-9290)  
+Aplikacja ma na celu uproszczenie pracy komisów samochodowych.  
+Funkcje realizowane przez apliakcję:  
+- Zarządzanie ofertami komisu: (dodanie, edycja, wyświetlanie, filtrowanie listy ofert)
+- Zarządzanie pracownikami komisu: (dodanie, edycja)
+- Zarządzanie placówkami komisów, możliwość przypisania poszczególnych ofert do wybranego salonu
+- Możliwość wygenerowania umowy sprzedaży na podstawie danych wprowadzonych w formularzu. Wygenerowany dokument jest w formacie PDF.
+- Możliwosć kontaktu przez formularz kontaktowy z komisem samochodowym  
+
+#### TECHNOLOGIE: NODEJS, Express, MongoDB, ReactJS  
+  
+---  
+
+# Wymagania i konfiguracja 
 Do aplikacji wymagane jest zainstalowane środowisko uruchomieniowe `nodejs 18 LTS`  
 Baza danych jako MongoDB minimalna wersja silnika serwera mongo `5.x`
 
